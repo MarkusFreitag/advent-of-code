@@ -44,7 +44,7 @@ func InputFromURL(year, day int) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return string(input), nil
+	return strings.TrimSpace(string(input)), nil
 }
 
 func InputFromFile(year, day int) (string, error) {
