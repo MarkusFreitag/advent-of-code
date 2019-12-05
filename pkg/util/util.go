@@ -67,3 +67,11 @@ func IntInSlice(num int, nums []int) bool {
 	}
 	return false
 }
+
+func Sum(nums ...int) int {
+	var sum int
+	for _, num := range nums {
+		sum += num
+	}
+	return sum
+}

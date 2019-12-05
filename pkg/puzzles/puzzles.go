@@ -6,7 +6,12 @@ type Puzzle interface {
 	Solve(string) (string, error)
 }
 
-var puzzles = map[string][]Puzzle{}
+var puzzles = map[string][]Puzzle{
+	"2019_1": {
+		y2019d1p1{},
+		y2019d1p2{},
+	},
+}
 
 func Get(year, day int) ([]Puzzle, error) {
 	key := fmt.Sprintf("%d_%d", year, day)
