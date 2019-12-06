@@ -59,6 +59,15 @@ func InputToFile(year, day int, input string) error {
 	return ioutil.WriteFile(inputFilename(year, day), []byte(input), 0644)
 }
 
+func StrInSlice(str string, strs []string) bool {
+	for _, s := range strs {
+		if s == str {
+			return true
+		}
+	}
+	return false
+}
+
 func IntInSlice(num int, nums []int) bool {
 	for _, i := range nums {
 		if i == num {
