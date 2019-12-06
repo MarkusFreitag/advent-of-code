@@ -1,38 +1,23 @@
 package puzzles
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
 
-type Puzzle interface {
-	Solve(string) (string, error)
+	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen"
+	"github.com/MarkusFreitag/advent-of-code/pkg/util"
+)
+
+var puzzles = map[string]map[string][]util.Puzzle{
+	"2019": nineteen.Puzzles,
 }
 
-var puzzles = map[string][]Puzzle{
-	"2019_1": {
-		&y2019d1p1{},
-		&y2019d1p2{},
-	},
-	"2019_2": {
-		&y2019d2p1{},
-		&y2019d2p2{},
-	},
-	"2019_3": {
-		&y2019d3p1{},
-		&y2019d3p2{},
-	},
-	"2019_4": {
-		&y2019d4p1{},
-		&y2019d4p2{},
-	},
-	"2019_6": {
-		&y2019d6p1{},
-		&y2019d6p2{},
-	},
-}
-
-func Get(year, day int) ([]Puzzle, error) {
-	key := fmt.Sprintf("%d_%d", year, day)
-	if p, ok := puzzles[key]; ok {
-		return p, nil
+func Get(year, day int) ([]util.Puzzle, error) {
+	if y, ok := puzzles[strconv.Itoa(year)]; ok {
+		if d, ok := y[strconv.Itoa(day)]; ok {
+			return d, nil
+		}
+		return nil, fmt.Errorf("could not find puzzle for year %d day %d", year, day)
 	}
-	return nil, fmt.Errorf("could not find puzzle for year %d day %d", year, day)
+	return nil, fmt.Errorf("could not find puzzles for year %d", year)
 }

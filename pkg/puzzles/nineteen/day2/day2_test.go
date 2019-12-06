@@ -1,4 +1,4 @@
-package puzzles
+package day2
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package puzzles
+package day1
 
 import (
 	"testing"
@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestY2019D1P1(t *testing.T) {
-	p := &y2019d1p1{}
+func TestPart1(t *testing.T) {
+	p := &Part1{}
 	solution, err := p.Solve("12")
 	require.Nil(t, err)
 	require.Equal(t, "2", solution)
@@ -25,8 +25,8 @@ func TestY2019D1P1(t *testing.T) {
 	require.Equal(t, "34241", solution)
 }
 
-func TestY2019D1P2(t *testing.T) {
-	p := &y2019d1p2{}
+func TestPart2(t *testing.T) {
+	p := &Part2{}
 	solution, err := p.Solve("14")
 	require.Nil(t, err)
 	require.Equal(t, "2", solution)

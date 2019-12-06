@@ -9,7 +9,11 @@ import (
 func TestGet(t *testing.T) {
 	p, err := Get(1, 1)
 	require.Nil(t, p)
-	require.Equal(t, "could not find puzzle for year 1 day 1", err.Error())
+	require.Equal(t, "could not find puzzles for year 1", err.Error())
+
+	p, err = Get(2019, 100)
+	require.Nil(t, p)
+	require.Equal(t, "could not find puzzle for year 2019 day 100", err.Error())
 
 	p, err = Get(2019, 1)
 	require.Nil(t, err)

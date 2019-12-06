@@ -1,4 +1,4 @@
-package puzzles
+package day1
 
 import (
 	"strconv"
@@ -7,11 +7,11 @@ import (
 	"github.com/MarkusFreitag/advent-of-code/pkg/util"
 )
 
-type y2019d1p1 struct {
+type Part1 struct {
 	values []int
 }
 
-func (p *y2019d1p1) Solve(input string) (string, error) {
+func (p *Part1) Solve(input string) (string, error) {
 	lines := strings.Split(input, "\n")
 	p.values = make([]int, len(lines))
 	for idx, line := range lines {
@@ -24,11 +24,11 @@ func (p *y2019d1p1) Solve(input string) (string, error) {
 	return strconv.Itoa(util.Sum(p.values...)), nil
 }
 
-type y2019d1p2 struct {
+type Part2 struct {
 	values []int
 }
 
-func (p *y2019d1p2) Solve(input string) (string, error) {
+func (p *Part2) Solve(input string) (string, error) {
 	lines := strings.Split(input, "\n")
 	p.values = make([]int, 0)
 	for _, line := range lines {

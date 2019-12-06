@@ -1,4 +1,4 @@
-package puzzles
+package day4
 
 import (
 	"strconv"
@@ -38,9 +38,9 @@ func onlyIncreasing(num string) bool {
 	return true
 }
 
-type y2019d4p1 struct{}
+type Part1 struct{}
 
-func (p *y2019d4p1) Solve(input string) (string, error) {
+func (p *Part1) Solve(input string) (string, error) {
 	parts := strings.Split(input, "-")
 	min, err := strconv.Atoi(parts[0])
 	if err != nil {
@@ -60,9 +60,9 @@ func (p *y2019d4p1) Solve(input string) (string, error) {
 	return strconv.Itoa(len(numbers)), nil
 }
 
-type y2019d4p2 struct{}
+type Part2 struct{}
 
-func (p *y2019d4p2) Solve(input string) (string, error) {
+func (p *Part2) Solve(input string) (string, error) {
 	parts := strings.Split(input, "-")
 	min, err := strconv.Atoi(parts[0])
 	if err != nil {

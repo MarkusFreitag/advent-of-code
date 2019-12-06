@@ -1,4 +1,4 @@
-package puzzles
+package day2
 
 import (
 	"strconv"
@@ -19,11 +19,11 @@ func (icode intcode) Interpret() {
 	}
 }
 
-type y2019d2p1 struct {
+type Part1 struct {
 	intcode intcode
 }
 
-func (p *y2019d2p1) Solve(input string) (string, error) {
+func (p *Part1) Solve(input string) (string, error) {
 	items := strings.Split(input, ",")
 	p.intcode = make(intcode, len(items))
 	for idx, item := range items {
@@ -39,11 +39,11 @@ func (p *y2019d2p1) Solve(input string) (string, error) {
 	return strconv.Itoa(p.intcode[0]), nil
 }
 
-type y2019d2p2 struct {
+type Part2 struct {
 	intcode intcode
 }
 
-func (p *y2019d2p2) Solve(input string) (string, error) {
+func (p *Part2) Solve(input string) (string, error) {
 	for noun := 0; noun < 100; noun++ {
 		for verb := 0; verb < 100; verb++ {
 			items := strings.Split(input, ",")

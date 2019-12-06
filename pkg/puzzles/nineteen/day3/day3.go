@@ -1,4 +1,4 @@
-package puzzles
+package day3
 
 import (
 	"math"
@@ -51,9 +51,9 @@ func calcPath(pathStr string) (points, error) {
 	return path, nil
 }
 
-type y2019d3p1 struct{}
+type Part1 struct{}
 
-func (p *y2019d3p1) Solve(input string) (string, error) {
+func (p *Part1) Solve(input string) (string, error) {
 	items := strings.Split(input, "\n")
 	wireA, err := calcPath(items[0])
 	if err != nil {
@@ -78,9 +78,9 @@ func (p *y2019d3p1) Solve(input string) (string, error) {
 	return strconv.Itoa(crossing), nil
 }
 
-type y2019d3p2 struct{}
+type Part2 struct{}
 
-func (p *y2019d3p2) Solve(input string) (string, error) {
+func (p *Part2) Solve(input string) (string, error) {
 	items := strings.Split(input, "\n")
 	wireA, err := calcPath(items[0])
 	if err != nil {

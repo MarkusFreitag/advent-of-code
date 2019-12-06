@@ -1,4 +1,4 @@
-package puzzles
+package day4
 
 import (
 	"testing"

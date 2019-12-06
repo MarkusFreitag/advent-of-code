@@ -1,4 +1,4 @@
-package puzzles
+package day6
 
 import (
 	"fmt"
@@ -75,11 +75,11 @@ func buildMap(pairs []string) nodes {
 	return objects
 }
 
-type y2019d6p1 struct {
+type Part1 struct {
 	objects nodes
 }
 
-func (p *y2019d6p1) Solve(input string) (string, error) {
+func (p *Part1) Solve(input string) (string, error) {
 	p.objects = buildMap(strings.Split(input, "\n"))
 	var total int
 	for _, obj := range p.objects {
@@ -88,11 +88,11 @@ func (p *y2019d6p1) Solve(input string) (string, error) {
 	return strconv.Itoa(total), nil
 }
 
-type y2019d6p2 struct {
+type Part2 struct {
 	objects nodes
 }
 
-func (p *y2019d6p2) Solve(input string) (string, error) {
+func (p *Part2) Solve(input string) (string, error) {
 	p.objects = buildMap(strings.Split(input, "\n"))
 	you := p.objects.search("YOU")
 	if you == nil {
