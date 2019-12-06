@@ -7,7 +7,7 @@ import (
 )
 
 func TestY2019D1P1(t *testing.T) {
-	p := y2019d1p1{}
+	p := &y2019d1p1{}
 	solution, err := p.Solve("12")
 	require.Nil(t, err)
 	require.Equal(t, "2", solution)
@@ -26,7 +26,7 @@ func TestY2019D1P1(t *testing.T) {
 }
 
 func TestY2019D1P2(t *testing.T) {
-	p := y2019d1p2{}
+	p := &y2019d1p2{}
 	solution, err := p.Solve("14")
 	require.Nil(t, err)
 	require.Equal(t, "2", solution)

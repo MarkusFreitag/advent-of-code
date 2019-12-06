@@ -11,7 +11,7 @@ type y2019d1p1 struct {
 	values []int
 }
 
-func (p y2019d1p1) Solve(input string) (string, error) {
+func (p *y2019d1p1) Solve(input string) (string, error) {
 	lines := strings.Split(input, "\n")
 	p.values = make([]int, len(lines))
 	for idx, line := range lines {
@@ -28,7 +28,7 @@ type y2019d1p2 struct {
 	values []int
 }
 
-func (p y2019d1p2) Solve(input string) (string, error) {
+func (p *y2019d1p2) Solve(input string) (string, error) {
 	lines := strings.Split(input, "\n")
 	p.values = make([]int, 0)
 	for _, line := range lines {
