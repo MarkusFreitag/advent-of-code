@@ -11,6 +11,10 @@ var puzzles = map[string][]Puzzle{
 		y2019d1p1{},
 		y2019d1p2{},
 	},
+	"2019_2": {
+		y2019d2p1{},
+		y2019d2p2{},
+	},
 }
 
 func Get(year, day int) ([]Puzzle, error) {
