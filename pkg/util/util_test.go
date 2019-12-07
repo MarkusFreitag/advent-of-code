@@ -7,7 +7,7 @@ import (
 )
 
 func TestInputFilename(t *testing.T) {
-  require.Equal(t, "inputs/2019_1.txt", inputFilename(2019, 1))
+	require.Equal(t, "inputs/2019_1.txt", inputFilename(2019, 1))
 }
 
 func TestStrInSlice(t *testing.T) {
