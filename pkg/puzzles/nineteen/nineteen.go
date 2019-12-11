@@ -2,6 +2,7 @@ package nineteen
 
 import (
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day1"
+	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day11"
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day2"
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day3"
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day4"
@@ -10,7 +11,6 @@ import (
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day7"
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day8"
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day9"
-	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day11"
 	"github.com/MarkusFreitag/advent-of-code/pkg/util"
 )
 
