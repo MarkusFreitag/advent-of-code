@@ -252,5 +252,47 @@ func (p *Part1) Solve(input string) (string, error) {
 type Part2 struct{}
 
 func (p *Part2) Solve(input string) (string, error) {
-	return "n/a", nil
+	items := strings.Split(input, ",")
+	icode, err := newIntcode(items)
+	if err != nil {
+		return "", err
+	}
+	inp := make(chan int, 10)
+	out := make(chan int, 100)
+
+	go icode.Interpret(inp, out)
+
+	grid := make(map[string]int)
+	currentPos := &Pos{X: 0, Y: 0, Dir: "^"}
+	grid[currentPos.String()] = 1
+	for {
+		pos := currentPos.String()
+		if v, ok := grid[pos]; ok {
+			inp <- v
+		} else {
+			inp <- 0
+		}
+		grid[pos] = <-out
+		move, ok := <-out
+		if !ok {
+			break
+		}
+		currentPos.Move(move)
+	}
+
+	rows := make([]string, 0)
+	for y := -10; y < 10; y++ {
+		row := make([]string, 0)
+		for x := -50; x < 50; x++ {
+			val := "."
+			if v, ok := grid[fmt.Sprintf("%d|%d", x, y)]; ok {
+				if v == 1 {
+					val = "#"
+				}
+			}
+			row = append(row, val)
+		}
+		rows = append(rows, strings.Join(row, ""))
+	}
+	return "\n" + strings.Join(rows, "\n"), nil
 }
