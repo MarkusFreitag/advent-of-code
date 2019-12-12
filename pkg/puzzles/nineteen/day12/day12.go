@@ -53,11 +53,11 @@ func (o *Object) Accelerate() {
 }
 
 func (o *Object) KineticEnergy() int {
-  return o.Pos.Energy()
+  return o.Vel.Energy()
 }
 
 func (o *Object) PotentialEnergy() int {
-  return o.Vel.Energy()
+  return o.Pos.Energy()
 }
 
 func (o *Object) TotalEnergy() int {
@@ -66,6 +66,25 @@ func (o *Object) TotalEnergy() int {
 
 func (o *Object) String() string {
   return fmt.Sprintf("pos=%s, vel=%s", o.Pos.String(), o.Vel.String())
+}
+
+type Universe []*Object
+
+func (u Universe) Evolve() {
+  for _, obj := range u {
+    fmt.Println(obj.String())
+  }
+  fmt.Print("\n")
+  // apply gravity
+  for idx, obj := range u {
+    for _, o := range u[idx:] {
+      applyGravity(obj, o)
+    }
+  }
+  // apply velocity
+  for _, obj := range u {
+    obj.Accelerate()
+  }
 }
 
 func applyGravity(a, b *Object) {
@@ -97,33 +116,20 @@ type Part1 struct {}
 func (p *Part1) Solve(input string) (string, error) {
   input = "<x=-1, y=0, z=2>\n<x=2, y=-10, z=-7>\n<x=4, y=-8, z=8>\n<x=3, y=5, z=-1>"
 	lines := strings.Split(input, "\n")
-  moons := make([]*Object, len(lines))
+  universe := make(Universe, len(lines))
   for idx, line := range lines {
-    moons[idx] = NewObject(parseLine(line))
+    universe[idx] = NewObject(parseLine(line))
   }
   for i:=0;i<11;i++ {
     fmt.Printf("After %d steps:\n", i)
-    for _, moon := range moons {
-      fmt.Println(moon.String())
-    }
-    fmt.Print("\n")
-    // apply gravity
-    for idx, moon := range moons {
-      for _, m := range moons[idx:] {
-        applyGravity(moon, m)
-      }
-    }
-    // apply velocity
-    for _, moon := range moons {
-      moon.Accelerate()
-    }
+    universe.Evolve()
   }
   var energy int
-  for _, moon := range moons {
-    fmt.Printf("pot: %3d + %3d + %3d = %4d", moon.Pos.X, moon.Pos.Y, moon.Pos.Z, moon.PotentialEnergy())
-    fmt.Printf("\tkin: %3d + %3d + %3d = %4d", moon.Vel.X, moon.Vel.Y, moon.Vel.Z, moon.KineticEnergy())
-    fmt.Printf("\ttotal: %4d * %4d = %4d\n", moon.PotentialEnergy(), moon.KineticEnergy(), moon.TotalEnergy())
-    energy += moon.TotalEnergy()
+  for _, obj := range universe {
+    fmt.Printf("pot: %3d + %3d + %3d = %4d", obj.Pos.X, obj.Pos.Y, obj.Pos.Z, obj.PotentialEnergy())
+    fmt.Printf("\tkin: %3d + %3d + %3d = %4d", obj.Vel.X, obj.Vel.Y, obj.Vel.Z, obj.KineticEnergy())
+    fmt.Printf("\ttotal: %4d * %4d = %4d\n", obj.PotentialEnergy(), obj.KineticEnergy(), obj.TotalEnergy())
+    energy += obj.TotalEnergy()
   }
   return strconv.Itoa(energy), nil
 }
