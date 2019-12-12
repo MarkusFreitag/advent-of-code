@@ -42,7 +42,7 @@ type Object struct {
 func NewObject(x, y, z int) *Object {
 	return &Object{
 		Pos: &Point{X: x, Y: y, Z: z},
-		Vel: &Point{},
+		Vel: &Point{X: 0, Y: 0, Z: 0},
 	}
 }
 
@@ -77,7 +77,7 @@ func (u Universe) Evolve() {
 	fmt.Print("\n")
 	// apply gravity
 	for idx, obj := range u {
-		for _, o := range u[idx:] {
+		for _, o := range u[idx+1:] {
 			applyGravity(obj, o)
 		}
 	}
@@ -91,21 +91,21 @@ func applyGravity(a, b *Object) {
 	if a.Pos.X < b.Pos.X {
 		a.Vel.X += 1
 		b.Vel.X -= 1
-	} else {
+	} else if a.Pos.X > b.Pos.X {
 		a.Vel.X -= 1
 		b.Vel.X += 1
 	}
 	if a.Pos.Y < b.Pos.Y {
 		a.Vel.Y += 1
 		b.Vel.Y -= 1
-	} else {
+	} else if a.Pos.Y > b.Pos.Y {
 		a.Vel.Y -= 1
 		b.Vel.Y += 1
 	}
 	if a.Pos.Z < b.Pos.Z {
 		a.Vel.Z += 1
 		b.Vel.Z -= 1
-	} else {
+	} else if a.Pos.Z > b.Pos.Z {
 		a.Vel.Z -= 1
 		b.Vel.Z += 1
 	}
@@ -114,13 +114,12 @@ func applyGravity(a, b *Object) {
 type Part1 struct{}
 
 func (p *Part1) Solve(input string) (string, error) {
-	input = "<x=-1, y=0, z=2>\n<x=2, y=-10, z=-7>\n<x=4, y=-8, z=8>\n<x=3, y=5, z=-1>"
 	lines := strings.Split(input, "\n")
 	universe := make(Universe, len(lines))
 	for idx, line := range lines {
 		universe[idx] = NewObject(parseLine(line))
 	}
-	for i := 0; i < 11; i++ {
+	for i := 0; i < 1000; i++ {
 		fmt.Printf("After %d steps:\n", i)
 		universe.Evolve()
 	}
