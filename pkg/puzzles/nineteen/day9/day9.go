@@ -1,7 +1,7 @@
 package day9
 
 import (
-  "fmt"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -34,70 +34,70 @@ func parseOpCode(code int) (int, int, int, int) {
 type intcode []int
 
 func (icode intcode) Interpret(input, output chan int) {
-  var relBase int
+	var relBase int
 	var counter int
 	for counter < len(icode) {
 		opcode, firstMode, secondMode, targetMode := parseOpCode(icode[counter])
 		var firstValue, secondValue int
 		if util.IntInSlice(opcode, []int{1, 2, 5, 6, 7, 8}) {
-      switch firstMode {
-      case 0:
+			switch firstMode {
+			case 0:
 				firstValue = icode[icode[counter+1]]
-      case 1:
+			case 1:
 				firstValue = icode[counter+1]
-      case 2:
-        firstValue = icode[relBase+icode[counter+1]]
-      }
-      switch secondMode {
-      case 0:
+			case 2:
+				firstValue = icode[relBase+icode[counter+1]]
+			}
+			switch secondMode {
+			case 0:
 				secondValue = icode[icode[counter+2]]
-      case 1:
+			case 1:
 				secondValue = icode[counter+2]
-      case 2:
-        secondValue = icode[relBase+icode[counter+2]]
-      }
+			case 2:
+				secondValue = icode[relBase+icode[counter+2]]
+			}
 		}
 		switch opcode {
 		case 1:
-      var idx int
-      switch targetMode {
-      case 0:
-        idx = icode[counter+3]
-      case 2:
-        idx = relBase+icode[counter+3]
-      }
+			var idx int
+			switch targetMode {
+			case 0:
+				idx = icode[counter+3]
+			case 2:
+				idx = relBase + icode[counter+3]
+			}
 			icode[idx] = firstValue + secondValue
 			counter += 4
 		case 2:
-      var idx int
-      switch targetMode {
-      case 0:
-        idx = icode[counter+3]
-      case 2:
-        idx = relBase+icode[counter+3]
-      }
+			var idx int
+			switch targetMode {
+			case 0:
+				idx = icode[counter+3]
+			case 2:
+				idx = relBase + icode[counter+3]
+			}
 			icode[idx] = firstValue * secondValue
 			counter += 4
 		case 3:
-      var idx int
-      switch firstMode {
-      case 0:
-        idx = icode[counter+1]
-      case 2:
-        idx = relBase+icode[counter+1]
-      }
+			var idx int
+			switch firstMode {
+			case 0:
+				idx = icode[counter+1]
+			case 2:
+				idx = relBase + icode[counter+1]
+			}
 			icode[idx] = <-input
 			counter += 2
 		case 4:
 			var val int
-      switch firstMode {
-      case 0:
+			switch firstMode {
+			case 0:
 				val = icode[icode[counter+1]]
-      case 1:
+			case 1:
 				val = icode[counter+1]
-      case 2:
-        val = icode[relBase+icode[counter+1]]
-      }
+			case 2:
+				val = icode[relBase+icode[counter+1]]
+			}
 			output <- val
 			counter += 2
 		case 5:
@@ -117,13 +117,13 @@ func (icode intcode) Interpret(input, output chan int) {
 			if firstValue < secondValue {
 				val = 1
 			}
-      var idx int
-      switch targetMode {
-      case 0:
-        idx = icode[counter+3]
-      case 2:
-        idx = relBase+icode[counter+3]
-      }
+			var idx int
+			switch targetMode {
+			case 0:
+				idx = icode[counter+3]
+			case 2:
+				idx = relBase + icode[counter+3]
+			}
 			icode[idx] = val
 			counter += 4
 		case 8:
@@ -131,36 +131,36 @@ func (icode intcode) Interpret(input, output chan int) {
 			if firstValue == secondValue {
 				val = 1
 			}
-      var idx int
-      switch targetMode {
-      case 0:
-        idx = icode[counter+3]
-      case 2:
-        idx = relBase+icode[counter+3]
-      }
+			var idx int
+			switch targetMode {
+			case 0:
+				idx = icode[counter+3]
+			case 2:
+				idx = relBase + icode[counter+3]
+			}
 			icode[idx] = val
 			counter += 4
-    case 9:
+		case 9:
 			var val int
-      switch firstMode {
-      case 0:
+			switch firstMode {
+			case 0:
 				val = icode[icode[counter+1]]
-      case 1:
+			case 1:
 				val = icode[counter+1]
-      case 2:
-        val = icode[relBase+icode[counter+1]]
-      }
-      relBase += val
-      counter += 2
+			case 2:
+				val = icode[relBase+icode[counter+1]]
+			}
+			relBase += val
+			counter += 2
 		case 99:
 			counter = len(icode)
-      close(output)
+			close(output)
 		}
 	}
 }
 
 func newIntcode(input []string) (intcode, error) {
-  icode := make(intcode, 10000)
+	icode := make(intcode, 10000)
 	for idx, item := range input {
 		num, err := strconv.Atoi(item)
 		if err != nil {
@@ -174,20 +174,20 @@ func newIntcode(input []string) (intcode, error) {
 type Part1 struct{}
 
 func (p *Part1) Solve(input string) (string, error) {
-  items := strings.Split(input, ",")
-  icode, err := newIntcode(items)
-  if err != nil {
-    return "", err
-  }
-  inp := make(chan int, 10)
-  inp <- 1
-  out := make(chan int, 100)
+	items := strings.Split(input, ",")
+	icode, err := newIntcode(items)
+	if err != nil {
+		return "", err
+	}
+	inp := make(chan int, 10)
+	inp <- 1
+	out := make(chan int, 100)
 
-  icode.Interpret(inp, out)
-  result := make([]int, 0)
-  for i := range out {
-    fmt.Printf("output: %d\n", i)
-    result = append(result, i)
+	icode.Interpret(inp, out)
+	result := make([]int, 0)
+	for i := range out {
+		fmt.Printf("output: %d\n", i)
+		result = append(result, i)
 	}
 	return fmt.Sprintf("%v", result), nil
 }
@@ -195,20 +195,20 @@ func (p *Part1) Solve(input string) (string, error) {
 type Part2 struct{}
 
 func (p *Part2) Solve(input string) (string, error) {
-  items := strings.Split(input, ",")
-  icode, err := newIntcode(items)
-  if err != nil {
-    return "", err
-  }
-  inp := make(chan int, 10)
-  inp <- 2
-  out := make(chan int, 100)
+	items := strings.Split(input, ",")
+	icode, err := newIntcode(items)
+	if err != nil {
+		return "", err
+	}
+	inp := make(chan int, 10)
+	inp <- 2
+	out := make(chan int, 100)
 
-  icode.Interpret(inp, out)
-  result := make([]int, 0)
-  for i := range out {
-    fmt.Printf("output: %d\n", i)
-    result = append(result, i)
+	icode.Interpret(inp, out)
+	result := make([]int, 0)
+	for i := range out {
+		fmt.Printf("output: %d\n", i)
+		result = append(result, i)
 	}
 	return fmt.Sprintf("%v", result), nil
 }
