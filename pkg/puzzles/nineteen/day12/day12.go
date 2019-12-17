@@ -8,7 +8,7 @@ import (
 )
 
 func abs(i int) int {
-  return int(math.Abs(float64(i)))
+	return int(math.Abs(float64(i)))
 }
 
 func toNum(s string) int {
@@ -77,18 +77,18 @@ func (o *Object) String() string {
 }
 
 func (o *Object) State() string {
-	return o.Pos.State()+o.Vel.State()
+	return o.Pos.State() + o.Vel.State()
 }
 
 type Universe []*Object
 
 func (u Universe) Evolve() {
-  /*
-  for _, obj := range u {
-    fmt.Println(obj.String())
-  }
-  fmt.Print("\n")
-  */
+	/*
+	  for _, obj := range u {
+	    fmt.Println(obj.String())
+	  }
+	  fmt.Print("\n")
+	*/
 	// apply gravity
 	for idx, obj := range u {
 		for _, o := range u[idx+1:] {
@@ -103,7 +103,7 @@ func (u Universe) Evolve() {
 
 func (u Universe) State() string {
 	//return fmt.Sprintf("%s|%s|%s|%s", u[0].String(), u[1].String(), u[2].String(), u[3].String())
-	return u[0].State()+u[1].State()+u[2].State()+u[3].State()
+	return u[0].State() + u[1].State() + u[2].State() + u[3].State()
 }
 
 func applyGravity(a, b *Object) {
@@ -157,93 +157,92 @@ type Part2 struct{}
 func (p *Part2) Solve(input string) (string, error) {
 	lines := strings.Split(input, "\n")
 	universe := make(Universe, len(lines))
-  buf := make(Universe, len(lines))
+	buf := make(Universe, len(lines))
 	for idx, line := range lines {
 		universe[idx] = NewObject(parseLine(line))
-    buf[idx] = NewObject(parseLine(line))
+		buf[idx] = NewObject(parseLine(line))
 	}
 
-  var steps int
-  var x,y,z int
-  for steps=1;x==0||y==0||z==0;steps++{
-    if steps%1000000 == 0 {
-      fmt.Printf("steps: %d million\n", steps/1000000)
-    }
-		universe.Evolve()
-
-    if x==0 {
-      ok := true
-      for idx, moon := range universe {
-        if moon.Pos.X != buf[idx].Pos.X || moon.Vel.X != buf[idx].Vel.X {
-          ok = false
-          break
-        }
-      }
-      if ok {
-        x = steps
-      }
-    }
-    if y==0 {
-      ok := true
-      for idx, moon := range universe {
-        if moon.Pos.Y != buf[idx].Pos.Y || moon.Vel.Y != buf[idx].Vel.Y {
-          ok = false
-          break
-        }
-      }
-      if ok {
-        y = steps
-      }
-    }
-    if z==0 {
-      ok := true
-      for idx, moon := range universe {
-        if moon.Pos.Z != buf[idx].Pos.Z || moon.Vel.Z != buf[idx].Vel.Z {
-          ok = false
-          break
-        }
-      }
-      if ok {
-        z = steps
-      }
-    }
-  }
-  result := lcm(x, y)
-  return strconv.Itoa(lcm(result, z)), nil
-
-  /*
-  var steps int
-  for {
-    if steps%1000000 == 0 {
-      fmt.Printf("steps: %d million\n", steps/1000000)
-    }
-		universe.Evolve()
-		steps++
-    if "000000000000" == fmt.Sprintf(
-      "%d%d%d%d%d%d%d%d%d%d%d%d",
-      universe[0].Vel.X, universe[0].Vel.Y, universe[0].Vel.Z,
-      universe[1].Vel.X, universe[1].Vel.Y, universe[1].Vel.Z,
-      universe[2].Vel.X, universe[2].Vel.Y, universe[2].Vel.Z,
-      universe[3].Vel.X, universe[3].Vel.Y, universe[3].Vel.Z,
-    ) {
-      return strconv.Itoa(steps*2), nil
+	var steps int
+	var x, y, z int
+	for steps = 1; x == 0 || y == 0 || z == 0; steps++ {
+		if steps%1000000 == 0 {
+			fmt.Printf("steps: %d million\n", steps/1000000)
 		}
-  }
-  */
+		universe.Evolve()
+
+		if x == 0 {
+			ok := true
+			for idx, moon := range universe {
+				if moon.Pos.X != buf[idx].Pos.X || moon.Vel.X != buf[idx].Vel.X {
+					ok = false
+					break
+				}
+			}
+			if ok {
+				x = steps
+			}
+		}
+		if y == 0 {
+			ok := true
+			for idx, moon := range universe {
+				if moon.Pos.Y != buf[idx].Pos.Y || moon.Vel.Y != buf[idx].Vel.Y {
+					ok = false
+					break
+				}
+			}
+			if ok {
+				y = steps
+			}
+		}
+		if z == 0 {
+			ok := true
+			for idx, moon := range universe {
+				if moon.Pos.Z != buf[idx].Pos.Z || moon.Vel.Z != buf[idx].Vel.Z {
+					ok = false
+					break
+				}
+			}
+			if ok {
+				z = steps
+			}
+		}
+	}
+	result := lcm(x, y)
+	return strconv.Itoa(lcm(result, z)), nil
+
+	/*
+		  var steps int
+		  for {
+		    if steps%1000000 == 0 {
+		      fmt.Printf("steps: %d million\n", steps/1000000)
+		    }
+				universe.Evolve()
+				steps++
+		    if "000000000000" == fmt.Sprintf(
+		      "%d%d%d%d%d%d%d%d%d%d%d%d",
+		      universe[0].Vel.X, universe[0].Vel.Y, universe[0].Vel.Z,
+		      universe[1].Vel.X, universe[1].Vel.Y, universe[1].Vel.Z,
+		      universe[2].Vel.X, universe[2].Vel.Y, universe[2].Vel.Z,
+		      universe[3].Vel.X, universe[3].Vel.Y, universe[3].Vel.Z,
+		    ) {
+		      return strconv.Itoa(steps*2), nil
+				}
+		  }
+	*/
 }
 
 func lcm(a, b int) int {
-  num := 1
-  if a > b {
-    num = a
-  } else {
-    num = b
-  }
-  for {
-    if num%a == 0 && num%b == 0 {
-      return num
-    }
-    num++
-  }
-  return -1
+	var num int
+	if a > b {
+		num = a
+	} else {
+		num = b
+	}
+	for {
+		if num%a == 0 && num%b == 0 {
+			return num
+		}
+		num++
+	}
 }
