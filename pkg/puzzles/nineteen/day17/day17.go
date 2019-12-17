@@ -8,51 +8,7 @@ import (
 	"github.com/MarkusFreitag/advent-of-code/pkg/intcode"
 )
 
-type Pos struct {
-	X, Y int
-	Dir  string
-}
-
-func (p *Pos) Move(i int) {
-	switch p.Dir {
-	case "^":
-		if i == 0 {
-			p.Dir = "<"
-			p.X -= 1
-		} else {
-			p.Dir = ">"
-			p.X += 1
-		}
-	case "v":
-		if i == 0 {
-			p.Dir = ">"
-			p.X += 1
-		} else {
-			p.Dir = "<"
-			p.X -= 1
-		}
-	case ">":
-		if i == 0 {
-			p.Dir = "^"
-			p.Y += 1
-		} else {
-			p.Dir = "v"
-			p.Y -= 1
-		}
-	case "<":
-		if i == 0 {
-			p.Dir = "v"
-			p.Y -= 1
-		} else {
-			p.Dir = "^"
-			p.Y += 1
-		}
-	}
-}
-
-func (p *Pos) String() string {
-	return fmt.Sprintf("%d|%d", p.X, p.Y)
-}
+var grid = make(Grid, 0)
 
 type Grid [][]string
 
@@ -66,7 +22,6 @@ func (p *Part1) Solve(input string) (string, error) {
 	out := make(chan intcode.Message, 100)
 	go intcode.RunAsync(icode, nil, out)
 
-  grid := make(Grid, 0)
   row := make([]string, 0)
   running := true
   for running {
@@ -78,6 +33,14 @@ func (p *Part1) Solve(input string) (string, error) {
         row = append(row, "#")
       case 46:
         row = append(row, ".")
+      case 60:
+        row = append(row, "<")
+      case 62:
+        row = append(row, ">")
+      case 94:
+        row = append(row, "^")
+      case 118:
+        row = append(row, "v")
       case 10:
         if len(row) > 0 {
           grid = append(grid, row)
@@ -94,8 +57,6 @@ func (p *Part1) Solve(input string) (string, error) {
     }
   }
 
-  fmt.Printf("len(grid): %d %d\n", len(grid), len(grid)-1)
-
   var sum int
   for y:=1;y<len(grid)-1;y++ {
     for x:=1;x<len(grid[y])-1;x++ {
@@ -109,8 +70,38 @@ func (p *Part1) Solve(input string) (string, error) {
   return strconv.Itoa(sum), nil
 }
 
+// L12L12 R4R10 R6 R4R4 L12L12 R4R6 L12L12 R10R6 R4R4 L12L12 R4R10R6R4R4R6 L12L12 R6 L12L12 R10R6 R4R4
+
 type Part2 struct{}
 
 func (p *Part2) Solve(input string) (string, error) {
+  lines := make([]string, len(grid))
+  for idx, row := range grid {
+    lines[idx] = fmt.Sprintf("%2d %s", idx, strings.Join(row, ""))
+  }
+  fmt.Println(strings.Join(lines, "\n"))
   return "n/a", nil
+
+	icode, err := intcode.New(input)
+	if err != nil {
+		return "", err
+	}
+
+  icode[0] = 2
+
+  in := make(chan int64)
+	out := make(chan intcode.Message, 100)
+	go intcode.RunAsync(icode, in, out)
+
+  var dust int
+  running := true
+  for running {
+    msg := <-out
+    switch msg.Type {
+    case intcode.MessageOutput:
+    case intcode.MessageHalt:
+      running = false
+    }
+  }
+  return strconv.Itoa(dust), nil
 }
