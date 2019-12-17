@@ -12,6 +12,14 @@ var grid = make(Grid, 0)
 
 type Grid [][]string
 
+func (g Grid) Show() {
+  lines := make([]string, len(g))
+  for idx, row := range g {
+    lines[idx] = strings.Join(row, "")
+  }
+  fmt.Println(strings.Join(lines, "\n"))
+}
+
 type Part1 struct{}
 
 func (p *Part1) Solve(input string) (string, error) {
@@ -48,14 +56,10 @@ func (p *Part1) Solve(input string) (string, error) {
         }
       }
     case intcode.MessageHalt:
-      lines := make([]string, len(grid))
-      for idx, row := range grid {
-        lines[idx] = fmt.Sprintf("%2d %s", idx, strings.Join(row, ""))
-      }
-      fmt.Println(strings.Join(lines, "\n"))
       running = false
     }
   }
+  grid.Show()
 
   var sum int
   for y:=1;y<len(grid)-1;y++ {
@@ -70,18 +74,19 @@ func (p *Part1) Solve(input string) (string, error) {
   return strconv.Itoa(sum), nil
 }
 
-// L12L12 R4R10 R6 R4R4 L12L12 R4R6 L12L12 R10R6 R4R4 L12L12 R4R10R6R4R4R6 L12L12 R6 L12L12 R10R6 R4R4
+/*
+  L12L12R4R10R6R4R4L12L12R4R6L12L12R10R6R4R4L12L12R4R10R6R4R4R6L12L12R6L12L12R10R6R4R4
 
+  L12L12 R4R10R6R4R4 L12L12 R4R6 L12L12 R10R6R4R4 L12L12 R4R10R6R4R4R6 L12L12 R6 L12L12 R10R6R4R4
+
+  A        B         A        C        B         A        B         C        C        B
+  L12L12R4 R10R6R4R4 L12L12R4 R6L12L12 R10R6R4R4 L12L12R4 R10R6R4R4 R6L12L12 R6L12L12 R10R6R4R4
+
+  => A,B,A,C,B,A,B,C,C,B
+*/
 type Part2 struct{}
 
 func (p *Part2) Solve(input string) (string, error) {
-  lines := make([]string, len(grid))
-  for idx, row := range grid {
-    lines[idx] = fmt.Sprintf("%2d %s", idx, strings.Join(row, ""))
-  }
-  fmt.Println(strings.Join(lines, "\n"))
-  return "n/a", nil
-
 	icode, err := intcode.New(input)
 	if err != nil {
 		return "", err
@@ -89,19 +94,54 @@ func (p *Part2) Solve(input string) (string, error) {
 
   icode[0] = 2
 
-  in := make(chan int64)
-	out := make(chan intcode.Message, 100)
-	go intcode.RunAsync(icode, in, out)
+  inputs := make([]int64, 0)
+  inputs = addInput(inputs, "A,B,A,C,B,A,B,C,C,B")
+  inputs = addInput(inputs, "L,12,L,12,R,4")
+  inputs = addInput(inputs, "R,10,R,6,R,4,R,4")
+  inputs = addInput(inputs, "R,6,L,12,L,12")
+  inputs = addInput(inputs, "n")
 
-  var dust int
+  in := make(chan int64, 100)
+	out := make(chan intcode.Message, 100)
+	go intcode.RunSync(icode, in, out)
+
+  var resp string
   running := true
   for running {
     msg := <-out
     switch msg.Type {
+    case intcode.MessageWantsInput:
+      var i int64
+      i, inputs = inputs[0], inputs[1:]
+      in <- i
     case intcode.MessageOutput:
+      if msg.Value < 127 {
+        if msg.Value == 10 {
+          fmt.Println(resp)
+          resp = ""
+        } else {
+          resp += fmt.Sprintf("%c", rune(msg.Value))
+        }
+      } else {
+        return strconv.Itoa(int(msg.Value)), nil
+      }
     case intcode.MessageHalt:
       running = false
     }
   }
-  return strconv.Itoa(dust), nil
+
+  return "n/a", nil
+}
+
+func addInput(inp []int64, str string) []int64 {
+  items := strings.Split(str, ",")
+  for idx, s := range items {
+    for _, b := range []byte(s) {
+      inp = append(inp, int64(b))
+    }
+    if idx < len(items)-1 {
+      inp = append(inp, int64(44))
+    }
+  }
+  return append(inp, int64(10))
 }
