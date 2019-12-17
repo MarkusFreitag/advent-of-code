@@ -4,6 +4,8 @@ import (
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day1"
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day11"
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day12"
+	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day13"
+	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day17"
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day2"
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day3"
 	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles/nineteen/day4"
@@ -59,5 +61,12 @@ var Puzzles = map[string][]util.Puzzle{
 	"12": {
 		&day12.Part1{},
 		&day12.Part2{},
+	"13": {
+		&day13.Part1{},
+		&day13.Part2{},
+	},
+	"17": {
+		&day17.Part1{},
+		&day17.Part2{},
 	},
 }
