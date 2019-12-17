@@ -159,10 +159,61 @@ func (p *Part2) Solve(input string) (string, error) {
   //input = "<x=-8, y=-10, z=0>\n<x=5, y=5, z=10>\n<x=2, y=-7, z=3>\n<x=9, y=-8, z=-3>"
 	lines := strings.Split(input, "\n")
 	universe := make(Universe, len(lines))
+  buf := make(Universe, len(lines))
 	for idx, line := range lines {
 		universe[idx] = NewObject(parseLine(line))
+    buf[idx] = NewObject(parseLine(line))
 	}
 
+  var steps int
+  var x,y,z int
+  for steps=1;x==0||y==0||z==0;steps++{
+    if steps%1000000 == 0 {
+      fmt.Printf("steps: %d million\n", steps/1000000)
+    }
+		universe.Evolve()
+
+    if x==0 {
+      ok := true
+      for idx, moon := range universe {
+        if moon.Pos.X != buf[idx].Pos.X || moon.Vel.X != buf[idx].Vel.X {
+          ok = false
+          break
+        }
+      }
+      if ok {
+        x = steps
+      }
+    }
+    if y==0 {
+      ok := true
+      for idx, moon := range universe {
+        if moon.Pos.Y != buf[idx].Pos.Y || moon.Vel.Y != buf[idx].Vel.Y {
+          ok = false
+          break
+        }
+      }
+      if ok {
+        y = steps
+      }
+    }
+    if z==0 {
+      ok := true
+      for idx, moon := range universe {
+        if moon.Pos.Z != buf[idx].Pos.Z || moon.Vel.Z != buf[idx].Vel.Z {
+          ok = false
+          break
+        }
+      }
+      if ok {
+        z = steps
+      }
+    }
+  }
+  fmt.Printf("x: %d, y: %d, z: %d\n", x, y, z)
+  return "n/a", nil
+
+  /*
   var steps int
   for {
     if steps%1000000 == 0 {
@@ -180,6 +231,7 @@ func (p *Part2) Solve(input string) (string, error) {
       return strconv.Itoa(steps*2), nil
 		}
   }
+  */
 
   /*
   // runs OOM at about 14 million steps
