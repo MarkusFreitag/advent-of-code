@@ -155,8 +155,6 @@ func (p *Part1) Solve(input string) (string, error) {
 type Part2 struct{}
 
 func (p *Part2) Solve(input string) (string, error) {
-	//input = "<x=-1, y=0, z=2>\n<x=2, y=-10, z=-7>\n<x=4, y=-8, z=8>\n<x=3, y=5, z=-1>"
-  //input = "<x=-8, y=-10, z=0>\n<x=5, y=5, z=10>\n<x=2, y=-7, z=3>\n<x=9, y=-8, z=-3>"
 	lines := strings.Split(input, "\n")
 	universe := make(Universe, len(lines))
   buf := make(Universe, len(lines))
@@ -210,8 +208,8 @@ func (p *Part2) Solve(input string) (string, error) {
       }
     }
   }
-  fmt.Printf("x: %d, y: %d, z: %d\n", x, y, z)
-  return "n/a", nil
+  result := lcm(x, y)
+  return strconv.Itoa(lcm(result, z)), nil
 
   /*
   var steps int
@@ -232,38 +230,20 @@ func (p *Part2) Solve(input string) (string, error) {
 		}
   }
   */
+}
 
-  /*
-  // runs OOM at about 14 million steps
-  states := make(map[string]int)
-	var steps int
-	for {
-    if steps%1000000 == 0 {
-      fmt.Printf("steps: %d\n", steps)
+func lcm(a, b int) int {
+  num := 1
+  if a > b {
+    num = a
+  } else {
+    num = b
+  }
+  for {
+    if num%a == 0 && num%b == 0 {
+      return num
     }
-    states[universe.State()] = 0
-		universe.Evolve()
-		steps++
-    if _, ok := states[universe.State()]; ok {
-      return strconv.Itoa(steps), nil
-		}
-	}
-
-  // unbelievable slow
-  states := make([]string, 0)
-	var steps int
-	for {
-    if steps%1000 == 0 {
-      fmt.Printf("steps: %d\n", steps)
-    }
-    states = append(states, universe.State())
-		universe.Evolve()
-		steps++
-    for _, state := range states {
-      if state == universe.State() {
-        return strconv.Itoa(steps), nil
-      }
-		}
-	}
-  */
+    num++
+  }
+  return -1
 }
