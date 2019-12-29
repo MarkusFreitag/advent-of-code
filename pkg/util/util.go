@@ -14,9 +14,7 @@ const (
 	FILESCHEMA = "%d_%d.txt"
 )
 
-type Puzzle interface {
-	Solve(string) (string, error)
-}
+type Puzzle func(string) (string, error)
 
 func inputFilename(year, day int) string {
 	return filepath.Join("inputs", fmt.Sprintf("%d_%d.txt", year, day))

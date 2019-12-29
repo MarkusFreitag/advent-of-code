@@ -43,7 +43,7 @@ func main() {
 		return
 	}
 	for idx, part := range puzzle {
-		solution, err := part.Solve(input)
+		solution, err := part(input)
 		if err != nil {
 			fmt.Printf("error while solving puzzle %d_%d part %d: %s\n", *yearFlag, *dayFlag, idx+1, err.Error())
 			return

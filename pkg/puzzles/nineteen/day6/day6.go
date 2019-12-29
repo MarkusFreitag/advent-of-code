@@ -75,30 +75,22 @@ func buildMap(pairs []string) nodes {
 	return objects
 }
 
-type Part1 struct {
-	objects nodes
-}
-
-func (p *Part1) Solve(input string) (string, error) {
-	p.objects = buildMap(strings.Split(input, "\n"))
+func Part1(input string) (string, error) {
+	objects := buildMap(strings.Split(input, "\n"))
 	var total int
-	for _, obj := range p.objects {
+	for _, obj := range objects {
 		total += obj.orbits(0)
 	}
 	return strconv.Itoa(total), nil
 }
 
-type Part2 struct {
-	objects nodes
-}
-
-func (p *Part2) Solve(input string) (string, error) {
-	p.objects = buildMap(strings.Split(input, "\n"))
-	you := p.objects.search("YOU")
+func Part2(input string) (string, error) {
+	objects := buildMap(strings.Split(input, "\n"))
+	you := objects.search("YOU")
 	if you == nil {
 		return "", fmt.Errorf("could not find YOU")
 	}
-	san := p.objects.search("SAN")
+	san := objects.search("SAN")
 	if san == nil {
 		return "", fmt.Errorf("could not find SAN")
 	}

@@ -101,21 +101,17 @@ func (icode intcode) Interpret(input int) []int {
 	return out
 }
 
-type Part1 struct {
-	intcode intcode
-}
-
-func (p *Part1) Solve(input string) (string, error) {
+func Part1(input string) (string, error) {
 	items := strings.Split(input, ",")
-	p.intcode = make(intcode, len(items))
+	icode := make(intcode, len(items))
 	for idx, item := range items {
 		num, err := strconv.Atoi(item)
 		if err != nil {
 			return "", err
 		}
-		p.intcode[idx] = num
+		icode[idx] = num
 	}
-	out := p.intcode.Interpret(1)
+	out := icode.Interpret(1)
 	var failed bool
 	for idx, item := range out {
 		if item != 0 && idx != len(out)-1 {
@@ -129,21 +125,17 @@ func (p *Part1) Solve(input string) (string, error) {
 	return strconv.Itoa(out[len(out)-1]), nil
 }
 
-type Part2 struct {
-	intcode intcode
-}
-
-func (p *Part2) Solve(input string) (string, error) {
+func Part2(input string) (string, error) {
 	items := strings.Split(input, ",")
-	p.intcode = make(intcode, len(items))
+	icode := make(intcode, len(items))
 	for idx, item := range items {
 		num, err := strconv.Atoi(item)
 		if err != nil {
 			return "", err
 		}
-		p.intcode[idx] = num
+		icode[idx] = num
 	}
-	out := p.intcode.Interpret(5)
+	out := icode.Interpret(5)
 	var failed bool
 	for idx, item := range out {
 		if item != 0 && idx != len(out)-1 {
