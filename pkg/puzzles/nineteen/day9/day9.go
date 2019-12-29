@@ -171,9 +171,7 @@ func newIntcode(input []string) (intcode, error) {
 	return icode, nil
 }
 
-type Part1 struct{}
-
-func (p *Part1) Solve(input string) (string, error) {
+func Part1(input string) (string, error) {
 	items := strings.Split(input, ",")
 	icode, err := newIntcode(items)
 	if err != nil {
@@ -192,9 +190,7 @@ func (p *Part1) Solve(input string) (string, error) {
 	return fmt.Sprintf("%v", result), nil
 }
 
-type Part2 struct{}
-
-func (p *Part2) Solve(input string) (string, error) {
+func Part2(input string) (string, error) {
 	items := strings.Split(input, ",")
 	icode, err := newIntcode(items)
 	if err != nil {

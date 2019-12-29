@@ -92,11 +92,10 @@ func TestObject(t *testing.T) {
 }
 
 func TestPart2(t *testing.T) {
-	p := &Part2{}
-	solution, err := p.Solve("<x=-1, y=0, z=2>\n<x=2, y=-10, z=-7>\n<x=4, y=-8, z=8>\n<x=3, y=5, z=-1>")
+	solution, err := Part2("<x=-1, y=0, z=2>\n<x=2, y=-10, z=-7>\n<x=4, y=-8, z=8>\n<x=3, y=5, z=-1>")
 	require.Nil(t, err)
 	require.Equal(t, "2772", solution)
-	solution, err = p.Solve("<x=-8, y=-10, z=0>\n<x=5, y=5, z=10>\n<x=2, y=-7, z=3>\n<x=9, y=-8, z=-3>")
+	solution, err = Part2("<x=-8, y=-10, z=0>\n<x=5, y=5, z=10>\n<x=2, y=-7, z=3>\n<x=9, y=-8, z=-3>")
 	require.Nil(t, err)
 	require.Equal(t, "4686774924", solution)
 }

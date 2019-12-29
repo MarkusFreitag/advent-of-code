@@ -6,9 +6,7 @@ import (
 	"strings"
 )
 
-type Part1 struct{}
-
-func (p *Part1) Solve(input string) (string, error) {
+func Part1(input string) (string, error) {
 	width := 25
 	height := 6
 	layerSize := width * height
@@ -26,9 +24,7 @@ func (p *Part1) Solve(input string) (string, error) {
 	return strconv.Itoa(strings.Count(layer, "1") * strings.Count(layer, "2")), nil
 }
 
-type Part2 struct{}
-
-func (p *Part2) Solve(input string) (string, error) {
+func Part2(input string) (string, error) {
 	width := 25
 	height := 6
 	layerSize := width * height

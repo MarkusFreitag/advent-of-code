@@ -54,9 +54,7 @@ func (p *Pos) String() string {
 	return fmt.Sprintf("%d|%d", p.X, p.Y)
 }
 
-type Part1 struct{}
-
-func (p *Part1) Solve(input string) (string, error) {
+func Part1(input string) (string, error) {
 	icode, err := intcode.New(input)
 	if err != nil {
 		return "", err
@@ -167,9 +165,7 @@ func (g *Game) Show() {
 	fmt.Println(strings.Join(lines, "\n"))
 }
 
-type Part2 struct{}
-
-func (p *Part2) Solve(input string) (string, error) {
+func Part2(input string) (string, error) {
 	icode, err := intcode.New(input)
 	if err != nil {
 		return "", err

@@ -130,9 +130,7 @@ func applyGravity(a, b *Object) {
 	}
 }
 
-type Part1 struct{}
-
-func (p *Part1) Solve(input string) (string, error) {
+func Part1(input string) (string, error) {
 	lines := strings.Split(input, "\n")
 	universe := make(Universe, len(lines))
 	for idx, line := range lines {
@@ -152,9 +150,7 @@ func (p *Part1) Solve(input string) (string, error) {
 	return strconv.Itoa(energy), nil
 }
 
-type Part2 struct{}
-
-func (p *Part2) Solve(input string) (string, error) {
+func Part2(input string) (string, error) {
 	lines := strings.Split(input, "\n")
 	universe := make(Universe, len(lines))
 	buf := make(Universe, len(lines))

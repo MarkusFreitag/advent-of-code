@@ -20,9 +20,7 @@ func (g Grid) Show() {
 	fmt.Println(strings.Join(lines, "\n"))
 }
 
-type Part1 struct{}
-
-func (p *Part1) Solve(input string) (string, error) {
+func Part1(input string) (string, error) {
 	icode, err := intcode.New(input)
 	if err != nil {
 		return "", err
@@ -84,9 +82,7 @@ func (p *Part1) Solve(input string) (string, error) {
 
   => A,B,A,C,B,A,B,C,C,B
 */
-type Part2 struct{}
-
-func (p *Part2) Solve(input string) (string, error) {
+func Part2(input string) (string, error) {
 	icode, err := intcode.New(input)
 	if err != nil {
 		return "", err

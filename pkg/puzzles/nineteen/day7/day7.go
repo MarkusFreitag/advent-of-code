@@ -182,9 +182,7 @@ func perm(a []int, f func([]int), i int) {
 	}
 }
 
-type Part1 struct{}
-
-func (p *Part1) Solve(input string) (string, error) {
+func Part1(input string) (string, error) {
 	var highest int
 	Perm([]int{0, 1, 2, 3, 4}, func(a []int) {
 		val := ampController1(input, a)
@@ -195,9 +193,7 @@ func (p *Part1) Solve(input string) (string, error) {
 	return strconv.Itoa(highest), nil
 }
 
-type Part2 struct{}
-
-func (p *Part2) Solve(input string) (string, error) {
+func Part2(input string) (string, error) {
 	var highest int
 	Perm([]int{5, 6, 7, 8, 9}, func(a []int) {
 		val := ampController2(input, a)
