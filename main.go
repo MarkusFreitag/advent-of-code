@@ -1,37 +1,29 @@
 package main // import "github.com/MarkusFreitag/advent-of-code"
 
+//go:generate go run gen.go $YEAR $DAY
+
 import (
 	"flag"
 	"fmt"
 	"os"
+  "time"
 
-	"github.com/MarkusFreitag/advent-of-code/pkg/puzzles"
-	"github.com/MarkusFreitag/advent-of-code/pkg/util"
+	"github.com/MarkusFreitag/advent-of-code/puzzles"
+	"github.com/MarkusFreitag/advent-of-code/util"
 )
 
 var (
-	yearFlag = flag.Int("year", -1, "specifying year")
-	dayFlag  = flag.Int("day", -1, "specifying day")
+	yearFlag = flag.Int("year", time.Now().Year(), "specifying year")
+	dayFlag  = flag.Int("day", time.Now().Day(), "specifying day")
 )
 
 func main() {
 	flag.Parse()
-	if *yearFlag == -1 || *dayFlag == -1 {
-		fmt.Println("-year and -day flags are required")
-		return
-	}
 
 	input, err := util.InputFromFile(*yearFlag, *dayFlag)
 	if os.IsNotExist(err) {
-		input, err = util.InputFromURL(*yearFlag, *dayFlag)
-		if err != nil {
-			fmt.Printf("error while loading input from url: %s\n", err.Error())
-			return
-		}
-		err = util.InputToFile(*yearFlag, *dayFlag, input)
-		if err != nil {
-			fmt.Printf("error while loading input from url: %s\n", err.Error())
-		}
+    fmt.Printf("input file does not exist")
+    return
 	} else if err != nil {
 		fmt.Printf("error while loading input from file: %s\n", err.Error())
 		return
