@@ -7,13 +7,21 @@ import (
 )
 
 func TestPart1(t *testing.T) {
-	solution, err := Part1("dummy")
-	require.Nil(t, err)
-	require.Equal(t, "not solved yet", solution)
+  testcases := map[string]string{
+  }
+  for input, expected := range testcases {
+    solution, err := Part1(input)
+    require.Nil(t, err)
+    require.Equal(t, expected, solution)
+  }
 }
 
 func TestPart2(t *testing.T) {
-	solution, err := Part2("dummy")
-	require.Nil(t, err)
-	require.Equal(t, "not solved yet", solution)
+  testcases := map[string]string{
+  }
+  for input, expected := range testcases {
+    solution, err := Part2(input)
+    require.Nil(t, err)
+    require.Equal(t, expected, solution)
+  }
 }
