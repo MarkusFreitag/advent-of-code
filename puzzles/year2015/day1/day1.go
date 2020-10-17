@@ -1,13 +1,32 @@
 package day1
 
-import (
-	"github.com/MarkusFreitag/advent-of-code/util"
-)
+import "strconv"
 
 func Part1(input string) (string, error) {
-	return input, util.ErrNotSolved
+	var floor int
+	for _, char := range input {
+		switch char {
+		case '(':
+			floor++
+		case ')':
+			floor--
+		}
+	}
+	return strconv.Itoa(floor), nil
 }
 
 func Part2(input string) (string, error) {
-	return input, util.ErrNotSolved
+	var floor int
+	for idx, char := range input {
+		switch char {
+		case '(':
+			floor++
+		case ')':
+			floor--
+		}
+		if floor < 0 {
+			return strconv.Itoa(idx + 1), nil
+		}
+	}
+	return "", nil
 }
