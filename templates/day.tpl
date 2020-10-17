@@ -1,13 +1,9 @@
 package {{.Package}}
 
-import (
-  "github.com/MarkusFreitag/advent-of-code/util"
-)
-
 func Part1(input string) (string, error) {
-  return input, util.ErrNotSolved
+  return "not solved yet", nil
 }
 
 func Part2(input string) (string, error) {
-  return input, util.ErrNotSolved
+  return "not solved yet", nil
 }
