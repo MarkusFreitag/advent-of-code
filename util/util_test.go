@@ -24,3 +24,10 @@ func TestSum(t *testing.T) {
 	require.Equal(t, 5, Sum(5))
 	require.Equal(t, 5, Sum(2, 3))
 }
+
+func TestStrsToInts(t *testing.T) {
+	nums := StrsToInts([]string{"1", "2", "3"})
+	require.Equal(t, []int{1, 2, 3}, nums)
+
+	require.Panics(t, func() { StrsToInts([]string{"1", "a", "3"}) })
+}

@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 )
 
@@ -90,4 +91,16 @@ func Sum(nums ...int) int {
 		sum += num
 	}
 	return sum
+}
+
+func StrsToInts(slice []string) []int {
+	nums := make([]int, len(slice))
+	for idx, str := range slice {
+		num, err := strconv.Atoi(str)
+		if err != nil {
+			panic(err)
+		}
+		nums[idx] = num
+	}
+	return nums
 }
