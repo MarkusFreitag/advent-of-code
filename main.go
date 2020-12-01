@@ -22,7 +22,7 @@ func main() {
 
 	input, err := util.InputFromFile(*yearFlag, *dayFlag)
 	if os.IsNotExist(err) {
-    fmt.Printf("input file does not exist")
+    fmt.Printf("input file for %d:%d does not exist\n", *yearFlag, *dayFlag)
     return
 	} else if err != nil {
 		fmt.Printf("error while loading input from file: %s\n", err.Error())
