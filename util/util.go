@@ -104,3 +104,11 @@ func StrsToInts(slice []string) []int {
 	}
 	return nums
 }
+
+func IntsToStrs(slice []int) []string {
+	nums := make([]string, len(slice))
+	for idx, i := range slice {
+		nums[idx] = strconv.Itoa(i)
+	}
+	return nums
+}

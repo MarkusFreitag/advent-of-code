@@ -26,8 +26,11 @@ func TestSum(t *testing.T) {
 }
 
 func TestStrsToInts(t *testing.T) {
-	nums := StrsToInts([]string{"1", "2", "3"})
-	require.Equal(t, []int{1, 2, 3}, nums)
+	require.Equal(t, []int{1, 2, 3}, StrsToInts([]string{"1", "2", "3"}))
 
 	require.Panics(t, func() { StrsToInts([]string{"1", "a", "3"}) })
+}
+
+func TestIntsToStrs(t *testing.T) {
+	require.Equal(t, []string{"1", "2", "3"}, IntsToStrs([]int{1, 2, 3}))
 }

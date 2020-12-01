@@ -3,6 +3,8 @@ package day1
 import (
 	"strconv"
 	"strings"
+
+	"github.com/MarkusFreitag/advent-of-code/util"
 )
 
 func Part1(input string) (string, error) {
@@ -21,7 +23,7 @@ func Part2(input string) (string, error) {
 		for _, change := range changes {
 			lastFreq := freqs[len(freqs)-1]
 			lastFreq += change
-			if intInSlice(lastFreq, freqs) {
+			if util.IntInSlice(lastFreq, freqs) {
 				return strconv.Itoa(lastFreq), nil
 			}
 			freqs = append(freqs, lastFreq)
@@ -40,13 +42,4 @@ func parseChanges(input string) []int {
 		changes = append(changes, num)
 	}
 	return changes
-}
-
-func intInSlice(num int, slice []int) bool {
-	for _, i := range slice {
-		if i == num {
-			return true
-		}
-	}
-	return false
 }

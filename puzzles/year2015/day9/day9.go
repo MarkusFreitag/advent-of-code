@@ -4,21 +4,14 @@ import (
 	"math"
 	"strconv"
 	"strings"
+
+	"github.com/MarkusFreitag/advent-of-code/util"
 )
 
 type route struct {
 	start    string
 	end      string
 	distance int
-}
-
-func strInSlice(str string, slice []string) bool {
-	for _, s := range slice {
-		if s == str {
-			return true
-		}
-	}
-	return false
 }
 
 // Perm calls f with each permutation of a.
@@ -52,10 +45,10 @@ func Part1(input string) (string, error) {
 			distance: dis,
 		}
 		routes = append(routes, r)
-		if !strInSlice(r.start, locs) {
+		if !util.StrInSlice(r.start, locs) {
 			locs = append(locs, r.start)
 		}
-		if !strInSlice(r.end, locs) {
+		if !util.StrInSlice(r.end, locs) {
 			locs = append(locs, r.end)
 		}
 	}
@@ -97,10 +90,10 @@ func Part2(input string) (string, error) {
 			distance: dis,
 		}
 		routes = append(routes, r)
-		if !strInSlice(r.start, locs) {
+		if !util.StrInSlice(r.start, locs) {
 			locs = append(locs, r.start)
 		}
-		if !strInSlice(r.end, locs) {
+		if !util.StrInSlice(r.end, locs) {
 			locs = append(locs, r.end)
 		}
 	}
