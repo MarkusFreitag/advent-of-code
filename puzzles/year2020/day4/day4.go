@@ -4,96 +4,85 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-
-	"github.com/MarkusFreitag/advent-of-code/util"
 )
 
-var (
-	rgxHairColor = regexp.MustCompile(`^#[a-z0-9]{6}$`)
-	rgxPID       = regexp.MustCompile(`^[0-9]{9}$`)
-)
+func requiredFields(block string) bool {
+	fields := []string{"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
+	for _, field := range fields {
+		if !strings.Contains(block, field+":") {
+			return false
+		}
+	}
+	return true
+}
+
+func inBetween(s string, min, max int) bool {
+	num, err := strconv.Atoi(s)
+	if err != nil {
+		panic(err)
+	}
+	return num >= min && num <= max
+}
 
 func Part1(input string) (string, error) {
 	var valid int
-	fields := []string{"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
 	for _, block := range strings.Split(input, "\n\n") {
-		v := true
-		for _, field := range fields {
-			if !strings.Contains(block, field+":") {
-				v = false
-				break
-			}
-		}
-		if v {
+		if requiredFields(block) {
 			valid++
 		}
 	}
-
 	return strconv.Itoa(valid), nil
 }
 
 func Part2(input string) (string, error) {
+	rgxHairColor := regexp.MustCompile(`^#[a-z0-9]{6}$`)
+	rgxValidColor := regexp.MustCompile(`^(amb|blu|brn|gry|grn|hzl|oth)$`)
+	rgxPID := regexp.MustCompile(`^[0-9]{9}$`)
+
 	var valid int
-	fields := []string{"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
 	for _, block := range strings.Split(input, "\n\n") {
-		v := true
-		for _, field := range fields {
-			if !strings.Contains(block, field+":") {
-				v = false
-				break
-			}
-		}
-		if !v {
+		if !requiredFields(block) {
 			continue
 		}
-
-		block := strings.ReplaceAll(block, "\n", " ")
-		parts := strings.Split(block, " ")
-		for _, part := range parts {
-			b := strings.Split(part, ":")
-			switch b[0] {
+		v := true
+		block = strings.ReplaceAll(block, "\n", " ")
+		for _, part := range strings.Split(block, " ") {
+			pair := strings.Split(part, ":")
+			switch pair[0] {
 			case "byr":
-				yr, _ := strconv.Atoi(b[1])
-				if yr < 1920 || yr > 2002 {
+				if !inBetween(pair[1], 1920, 2002) {
 					v = false
 				}
 			case "iyr":
-				yr, _ := strconv.Atoi(b[1])
-				if yr < 2010 || yr > 2020 {
+				if !inBetween(pair[1], 2010, 2020) {
 					v = false
 				}
 			case "eyr":
-				yr, _ := strconv.Atoi(b[1])
-				if yr < 2020 || yr > 2030 {
+				if !inBetween(pair[1], 2020, 2030) {
 					v = false
 				}
 			case "hgt":
-				if strings.HasSuffix(b[1], "cm") {
-					s := strings.TrimSuffix(b[1], "cm")
-					h, _ := strconv.Atoi(s)
-					if h < 150 || h > 193 {
+				if strings.HasSuffix(pair[1], "cm") {
+					if !inBetween(strings.TrimSuffix(pair[1], "cm"), 150, 193) {
 						v = false
 					}
-				} else if strings.HasSuffix(b[1], "in") {
-					s := strings.TrimSuffix(b[1], "in")
-					h, _ := strconv.Atoi(s)
-					if h < 59 || h > 76 {
+				} else if strings.HasSuffix(pair[1], "in") {
+					if !inBetween(strings.TrimSuffix(pair[1], "in"), 59, 76) {
 						v = false
 					}
 				} else {
 					v = false
 				}
 			case "hcl":
-				if !rgxHairColor.MatchString(b[1]) {
+				if !rgxHairColor.MatchString(pair[1]) {
 					v = false
 				}
 			case "ecl":
-				colors := []string{"amb", "blu", "brn", "gry", "grn", "hzl", "oth"}
-				if !util.StrInSlice(b[1], colors) {
+				if !rgxValidColor.MatchString(pair[1]) {
 					v = false
 				}
 			case "pid":
-				if !rgxPID.MatchString(b[1]) {
+				if !rgxPID.MatchString(pair[1]) {
 					v = false
 				}
 			}
