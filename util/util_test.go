@@ -25,6 +25,13 @@ func TestSum(t *testing.T) {
 	require.Equal(t, 5, Sum(2, 3))
 }
 
+func TestMultiply(t *testing.T) {
+	require.Equal(t, 5, Multiply(5))
+	require.Equal(t, 1, Multiply(1))
+	require.Equal(t, 6, Multiply(2, 3))
+	require.Equal(t, 0, Multiply(2, 0, 3))
+}
+
 func TestStrsToInts(t *testing.T) {
 	require.Equal(t, []int{1, 2, 3}, StrsToInts([]string{"1", "2", "3"}))
 

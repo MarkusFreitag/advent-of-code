@@ -93,6 +93,14 @@ func Sum(nums ...int) int {
 	return sum
 }
 
+func Multiply(nums ...int) int {
+	product := 1
+	for _, num := range nums {
+		product *= num
+	}
+	return product
+}
+
 func StrsToInts(slice []string) []int {
 	nums := make([]int, len(slice))
 	for idx, str := range slice {
