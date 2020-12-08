@@ -3,6 +3,8 @@ package day8
 import (
 	"strconv"
 	"strings"
+
+	"github.com/MarkusFreitag/advent-of-code/util"
 )
 
 type Cmd struct {
@@ -17,20 +19,9 @@ func LoadCmds(table string) Cmds {
 	cmds := make(Cmds, 0)
 	for _, line := range strings.Split(table, "\n") {
 		parts := strings.Split(line, " ")
-		var val int
-		var err error
-		if strings.HasPrefix(parts[1], "+") {
-			val, _ = strconv.Atoi(strings.TrimPrefix(parts[1], "+"))
-		} else {
-			val, _ = strconv.Atoi(strings.TrimPrefix(parts[1], "-"))
-			val *= -1
-		}
-		if err != nil {
-			panic(err)
-		}
 		cmds = append(cmds, &Cmd{
 			Action: parts[0],
-			Value:  val,
+			Value:  util.ParseSignedInt(parts[1]),
 		})
 	}
 	return cmds

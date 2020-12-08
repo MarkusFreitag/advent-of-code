@@ -20,16 +20,24 @@ func TestIntInSlice(t *testing.T) {
 	require.False(t, IntInSlice(4, []int{1, 2, 3}))
 }
 
-func TestSum(t *testing.T) {
-	require.Equal(t, 5, Sum(5))
-	require.Equal(t, 5, Sum(2, 3))
+func TestSumInts(t *testing.T) {
+	require.Equal(t, 5, SumInts(5))
+	require.Equal(t, 5, SumInts(2, 3))
+	require.Equal(t, -1, SumInts(2, -3))
 }
 
-func TestMultiply(t *testing.T) {
-	require.Equal(t, 5, Multiply(5))
-	require.Equal(t, 1, Multiply(1))
-	require.Equal(t, 6, Multiply(2, 3))
-	require.Equal(t, 0, Multiply(2, 0, 3))
+func TestSubInts(t *testing.T) {
+	require.Equal(t, -5, SubInts(5))
+	require.Equal(t, -5, SubInts(2, 3))
+	require.Equal(t, 0, SubInts(-3, 3))
+	require.Equal(t, 5, SubInts(-2, -3))
+}
+
+func TestMulInts(t *testing.T) {
+	require.Equal(t, 5, MulInts(5))
+	require.Equal(t, 1, MulInts(1))
+	require.Equal(t, 6, MulInts(2, 3))
+	require.Equal(t, 0, MulInts(2, 0, 3))
 }
 
 func TestStrsToInts(t *testing.T) {
@@ -40,4 +48,25 @@ func TestStrsToInts(t *testing.T) {
 
 func TestIntsToStrs(t *testing.T) {
 	require.Equal(t, []string{"1", "2", "3"}, IntsToStrs([]int{1, 2, 3}))
+}
+
+func TestAbs(t *testing.T) {
+	testcases := map[int]int{
+		1:  1,
+		-2: 2,
+	}
+	for input, expected := range testcases {
+		require.Equal(t, expected, Abs(input))
+	}
+}
+
+func TestParseSignedInt(t *testing.T) {
+	testcases := map[string]int{
+		"1":  1,
+		"+2": 2,
+		"-3": -3,
+	}
+	for input, expected := range testcases {
+		require.Equal(t, expected, ParseSignedInt(input))
+	}
 }

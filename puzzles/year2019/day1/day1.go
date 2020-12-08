@@ -17,7 +17,7 @@ func Part1(input string) (string, error) {
 		}
 		values[idx] = mass/3 - 2
 	}
-	return strconv.Itoa(util.Sum(values...)), nil
+	return strconv.Itoa(util.SumInts(values...)), nil
 }
 
 func Part2(input string) (string, error) {
@@ -34,5 +34,5 @@ func Part2(input string) (string, error) {
 			fuel = fuel/3 - 2
 		}
 	}
-	return strconv.Itoa(util.Sum(values...)), nil
+	return strconv.Itoa(util.SumInts(values...)), nil
 }

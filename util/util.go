@@ -85,7 +85,7 @@ func IntInSlice(num int, nums []int) bool {
 	return false
 }
 
-func Sum(nums ...int) int {
+func SumInts(nums ...int) int {
 	var sum int
 	for _, num := range nums {
 		sum += num
@@ -93,7 +93,15 @@ func Sum(nums ...int) int {
 	return sum
 }
 
-func Multiply(nums ...int) int {
+func SubInts(nums ...int) int {
+	var sum int
+	for _, num := range nums {
+		sum -= num
+	}
+	return sum
+}
+
+func MulInts(nums ...int) int {
 	product := 1
 	for _, num := range nums {
 		product *= num
@@ -119,4 +127,26 @@ func IntsToStrs(slice []int) []string {
 		nums[idx] = strconv.Itoa(i)
 	}
 	return nums
+}
+
+func Abs(i int) int {
+	if i < 0 {
+		i *= -1
+	}
+	return i
+}
+
+func ParseSignedInt(s string) int {
+	var i int
+	var err error
+	if strings.HasPrefix(s, "-") {
+		i, err = strconv.Atoi(strings.TrimPrefix(s, "-"))
+		i *= -1
+	} else {
+		i, err = strconv.Atoi(strings.TrimPrefix(s, "+"))
+	}
+	if err != nil {
+		panic(err)
+	}
+	return i
 }
