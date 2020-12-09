@@ -1,7 +1,7 @@
 package puzzles
 
 import (
-	"fmt"
+  "fmt"
 
 	"github.com/MarkusFreitag/advent-of-code/puzzles/year2015"
 	"github.com/MarkusFreitag/advent-of-code/puzzles/year2018"
