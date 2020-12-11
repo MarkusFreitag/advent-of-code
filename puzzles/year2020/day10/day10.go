@@ -76,13 +76,19 @@ func Part2(input string) (string, error) {
 	return strconv.Itoa(counter), nil
 }
 
+var state = make(map[int]int)
+
 func path(node *Node, dest *Node) int {
 	if node.ID == dest.ID {
 		return 1
+	}
+	if v, ok := state[node.ID]; ok {
+		return v
 	}
 	var counter int
 	for n := range node.Next {
 		counter += path(n, dest)
 	}
+	state[node.ID] = counter
 	return counter
 }
