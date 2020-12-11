@@ -1,13 +1,13 @@
 package day10
 
 import (
-  "testing"
+	"testing"
 
 	"github.com/stretchr/testify/require"
 )
 
 func TestPart1(t *testing.T) {
-  input := `16
+	input := `16
 10
 15
 5
@@ -18,11 +18,11 @@ func TestPart1(t *testing.T) {
 6
 12
 4`
-  solution, err := Part1(input)
-  require.Nil(t, err)
-  require.Equal(t, "35", solution)
+	solution, err := Part1(input)
+	require.Nil(t, err)
+	require.Equal(t, "35", solution)
 
-  input = `28
+	input = `28
 33
 18
 42
@@ -53,7 +53,7 @@ func TestPart1(t *testing.T) {
 34
 10
 3`
-  solution, err = Part1(input)
-  require.Nil(t, err)
-  require.Equal(t, "220", solution)
+	solution, err = Part1(input)
+	require.Nil(t, err)
+	require.Equal(t, "220", solution)
 }
