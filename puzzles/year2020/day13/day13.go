@@ -1,89 +1,66 @@
 package day13
 
 import (
-	"fmt"
-	"sort"
 	"strconv"
 	"strings"
 )
 
-type Bus struct {
-	ID     int
-	Arrive int
-}
-
-type byID []*Bus
-
-func (s byID) Len() int {
-	return len(s)
-}
-func (s byID) Swap(i, j int) {
-	s[i], s[j] = s[j], s[i]
-}
-func (s byID) Less(i, j int) bool {
-	return s[i].ID < s[j].ID
+func parseBuses(str string, filter bool) []int {
+	buses := make([]int, 0)
+	for _, b := range strings.Split(str, ",") {
+		if b == "x" {
+			if filter {
+				continue
+			} else {
+				b = "1"
+			}
+		}
+		num, err := strconv.Atoi(b)
+		if err != nil {
+			panic(err)
+		}
+		buses = append(buses, num)
+	}
+	return buses
 }
 
 func Part1(input string) (string, error) {
 	lines := strings.Split(input, "\n")
-	t, _ := strconv.Atoi(lines[0])
-	buses := make([]*Bus, 0)
-	for _, b := range strings.Split(lines[1], ",") {
-		if b == "x" {
-			continue
-		}
-		num, _ := strconv.Atoi(b)
-		buses = append(buses, &Bus{ID: num, Arrive: num})
-	}
-	sort.Sort(byID(buses))
+	tsp, _ := strconv.Atoi(lines[0])
+	buses := parseBuses(lines[1], true)
 
+	var offset int
 	for {
 		for _, bus := range buses {
-			if bus.ID == 787 {
-				continue
+			if (tsp+offset)%bus == 0 {
+				return strconv.Itoa(offset * bus), nil
 			}
-			if bus.Arrive > t {
-				fmt.Printf("%#v\n", *bus)
-				return strconv.Itoa(bus.ID * (bus.Arrive - t)), nil
-			}
-			bus.Arrive += bus.ID
 		}
+		offset++
 	}
-
-	return "n/a", nil
 }
 
 func Part2(input string) (string, error) {
 	lines := strings.Split(input, "\n")
-	buses := make([]*Bus, 0)
-	for _, b := range strings.Split(lines[1], ",") {
-		if b == "x" {
-			buses = append(buses, nil)
-		}
-		num, _ := strconv.Atoi(b)
-		buses = append(buses, &Bus{ID: num, Arrive: num})
-	}
+	buses := parseBuses(lines[1], false)
 
+	tsp := 1
 	for {
-		found := true
-		t := buses[0].Arrive
+		offset := 1
+		valid := true
+
 		for idx, bus := range buses {
-			if bus == nil {
-				continue
+			if (tsp+idx)%bus != 0 {
+				valid = false
+				break
 			}
-			found = t+idx == bus.Arrive
-		}
-		if found {
-			return strconv.Itoa(buses[0].Arrive), nil
+			offset *= bus
 		}
 
-		for _, bus := range buses {
-			if bus == nil {
-				continue
-			}
-			bus.Arrive += bus.ID
+		if valid {
+			return strconv.Itoa(tsp), nil
 		}
+
+		tsp += offset
 	}
-
-	return "n/a", nil
 }
