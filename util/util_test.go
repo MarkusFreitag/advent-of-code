@@ -40,6 +40,11 @@ func TestMulInts(t *testing.T) {
 	require.Equal(t, 0, MulInts(2, 0, 3))
 }
 
+func TestPowInt(t *testing.T) {
+	require.Equal(t, 8, PowInt(2, 3))
+	require.Equal(t, 9, PowInt(3, 2))
+}
+
 func TestStrsToInts(t *testing.T) {
 	require.Equal(t, []int{1, 2, 3}, StrsToInts([]string{"1", "2", "3"}))
 
@@ -90,5 +95,27 @@ func TestRightPad(t *testing.T) {
 	}
 	for input, expected := range testcases {
 		require.Equal(t, expected, RightPad(input, "0", 4))
+	}
+}
+
+func TestBinStrToDecInt(t *testing.T) {
+	testcases := map[string]int{
+		"1":     1,
+		"1010":  10,
+		"11111": 31,
+	}
+	for input, expected := range testcases {
+		require.Equal(t, expected, BinStrToDecInt(input))
+	}
+}
+
+func TestDecIntToBinStr(t *testing.T) {
+	testcases := map[int]string{
+		1:  "1",
+		10: "1010",
+		31: "11111",
+	}
+	for input, expected := range testcases {
+		require.Equal(t, expected, DecIntToBinStr(input))
 	}
 }

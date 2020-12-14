@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -109,6 +110,10 @@ func MulInts(nums ...int) int {
 	return product
 }
 
+func PowInt(a, b int) int {
+	return int(math.Pow(float64(a), float64(b)))
+}
+
 func StrsToInts(slice []string) []int {
 	nums := make([]int, len(slice))
 	for idx, str := range slice {
@@ -161,4 +166,16 @@ func RightPad(str, padStr string, length int) string {
 	padCount := 1 + ((length - len(padStr)) / len(padStr))
 	s := str + strings.Repeat(padStr, padCount)
 	return s[:length]
+}
+
+func BinStrToDecInt(bin string) int {
+	dec, err := strconv.ParseInt(bin, 2, 64)
+	if err != nil {
+		panic(err)
+	}
+	return int(dec)
+}
+
+func DecIntToBinStr(dec int) string {
+	return strconv.FormatInt(int64(dec), 2)
 }
