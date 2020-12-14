@@ -70,3 +70,25 @@ func TestParseSignedInt(t *testing.T) {
 		require.Equal(t, expected, ParseSignedInt(input))
 	}
 }
+
+func TestLeftPad(t *testing.T) {
+	testcases := map[string]string{
+		"1":     "0001",
+		"1010":  "1010",
+		"11111": "1111",
+	}
+	for input, expected := range testcases {
+		require.Equal(t, expected, LeftPad(input, "0", 4))
+	}
+}
+
+func TestRightPad(t *testing.T) {
+	testcases := map[string]string{
+		"1":     "1000",
+		"1010":  "1010",
+		"11111": "1111",
+	}
+	for input, expected := range testcases {
+		require.Equal(t, expected, RightPad(input, "0", 4))
+	}
+}

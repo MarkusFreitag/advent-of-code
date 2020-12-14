@@ -150,3 +150,15 @@ func ParseSignedInt(s string) int {
 	}
 	return i
 }
+
+func LeftPad(str, padStr string, length int) string {
+	padCount := 1 + ((length - len(padStr)) / len(padStr))
+	s := strings.Repeat(padStr, padCount) + str
+	return s[(len(s) - length):]
+}
+
+func RightPad(str, padStr string, length int) string {
+	padCount := 1 + ((length - len(padStr)) / len(padStr))
+	s := str + strings.Repeat(padStr, padCount)
+	return s[:length]
+}
