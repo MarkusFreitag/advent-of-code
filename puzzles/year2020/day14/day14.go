@@ -1,7 +1,6 @@
 package day14
 
 import (
-	"math"
 	"regexp"
 	"strconv"
 	"strings"
@@ -29,26 +28,16 @@ func getAddrAndValue(line string) (int, int) {
 	return addr, val
 }
 
-func applyMaskV1(dec int, mask string) int {
-	bin := strconv.FormatInt(int64(dec), 2)
-	bin = util.LeftPad(bin, "0", BITMASKSIZE)
+func applyMask(dec int, mask string, ignore byte) string {
 	var result string
-	for idx, char := range bin {
-		switch mask[idx] {
-		case '0':
-			result += "0"
-		case '1':
-			result += "1"
-		default:
+	for idx, char := range util.LeftPad(util.DecIntToBinStr(dec), "0", BITMASKSIZE) {
+		if mask[idx] == ignore {
 			result += string(char)
+		} else {
+			result += string(mask[idx])
 		}
 	}
-
-	v, err := strconv.ParseInt(result, 2, 64)
-	if err != nil {
-		panic(err)
-	}
-	return int(v)
+	return result
 }
 
 func Part1(input string) (string, error) {
@@ -59,7 +48,7 @@ func Part1(input string) (string, error) {
 			mask = rgxMask.FindAllStringSubmatch(line, -1)[0][1]
 		} else {
 			addr, val := getAddrAndValue(line)
-			mem[addr] = applyMaskV1(val, mask)
+			mem[addr] = util.BinStrToDecInt(applyMask(val, mask, 'X'))
 		}
 	}
 	var sum int
@@ -67,43 +56,6 @@ func Part1(input string) (string, error) {
 		sum += val
 	}
 	return strconv.Itoa(sum), nil
-}
-
-func applyMaskV2(dec int, mask string) []int {
-	bin := strconv.FormatInt(int64(dec), 2)
-	bin = util.LeftPad(bin, "0", BITMASKSIZE)
-	var result string
-	for idx, char := range bin {
-		switch mask[idx] {
-		case '0':
-			result += string(char)
-		case '1':
-			result += "1"
-		default:
-			result += "X"
-		}
-	}
-
-	x := strings.Count(mask, "X")
-	p := int(math.Pow(2, float64(x)))
-	results := make([]int, 0)
-
-	for i := 0; i < p; i++ {
-		m := strconv.FormatInt(int64(i), 2)
-		m = util.LeftPad(m, "0", x)
-
-		r := result
-		for _, b := range m {
-			r = strings.Replace(r, "X", string(b), 1)
-		}
-
-		v, err := strconv.ParseInt(r, 2, 64)
-		if err != nil {
-			panic(err)
-		}
-		results = append(results, int(v))
-	}
-	return results
 }
 
 func Part2(input string) (string, error) {
@@ -114,8 +66,14 @@ func Part2(input string) (string, error) {
 			mask = rgxMask.FindAllStringSubmatch(line, -1)[0][1]
 		} else {
 			addr, val := getAddrAndValue(line)
-			for _, a := range applyMaskV2(addr, mask) {
-				mem[a] = val
+			modAddr := applyMask(addr, mask, '0')
+			xCount := strings.Count(mask, "X")
+			for i := 0; i < util.PowInt(2, xCount); i++ {
+				a := modAddr
+				for _, b := range util.LeftPad(util.DecIntToBinStr(i), "0", xCount) {
+					a = strings.Replace(a, "X", string(b), 1)
+				}
+				mem[util.BinStrToDecInt(a)] = val
 			}
 		}
 	}
