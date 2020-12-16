@@ -119,3 +119,10 @@ func TestDecIntToBinStr(t *testing.T) {
 		require.Equal(t, expected, DecIntToBinStr(input))
 	}
 }
+
+func TestInRange(t *testing.T) {
+	require.False(t, InRange(0, 1, 3))
+	require.True(t, InRange(1, 1, 3))
+	require.True(t, InRange(2, 1, 3))
+	require.True(t, InRange(3, 1, 3))
+}

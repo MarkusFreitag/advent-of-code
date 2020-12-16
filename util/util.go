@@ -179,3 +179,7 @@ func BinStrToDecInt(bin string) int {
 func DecIntToBinStr(dec int) string {
 	return strconv.FormatInt(int64(dec), 2)
 }
+
+func InRange(i, min, max int) bool {
+	return i >= min && i <= max
+}
