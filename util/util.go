@@ -183,3 +183,23 @@ func DecIntToBinStr(dec int) string {
 func InRange(i, min, max int) bool {
 	return i >= min && i <= max
 }
+
+type Bools []bool
+
+func (b Bools) All(state bool) bool {
+	for _, i := range b {
+		if i != state {
+			return false
+		}
+	}
+	return true
+}
+
+func (b Bools) Any(state bool) bool {
+	for _, i := range b {
+		if i == state {
+			return true
+		}
+	}
+	return false
+}

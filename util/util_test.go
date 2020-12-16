@@ -126,3 +126,23 @@ func TestInRange(t *testing.T) {
 	require.True(t, InRange(2, 1, 3))
 	require.True(t, InRange(3, 1, 3))
 }
+
+func TestBoolsAll(t *testing.T) {
+	b := make(Bools, 3)
+	require.True(t, b.All(false))
+	b[0] = true
+	require.False(t, b.All(false))
+}
+
+func TestBoolsAny(t *testing.T) {
+	b := make(Bools, 3)
+	require.True(t, b.Any(false))
+	require.False(t, b.Any(true))
+	b[0] = true
+	require.True(t, b.Any(false))
+	require.True(t, b.Any(true))
+	b[1] = true
+	b[2] = true
+	require.False(t, b.Any(false))
+	require.True(t, b.Any(true))
+}
