@@ -77,6 +77,20 @@ func StrInSlice(str string, strs []string) bool {
 	return false
 }
 
+func SearchStrInSlice(str string, strs []string) []int {
+	indexes := make([]int, 0)
+	for idx, s := range strs {
+		if s == str {
+			indexes = append(indexes, idx)
+		}
+	}
+	return indexes
+}
+
+func CountStrInSlice(str string, strs []string) int {
+	return len(SearchStrInSlice(str, strs))
+}
+
 func IntInSlice(num int, nums []int) bool {
 	for _, i := range nums {
 		if i == num {
@@ -202,4 +216,12 @@ func (b Bools) Any(state bool) bool {
 		}
 	}
 	return false
+}
+
+func ReverseStr(str string) string {
+	runes := []rune(str)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
 }
