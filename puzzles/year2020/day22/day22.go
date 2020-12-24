@@ -44,10 +44,10 @@ func Part1(input string) (string, error) {
 }
 
 func play(p1, p2 []int) (int, []int) {
-  player1 := make([]int, len(p1))
-  copy(player1, p1)
-  player2 := make([]int, len(p2))
-  copy(player2, p2)
+	player1 := make([]int, len(p1))
+	copy(player1, p1)
+	player2 := make([]int, len(p2))
+	copy(player2, p2)
 
 	games := make(map[string]bool)
 	for {
