@@ -146,3 +146,15 @@ func TestBoolsAny(t *testing.T) {
 	require.False(t, b.Any(false))
 	require.True(t, b.Any(true))
 }
+
+func TestDigitStrToInts(t *testing.T) {
+	require.Equal(t, []int{0, 1, 1, 2, 4}, DigitStrToInts("01124"))
+}
+
+func TestIntsToDigitStr(t *testing.T) {
+	require.Equal(t, "01124", IntsToDigitStr([]int{0, 1, 1, 2, 4}))
+}
+
+func TestMaxInts(t *testing.T) {
+	require.Equal(t, 2, MaxInts(0, 2, 1))
+}

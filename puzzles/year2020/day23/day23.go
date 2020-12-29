@@ -1,27 +1,10 @@
 package day23
 
 import (
-	"fmt"
 	"strconv"
-	"time"
+
+	"github.com/MarkusFreitag/advent-of-code/util"
 )
-
-func strToInts(str string) []int {
-	nums := make([]int, len(str))
-	for idx, char := range str {
-		num, _ := strconv.Atoi(string(char))
-		nums[idx] = num
-	}
-	return nums
-}
-
-func intsToStr(nums []int) string {
-	var str string
-	for _, num := range nums {
-		str += strconv.Itoa(num)
-	}
-	return str
-}
 
 func maxInts(nums []int) (int, int) {
 	var max int
@@ -42,7 +25,6 @@ func destination(nums []int) int {
 			idx, _ := maxInts(nums)
 			return idx
 		}
-
 		for idx, num := range nums {
 			if num == goal {
 				return idx
@@ -53,7 +35,7 @@ func destination(nums []int) int {
 }
 
 func Part1(input string) (string, error) {
-	circle := strToInts(input)
+	circle := util.DigitStrToInts(input)
 
 	for i := 0; i < 100; i++ {
 		three := circle[1:4]
@@ -77,11 +59,11 @@ func Part1(input string) (string, error) {
 	solution := circle[pos:]
 	solution = append(solution, circle[:pos]...)
 
-	return intsToStr(solution[1:]), nil
+	return util.IntsToDigitStr(solution[1:]), nil
 }
 
 func Part2(input string) (string, error) {
-	nums := strToInts(input)
+	nums := util.DigitStrToInts(input)
 
 	circle := make([]int, 1000000)
 	_, max := maxInts(circle)
@@ -91,7 +73,6 @@ func Part2(input string) (string, error) {
 	}
 
 	for i := 0; i < 10000000; i++ {
-		start := time.Now()
 		three := circle[1:4]
 		sub := append([]int{circle[0]}, circle[4:]...)
 
@@ -102,9 +83,6 @@ func Part2(input string) (string, error) {
 		var first int
 		first, circle = circle[0], circle[1:]
 		circle = append(circle, first)
-		if i%1000 == 0 {
-			fmt.Println(i, time.Since(start))
-		}
 	}
 
 	var pos int

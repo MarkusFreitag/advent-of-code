@@ -203,3 +203,30 @@ func (b Bools) Any(state bool) bool {
 	}
 	return false
 }
+
+func DigitStrToInts(str string) []int {
+	nums := make([]int, len(str))
+	for idx, char := range str {
+		num, _ := strconv.Atoi(string(char))
+		nums[idx] = num
+	}
+	return nums
+}
+
+func IntsToDigitStr(nums []int) string {
+	var str string
+	for _, num := range nums {
+		str += strconv.Itoa(num)
+	}
+	return str
+}
+
+func MaxInts(nums ...int) int {
+	var max int
+	for _, num := range nums {
+		if num > max {
+			max = num
+		}
+	}
+	return max
+}
