@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/MarkusFreitag/advent-of-code/puzzles/year2015"
+	"github.com/MarkusFreitag/advent-of-code/puzzles/year2016"
 	"github.com/MarkusFreitag/advent-of-code/puzzles/year2018"
 	"github.com/MarkusFreitag/advent-of-code/puzzles/year2019"
 	"github.com/MarkusFreitag/advent-of-code/puzzles/year2020"
@@ -12,6 +13,7 @@ import (
 
 var Puzzles = map[string]map[string]util.Puzzle{
 	"year2015": year2015.Puzzles,
+	"year2016": year2016.Puzzles,
 	"year2018": year2018.Puzzles,
 	"year2019": year2019.Puzzles,
 	"year2020": year2020.Puzzles,
