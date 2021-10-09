@@ -141,19 +141,31 @@ func Abs(i int) int {
 	return i
 }
 
-func ParseSignedInt(s string) int {
-	var i int
-	var err error
-	if strings.HasPrefix(s, "-") {
-		i, err = strconv.Atoi(strings.TrimPrefix(s, "-"))
-		i *= -1
-	} else {
-		i, err = strconv.Atoi(strings.TrimPrefix(s, "+"))
-	}
+func Between(i, min, max int) bool {
+	return min <= i && i <= max
+}
+
+func ParseInt(s string) int {
+	i, err := strconv.Atoi(s)
 	if err != nil {
 		panic(err)
 	}
 	return i
+}
+
+func ParseSignedInt(s string) int {
+	if strings.HasPrefix(s, "-") {
+		return ParseInt(strings.TrimPrefix(s, "-")) * -1
+	}
+	return ParseInt(strings.TrimPrefix(s, "+"))
+}
+
+func Reverse(str string) string {
+	var s string
+	for _, r := range str {
+		s = string(r) + s
+	}
+	return s
 }
 
 func LeftPad(str, padStr string, length int) string {
