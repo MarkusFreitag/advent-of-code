@@ -65,6 +65,13 @@ func TestAbs(t *testing.T) {
 	}
 }
 
+func TestBetween(t *testing.T) {
+	require.True(t, Between(1, 1, 3))
+	require.True(t, Between(2, 1, 3))
+	require.True(t, Between(3, 1, 3))
+	require.False(t, Between(4, 1, 3))
+}
+
 func TestParseSignedInt(t *testing.T) {
 	testcases := map[string]int{
 		"1":  1,
@@ -73,6 +80,16 @@ func TestParseSignedInt(t *testing.T) {
 	}
 	for input, expected := range testcases {
 		require.Equal(t, expected, ParseSignedInt(input))
+	}
+}
+
+func TestReverse(t *testing.T) {
+	testcases := map[string]string{
+		"abab": "baba",
+		"abba": "abba",
+	}
+	for input, expected := range testcases {
+		require.Equal(t, expected, Reverse(input))
 	}
 }
 
