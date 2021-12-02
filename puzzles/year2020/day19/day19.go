@@ -101,22 +101,78 @@ func Part1(input string) (string, error) {
 }
 
 func Part2(input string) (string, error) {
-	input = strings.ReplaceAll(input, "8: 42", "8: 42 | 42 8")
-	input = strings.ReplaceAll(input, "11: 42 31", "11: 42 31 | 42 11 31")
-	//input = strings.ReplaceAll(input, "42: 9 14 | 10 1", `42: "MOO"`)
-	//input = strings.ReplaceAll(input, "31: 14 17 | 1 13", `31: "FOO"`)
 	blocks := strings.Split(input, "\n\n")
 	parseRulesBlock(blocks[0])
 
-	//fmt.Println(rules[8].Resolve())
-	//fmt.Println(rules[11].Resolve())
+	/*
+		id, rule := parseRule("8: 42 | 42 8")
+		rules[id] = rule
+		id, rule = parseRule("11: 42 31 | 42 11 31")
+		rules[id] = rule
+	*/
 
-	rgx := regexp.MustCompile("^" + rules[0].Resolve() + "$")
+	strs := strings.Split(blocks[1], "\n")
+	count := try1(strs)
+	//count := try2(strs)
+	//count := try3(strs)
+
+	return strconv.Itoa(count), nil
+}
+
+func try1(strs []string) int {
 	var count int
-	for _, line := range strings.Split(blocks[1], "\n") {
-		if rgx.MatchString(line) {
+	rgx := regexp.MustCompile(fmt.Sprintf("^(%s){2,}(%s)+$", rules[42].Resolve(), rules[31].Resolve()))
+	for _, str := range strs {
+		if rgx.MatchString(str) {
 			count++
 		}
 	}
-	return strconv.Itoa(count), nil
+	return count
+}
+
+func try2(strs []string) int {
+	var count int
+	for _, str := range strs {
+		count42, restStr := countMatches(str, regexp.MustCompile(fmt.Sprintf("^(%s)", rules[42].Resolve())))
+		count31, _ := countMatches(restStr, regexp.MustCompile(fmt.Sprintf("(%s)", rules[31].Resolve())))
+		if count42 > count31 {
+			count++
+		}
+	}
+	return count
+}
+
+func try3(strs []string) int {
+	var count int
+	for _, str := range strs {
+		rgx42 := regexp.MustCompile(fmt.Sprintf("(%s)", rules[42].Resolve()))
+		rgx31 := regexp.MustCompile(fmt.Sprintf("(%s)", rules[31].Resolve()))
+
+		m42 := rgx42.FindAllStringIndex(str, -1)
+		if m42 == nil {
+			continue
+		}
+		m31 := rgx31.FindAllStringIndex(str[m42[len(m42)-1][1]:], -1)
+		if m31 == nil {
+			continue
+		}
+
+		if len(m42) > len(m31) {
+			count++
+		}
+	}
+	return count
+}
+
+func countMatches(str string, rgx *regexp.Regexp) (int, string) {
+	var count int
+	for {
+		result := rgx.FindStringIndex(str)
+		if result == nil {
+			break
+		}
+		count++
+		str = str[result[1]:]
+	}
+	return count, str
 }
