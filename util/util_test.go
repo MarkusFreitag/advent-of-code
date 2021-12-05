@@ -144,6 +144,80 @@ func TestInRange(t *testing.T) {
 	require.True(t, InRange(3, 1, 3))
 }
 
+func TestMinInt(t *testing.T) {
+	require.Equal(t, 0, MinInt())
+	require.Equal(t, 1, MinInt(1))
+	require.Equal(t, 1, MinInt(1, 3))
+	require.Equal(t, 1, MinInt(3, 1))
+}
+
+func TestMaxInt(t *testing.T) {
+	require.Equal(t, 0, MaxInt())
+	require.Equal(t, 1, MaxInt(1))
+	require.Equal(t, 3, MaxInt(1, 3))
+	require.Equal(t, 3, MaxInt(3, 1))
+}
+
+func TestMinMaxInt(t *testing.T) {
+	min, max := MinMaxInt()
+	require.Equal(t, 0, min)
+	require.Equal(t, 0, max)
+
+	min, max = MinMaxInt(1)
+	require.Equal(t, 1, min)
+	require.Equal(t, 1, max)
+
+	min, max = MinMaxInt(1, 3)
+	require.Equal(t, 1, min)
+	require.Equal(t, 3, max)
+
+	min, max = MinMaxInt(3, 1)
+	require.Equal(t, 1, min)
+	require.Equal(t, 3, max)
+}
+
+func TestRangeInt(t *testing.T) {
+	nums := make([]int, 0)
+	for i := range RangeInt(1, 1, 1) {
+		nums = append(nums, i)
+	}
+	require.Equal(t, []int{1}, nums)
+
+	nums = make([]int, 0)
+	for i := range RangeInt(1, 3, 1) {
+		nums = append(nums, i)
+	}
+	require.Equal(t, []int{1, 2, 3}, nums)
+
+	nums = make([]int, 0)
+	for i := range RangeInt(3, 1, 1) {
+		nums = append(nums, i)
+	}
+	require.Equal(t, []int{3, 2, 1}, nums)
+
+	nums = make([]int, 0)
+	for i := range RangeInt(1, 6, 2) {
+		nums = append(nums, i)
+	}
+	require.Equal(t, []int{1, 3, 5}, nums)
+
+	nums = make([]int, 0)
+	for i := range RangeInt(6, 1, 2) {
+		nums = append(nums, i)
+	}
+	require.Equal(t, []int{6, 4, 2}, nums)
+}
+
+func TestOnLineInt(t *testing.T) {
+	require.True(t, OnLineInt(0, 0, 5, 5, 1, 1))
+	require.True(t, OnLineInt(5, 5, 0, 0, 1, 1))
+	require.True(t, OnLineInt(0, 0, 0, 5, 0, 1))
+	require.True(t, OnLineInt(0, 5, 0, 0, 0, 1))
+	require.True(t, OnLineInt(0, 0, 5, 0, 1, 0))
+	require.True(t, OnLineInt(5, 0, 0, 0, 1, 0))
+	require.False(t, OnLineInt(0, 0, 5, 5, 2, 3))
+}
+
 func TestBoolsAll(t *testing.T) {
 	b := make(Bools, 3)
 	require.True(t, b.All(false))

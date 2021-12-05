@@ -196,6 +196,87 @@ func InRange(i, min, max int) bool {
 	return i >= min && i <= max
 }
 
+func MinInt(nums ...int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	min := nums[0]
+	for _, n := range nums[1:] {
+		if n < min {
+			min = n
+		}
+	}
+	return min
+}
+
+func MaxInt(nums ...int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+	max := nums[0]
+	for _, n := range nums[1:] {
+		if n > max {
+			max = n
+		}
+	}
+	return max
+}
+
+func MinMaxInt(nums ...int) (int, int) {
+	if len(nums) == 0 {
+		return 0, 0
+	}
+	min, max := nums[0], nums[0]
+	for _, n := range nums[1:] {
+		if n < min {
+			min = n
+		}
+		if n > max {
+			max = n
+		}
+	}
+	return min, max
+}
+
+func RangeInt(from, to, steps int) <-chan int {
+	upwards := func(from, to, steps int, c chan int) {
+		for n := from; n <= to; n += steps {
+			c <- n
+		}
+		close(c)
+	}
+	downwards := func(from, to, steps int, c chan int) {
+		for n := from; n >= to; n -= steps {
+			c <- n
+		}
+		close(c)
+	}
+
+	c := make(chan int)
+	if from > to {
+		go downwards(from, to, steps, c)
+		return c
+	}
+	go upwards(from, to, steps, c)
+	return c
+}
+
+func OnLineInt(aX, aY, bX, bY, cX, cY int) bool {
+	crossproduct := (cY-aY)*(bX-aX) - (cX-aX)*(bY-aY)
+	if Abs(crossproduct) != 0 {
+		return false
+	}
+
+	dotproduct := (cX-aX)*(bX-aX) + (cY-aY)*(bY-aY)
+	if dotproduct < 0 {
+		return false
+	}
+
+	squaredlengthba := (bX-aX)*(bX-aX) + (bY-aY)*(bY-aY)
+
+	return dotproduct <= squaredlengthba
+}
+
 type Bools []bool
 
 func (b Bools) All(state bool) bool {
