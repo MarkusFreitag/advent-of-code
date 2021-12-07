@@ -13,8 +13,12 @@ import (
 )
 
 const (
-	URLSCHEMA  = "https://adventofcode.com/%d/day/%d/input"
-	FILESCHEMA = "%d_%d.txt"
+	URLSCHEMA          = "https://adventofcode.com/%d/day/%d/input"
+	FILESCHEMA         = "%d_%d.txt"
+	MaxUnsignedInteger = ^uint(0)
+	MinUnsignedInteger = 0
+	MaxInteger         = int(MaxUnsignedInteger >> 1)
+	MinInteger         = -MaxInteger - 1
 )
 
 var ErrNotSolved = errors.New("this part is not solved yet")
