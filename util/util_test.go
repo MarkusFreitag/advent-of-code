@@ -237,3 +237,26 @@ func TestBoolsAny(t *testing.T) {
 	require.False(t, b.Any(false))
 	require.True(t, b.Any(true))
 }
+
+func TestStrToStrs(t *testing.T) {
+	slice := StrToStrs("a")
+	require.Equal(t, 1, len(slice))
+	require.Equal(t, "a", slice[0])
+
+	slice = StrToStrs("abc")
+	require.Equal(t, 3, len(slice))
+	require.Equal(t, "a", slice[0])
+	require.Equal(t, "b", slice[1])
+	require.Equal(t, "c", slice[2])
+}
+
+func TestStringSorter(t *testing.T) {
+	testcases := map[string]string{
+		"a":   "a",
+		"abc": "abc",
+		"zoa": "aoz",
+	}
+	for input, expected := range testcases {
+		require.Equal(t, expected, StringSorter(input))
+	}
+}

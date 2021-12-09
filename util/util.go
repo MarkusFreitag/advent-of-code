@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -299,4 +300,18 @@ func (b Bools) Any(state bool) bool {
 		}
 	}
 	return false
+}
+
+func StrToStrs(str string) []string {
+	slice := make([]string, len(str))
+	for idx, char := range str {
+		slice[idx] = string(char)
+	}
+	return slice
+}
+
+func StringSorter(str string) string {
+	slice := StrToStrs(str)
+	sort.Strings(slice)
+	return strings.Join(slice, "")
 }
