@@ -315,3 +315,12 @@ func StringSorter(str string) string {
 	sort.Strings(slice)
 	return strings.Join(slice, "")
 }
+
+func StrContainsAny(s string, strs ...string) bool {
+	for _, str := range strs {
+		if strings.Contains(s, str) {
+			return true
+		}
+	}
+	return false
+}

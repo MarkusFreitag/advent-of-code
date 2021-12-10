@@ -260,3 +260,10 @@ func TestStringSorter(t *testing.T) {
 		require.Equal(t, expected, StringSorter(input))
 	}
 }
+
+func TestStrContainsAny(t *testing.T) {
+	require.True(t, StrContainsAny("abc", "a"))
+	require.True(t, StrContainsAny("abc", "a", "b"))
+	require.True(t, StrContainsAny("abc", "d", "b"))
+	require.False(t, StrContainsAny("abc", "d"))
+}
