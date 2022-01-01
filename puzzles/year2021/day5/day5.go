@@ -12,9 +12,7 @@ type Points map[string]int
 
 func (pts Points) Add(x, y int) {
 	pt := fmt.Sprintf("%d|%d", x, y)
-	v, _ := pts[pt]
-	v++
-	pts[pt] = v
+	pts[pt] = pts[pt] + 1
 }
 
 func (pts Points) Count(limit int) int {

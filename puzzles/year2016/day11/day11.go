@@ -26,14 +26,6 @@ func parseInput(input string) []map[string]bool {
 	return floors
 }
 
-func keys(m map[string]bool) []string {
-	slice := make([]string, 0)
-	for k := range m {
-		slice = append(slice, k)
-	}
-	return slice
-}
-
 func move(floors []map[string]bool, elevator int) (int, bool) {
 	return 1, true
 }

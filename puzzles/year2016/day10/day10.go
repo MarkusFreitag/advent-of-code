@@ -42,9 +42,9 @@ func (o *Output) Values() []int {
 	return values
 }
 
-func (o *Output) SetLow(_ Component) { return }
+func (o *Output) SetLow(_ Component) {}
 
-func (o *Output) SetHigh(_ Component) { return }
+func (o *Output) SetHigh(_ Component) {}
 
 type Bot struct {
 	id     int

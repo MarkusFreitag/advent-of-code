@@ -12,17 +12,13 @@ type Pool map[int]int
 func NewPool(fish []int) Pool {
 	p := make(Pool)
 	for _, f := range fish {
-		c, _ := p[f]
-		c++
-		p[f] = c
+		p[f] = p[f] + 1
 	}
 	return p
 }
 
 func (p Pool) add(fish, count int) {
-	v, _ := p[fish]
-	v += count
-	p[fish] = v
+	p[fish] = p[fish] + count
 }
 
 func (p Pool) Evolution() Pool {

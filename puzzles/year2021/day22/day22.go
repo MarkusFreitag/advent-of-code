@@ -149,8 +149,6 @@ func (c *Cube) Volume() int {
 	return c.Range.Count() - holeSum
 }
 
-var on = struct{}{}
-
 func Part1(input string) (string, error) {
 	lines := strings.Split(input, "\n")
 	ops := make([]Op, len(lines))

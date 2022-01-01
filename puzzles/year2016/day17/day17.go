@@ -70,7 +70,6 @@ func Part1(input string) (string, error) {
 		})
 		return paths[0], nil
 	}
-	return "not solved yet", nil
 }
 
 func Part2(input string) (string, error) {
@@ -88,5 +87,4 @@ func Part2(input string) (string, error) {
 		})
 		return strconv.Itoa(len(paths[0])), nil
 	}
-	return "not solved yet", nil
 }

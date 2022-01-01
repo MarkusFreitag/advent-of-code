@@ -1,18 +1,9 @@
 package day12
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
-
-func s(r map[string]int) string {
-	p := make([]string, 0)
-	for k, v := range r {
-		p = append(p, fmt.Sprintf("%s:%d", k, v))
-	}
-	return "[" + strings.Join(p, " ") + "]"
-}
 
 func runProgram(lines []string, registers map[string]int) map[string]int {
 	for i := 0; i < len(lines); i++ {

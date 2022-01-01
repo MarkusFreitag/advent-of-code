@@ -41,7 +41,7 @@ func Part1(input string) (string, error) {
 			in <- num
 		case intcode.MessageOutput:
 			if msg.Value < 127 {
-				fmt.Print(string(msg.Value))
+				fmt.Printf("%d", msg.Value)
 			} else {
 				fmt.Println(msg.Value)
 			}
