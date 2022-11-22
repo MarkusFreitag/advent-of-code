@@ -6,6 +6,13 @@ import (
 	"github.com/MarkusFreitag/advent-of-code/util/constraints"
 )
 
+const (
+	MaxUnsignedInteger = ^uint(0)
+	MinUnsignedInteger = 0
+	MaxInteger         = int(MaxUnsignedInteger >> 1)
+	MinInteger         = -MaxInteger - 1
+)
+
 func Sum[T constraints.Numbers](nums ...T) T {
 	if len(nums) == 0 {
 		return 0
