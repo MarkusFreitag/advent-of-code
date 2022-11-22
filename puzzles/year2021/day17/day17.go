@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 type Point struct {
@@ -54,13 +55,13 @@ func NewArea(str string) *Area {
 
 	field := strings.TrimSuffix(fields[2], ",")
 	parts := strings.Split(field, "=")
-	nums := util.StrsToInts(strings.Split(parts[1], ".."))
-	area.A.X, area.B.X = util.MinMaxInt(nums[0], nums[1])
+	nums := util.StringsToInts(strings.Split(parts[1], ".."))
+	area.A.X, area.B.X = numbers.MinMax(nums[0], nums[1])
 
 	field = strings.TrimSuffix(fields[3], ",")
 	parts = strings.Split(field, "=")
-	nums = util.StrsToInts(strings.Split(parts[1], ".."))
-	area.B.Y, area.A.Y = util.MinMaxInt(nums[0], nums[1])
+	nums = util.StringsToInts(strings.Split(parts[1], ".."))
+	area.B.Y, area.A.Y = numbers.MinMax(nums[0], nums[1])
 
 	return &area
 }

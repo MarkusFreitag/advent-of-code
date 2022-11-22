@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 type Component interface {
@@ -168,5 +168,5 @@ func Part2(input string) (string, error) {
 			outs = append(outs, com.Values()[0])
 		}
 	}
-	return strconv.Itoa(util.MulInts(outs...)), nil
+	return strconv.Itoa(numbers.Multiply(outs...)), nil
 }

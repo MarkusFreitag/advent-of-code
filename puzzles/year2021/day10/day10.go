@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 var (
@@ -81,7 +82,7 @@ func Part1(input string) (string, error) {
 
 		for char := range bracketByClose {
 			if strings.ContainsRune(line, char) {
-				if util.StrContainsAny(line, invalidPairs(char)...) {
+				if util.StringContainsAny(line, invalidPairs(char)...) {
 					sum += bracketByClose[char].CorruptScore
 				}
 			}
@@ -101,12 +102,12 @@ func Part2(input string) (string, error) {
 			}
 
 			if len(newLine) == len(line) {
-				bools := make(util.Bools, 0)
+				bools := make([]bool, 0)
 				for char := range bracketByClose {
 					bools = append(bools, strings.ContainsRune(newLine, char))
 				}
 
-				if bools.All(false) {
+				if slice.All(bools, false) {
 					var score int
 					for _, char := range complete(newLine) {
 						score *= 5
@@ -129,5 +130,5 @@ func complete(str string) string {
 	for _, char := range str {
 		s += string(bracketByOpen[char].Close)
 	}
-	return util.Reverse(s)
+	return util.StringReverse(s)
 }

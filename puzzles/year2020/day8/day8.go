@@ -21,7 +21,7 @@ func LoadCmds(table string) Cmds {
 		parts := strings.Split(line, " ")
 		cmds = append(cmds, &Cmd{
 			Action: parts[0],
-			Value:  util.ParseSignedInt(parts[1]),
+			Value:  util.ParseInt(parts[1]),
 		})
 	}
 	return cmds

@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 type Octopus struct {
@@ -31,7 +32,7 @@ func Part1(input string) (string, error) {
 	grid := make([][]*Octopus, len(lines))
 	for idx, line := range lines {
 		row := make([]*Octopus, len(line))
-		for i, num := range util.StrsToInts(util.StrToStrs(line)) {
+		for i, num := range util.StringsToInts(util.StringToStrings(line)) {
 			row[i] = &Octopus{Y: idx, X: i, Energy: num}
 		}
 		grid[idx] = row
@@ -95,7 +96,7 @@ func Part2(input string) (string, error) {
 	grid := make([][]*Octopus, len(lines))
 	for idx, line := range lines {
 		row := make([]*Octopus, len(line))
-		for i, num := range util.StrsToInts(util.StrToStrs(line)) {
+		for i, num := range util.StringsToInts(util.StringToStrings(line)) {
 			row[i] = &Octopus{Y: idx, X: i, Energy: num}
 		}
 		grid[idx] = row
@@ -141,7 +142,7 @@ func Part2(input string) (string, error) {
 			}
 		}
 
-		b := make(util.Bools, 0)
+		b := make([]bool, 0)
 		for _, row := range grid {
 			for _, octo := range row {
 				b = append(b, octo.Flashed)
@@ -150,7 +151,7 @@ func Part2(input string) (string, error) {
 				}
 			}
 		}
-		if b.All(true) {
+		if slice.All(b, true) {
 			break
 		}
 	}

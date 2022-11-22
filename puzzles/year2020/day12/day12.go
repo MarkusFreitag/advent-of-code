@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 type Action struct {
@@ -82,7 +82,7 @@ func Part1(input string) (string, error) {
 			}
 		}
 	}
-	return strconv.Itoa(util.Abs(x) + util.Abs(y)), nil
+	return strconv.Itoa(numbers.Abs(x) + numbers.Abs(y)), nil
 }
 
 func Part2(input string) (string, error) {
@@ -120,7 +120,7 @@ func Part2(input string) (string, error) {
 			sy += action.Steps * wy
 		}
 	}
-	return strconv.Itoa(util.Abs(sx) + util.Abs(sy)), nil
+	return strconv.Itoa(numbers.Abs(sx) + numbers.Abs(sy)), nil
 }
 
 func turnWP(wx, wy int, dir rune) (int, int) {

@@ -39,11 +39,11 @@ func playMemory(startingNums []int, rounds int) int {
 }
 
 func Part1(input string) (string, error) {
-	nums := util.StrsToInts(strings.Split(input, ","))
+	nums := util.StringsToInts(strings.Split(input, ","))
 	return strconv.Itoa(playMemory(nums, 2020)), nil
 }
 
 func Part2(input string) (string, error) {
-	nums := util.StrsToInts(strings.Split(input, ","))
+	nums := util.StringsToInts(strings.Split(input, ","))
 	return strconv.Itoa(playMemory(nums, 30000000)), nil
 }

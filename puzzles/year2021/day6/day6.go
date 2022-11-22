@@ -44,7 +44,7 @@ func (p Pool) Population() int {
 }
 
 func Part1(input string) (string, error) {
-	nums := util.StrsToInts(strings.Split(input, ","))
+	nums := util.StringsToInts(strings.Split(input, ","))
 	pool := NewPool(nums)
 	for d := 0; d < 80; d++ {
 		pool = pool.Evolution()
@@ -53,7 +53,7 @@ func Part1(input string) (string, error) {
 }
 
 func Part2(input string) (string, error) {
-	nums := util.StrsToInts(strings.Split(input, ","))
+	nums := util.StringsToInts(strings.Split(input, ","))
 	pool := NewPool(nums)
 	for d := 0; d < 256; d++ {
 		pool = pool.Evolution()

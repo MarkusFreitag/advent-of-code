@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 type Num struct {
@@ -51,21 +52,21 @@ func (b *Board) AddNum(i int) {
 func (b *Board) Bingo() bool {
 	// check rows
 	for _, row := range b.b {
-		bingo := make(util.Bools, 0)
+		bingo := make([]bool, 0)
 		for _, num := range row {
 			bingo = append(bingo, num.Checked)
 		}
-		if bingo.All(true) {
+		if slice.All(bingo, true) {
 			return true
 		}
 	}
 	// check cols
 	for c := 0; c < len(b.b); c++ {
-		bingo := make(util.Bools, 0)
+		bingo := make([]bool, 0)
 		for r := 0; r < len(b.b); r++ {
 			bingo = append(bingo, b.b[r][c].Checked)
 		}
-		if bingo.All(true) {
+		if slice.All(bingo, true) {
 			return true
 		}
 	}
@@ -87,7 +88,7 @@ func (b *Board) Score() int {
 
 func parseInput(input string) ([]int, []*Board) {
 	parts := strings.Split(input, "\n\n")
-	nums := util.StrsToInts(strings.Split(strings.TrimSpace(parts[0]), ","))
+	nums := util.StringsToInts(strings.Split(strings.TrimSpace(parts[0]), ","))
 
 	boards := make([]*Board, len(parts[1:]))
 	for idx, block := range parts[1:] {

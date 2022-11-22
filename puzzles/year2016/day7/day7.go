@@ -73,7 +73,7 @@ func detectABBA(str string) bool {
 		if abba[0] == abba[1] {
 			continue
 		}
-		abba += util.Reverse(abba)
+		abba += util.StringReverse(abba)
 		if str[i:i+4] == abba {
 			return true
 		}

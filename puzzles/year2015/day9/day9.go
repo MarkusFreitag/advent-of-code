@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 type route struct {
@@ -45,10 +45,10 @@ func Part1(input string) (string, error) {
 			distance: dis,
 		}
 		routes = append(routes, r)
-		if !util.StrInSlice(r.start, locs) {
+		if !slice.Contains(locs, r.start) {
 			locs = append(locs, r.start)
 		}
-		if !util.StrInSlice(r.end, locs) {
+		if !slice.Contains(locs, r.end) {
 			locs = append(locs, r.end)
 		}
 	}
@@ -90,10 +90,10 @@ func Part2(input string) (string, error) {
 			distance: dis,
 		}
 		routes = append(routes, r)
-		if !util.StrInSlice(r.start, locs) {
+		if !slice.Contains(locs, r.start) {
 			locs = append(locs, r.start)
 		}
-		if !util.StrInSlice(r.end, locs) {
+		if !slice.Contains(locs, r.end) {
 			locs = append(locs, r.end)
 		}
 	}

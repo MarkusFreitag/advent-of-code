@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 var winScore int
@@ -61,7 +62,7 @@ func Part1(input string) (string, error) {
 	for {
 		for _, player := range players {
 			nums := []int{dice.Roll(), dice.Roll(), dice.Roll()}
-			player.Move(util.SumInts(nums...))
+			player.Move(numbers.Sum(nums...))
 			if player.Won() {
 				winner = player
 				break
@@ -128,5 +129,5 @@ func Part2(input string) (string, error) {
 
 	gameCache := make(map[string]Wins)
 	wins := quantumGame(players[0], players[1], gameCache)
-	return strconv.Itoa(util.MaxInt(wins[0], wins[1])), nil
+	return strconv.Itoa(numbers.Max(wins[0], wins[1])), nil
 }

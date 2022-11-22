@@ -19,8 +19,8 @@ func score(cards []int) int {
 func Part1(input string) (string, error) {
 	blocks := strings.Split(input, "\n\n")
 
-	player1 := util.StrsToInts(strings.Split(blocks[0], "\n")[1:])
-	player2 := util.StrsToInts(strings.Split(blocks[1], "\n")[1:])
+	player1 := util.StringsToInts(strings.Split(blocks[0], "\n")[1:])
+	player2 := util.StringsToInts(strings.Split(blocks[1], "\n")[1:])
 
 	for {
 		card1, card2 := player1[0], player2[0]
@@ -95,8 +95,8 @@ func hashGame(p1, p2 []int) string {
 func Part2(input string) (string, error) {
 	blocks := strings.Split(input, "\n\n")
 
-	player1 := util.StrsToInts(strings.Split(blocks[0], "\n")[1:])
-	player2 := util.StrsToInts(strings.Split(blocks[1], "\n")[1:])
+	player1 := util.StringsToInts(strings.Split(blocks[0], "\n")[1:])
+	player2 := util.StringsToInts(strings.Split(blocks[1], "\n")[1:])
 
 	_, deck := play(player1, player2)
 	return strconv.Itoa(score(deck)), nil

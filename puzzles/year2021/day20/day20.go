@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 var light = struct{}{}
@@ -31,13 +31,13 @@ func ParseImage(str string) Image {
 }
 
 func (img Image) Size() (int, int, int, int) {
-	minX, minY := util.MaxInteger, util.MaxInteger
+	minX, minY := numbers.MaxInteger, numbers.MaxInteger
 	var maxX, maxY int
 	for pixel := range img {
-		minX = util.MinInt(minX, pixel.X)
-		minY = util.MinInt(minY, pixel.Y)
-		maxX = util.MaxInt(maxX, pixel.X)
-		maxY = util.MaxInt(maxY, pixel.Y)
+		minX = numbers.Min(minX, pixel.X)
+		minY = numbers.Min(minY, pixel.Y)
+		maxX = numbers.Max(maxX, pixel.X)
+		maxY = numbers.Max(maxY, pixel.Y)
 	}
 	return minX, minY, maxX, maxY
 }

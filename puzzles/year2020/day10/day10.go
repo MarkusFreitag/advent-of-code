@@ -9,7 +9,7 @@ import (
 )
 
 func Part1(input string) (string, error) {
-	adapters := util.StrsToInts(strings.Split(input, "\n"))
+	adapters := util.StringsToInts(strings.Split(input, "\n"))
 	sort.Ints(adapters)
 
 	var one, three int
@@ -43,7 +43,7 @@ type Node struct {
 }
 
 func Part2(input string) (string, error) {
-	adapters := util.StrsToInts(strings.Split(input, "\n"))
+	adapters := util.StringsToInts(strings.Split(input, "\n"))
 	sort.Ints(adapters)
 
 	start := &Node{ID: 0, Next: make(map[*Node]bool)}

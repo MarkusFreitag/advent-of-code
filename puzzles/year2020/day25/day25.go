@@ -8,7 +8,7 @@ import (
 )
 
 func Part1(input string) (string, error) {
-	nums := util.StrsToInts(strings.Fields(input))
+	nums := util.StringsToInts(strings.Fields(input))
 
 	var loopCounter int
 	for k := 1; k != nums[0]; loopCounter++ {

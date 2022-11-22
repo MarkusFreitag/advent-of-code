@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 var (
@@ -36,7 +36,7 @@ func parseLine(line string) Food {
 func intersection(a, b []string) []string {
 	inter := make([]string, 0)
 	for _, s := range a {
-		if util.StrInSlice(s, b) {
+		if slice.Contains(b, s) {
 			inter = append(inter, s)
 		}
 	}
