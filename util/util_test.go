@@ -31,6 +31,17 @@ func TestParseInt(t *testing.T) {
 	}
 }
 
+func TestParseFloat(t *testing.T) {
+	testcases := map[string]float64{
+		"1.2":  1.2,
+		"+2.1": 2.1,
+		"-3.0": -3.0,
+	}
+	for input, expected := range testcases {
+		require.Equal(t, expected, ParseFloat(input))
+	}
+}
+
 func TestBinStringToDecInt(t *testing.T) {
 	testcases := map[string]int{
 		"1":     1,

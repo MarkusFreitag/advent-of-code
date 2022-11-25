@@ -93,6 +93,14 @@ func ParseInt(s string) int {
 	return i
 }
 
+func ParseFloat(s string) float64 {
+	f, err := strconv.ParseFloat(s, 64)
+	if err != nil {
+		panic(err)
+	}
+	return f
+}
+
 func BinStringToDecInt(bin string) int {
 	dec, err := strconv.ParseInt(bin, 2, 64)
 	if err != nil {
@@ -142,4 +150,31 @@ func OnLineInt(aX, aY, bX, bY, cX, cY int) bool {
 	squaredlengthba := (bX-aX)*(bX-aX) + (bY-aY)*(bY-aY)
 
 	return dotproduct <= squaredlengthba
+}
+
+func Memoize(fn func(any) any) func(any) any {
+	cache := make(map[any]any)
+
+	return func(i any) any {
+		if val, found := cache[i]; found {
+			return val
+		}
+
+		result := fn(i)
+		cache[i] = result
+		return result
+	}
+}
+
+func Flatten(slice []any) []any {
+	flat := make([]any, 0)
+	for _, item := range slice {
+		switch v := item.(type) {
+		case []any:
+			flat = append(flat, Flatten(v)...)
+		default:
+			flat = append(flat, item)
+		}
+	}
+	return flat
 }
