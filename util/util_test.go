@@ -105,3 +105,9 @@ func TestOnLineInt(t *testing.T) {
 	require.True(t, OnLineInt(5, 0, 0, 0, 1, 0))
 	require.False(t, OnLineInt(0, 0, 5, 5, 2, 3))
 }
+
+func TestFlatten(t *testing.T) {
+	nestedSlice := []any{"a", []any{1, true}, []any{[]any{5}, "b"}, 1.1}
+	flattenedSlice := []any{"a", 1, true, 5, "b", 1.1}
+	require.Equal(t, flattenedSlice, Flatten(nestedSlice))
+}

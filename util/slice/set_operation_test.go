@@ -16,10 +16,18 @@ func TestSetOperations(t *testing.T) {
 	a := append(left, middle...)
 	b := append(middle, right...)
 
-	require.Equal(t, a, slice.SetToSlice(slice.SliceToSet(a)))
+	require.ElementsMatch(t, a, slice.SetToSlice(slice.SliceToSet(a)))
 
-	require.Equal(t, left, slice.LeftJoin(a, b))
-	require.Equal(t, right, slice.RightJoin(a, b))
-	require.Equal(t, middle, slice.InnerJoin(a, b))
-	require.Equal(t, append(left, right...), slice.OuterJoin(a, b))
+	diffA, diffB := slice.Difference(a, b)
+	require.ElementsMatch(t, left, diffA)
+	require.ElementsMatch(t, right, diffB)
+
+	require.ElementsMatch(t, middle, slice.Intersect(a, b))
+
+	require.ElementsMatch(t, append(left, append(middle, right...)...), slice.Union(a, b))
+
+	require.ElementsMatch(t, left, slice.LeftJoin(a, b))
+	require.ElementsMatch(t, right, slice.RightJoin(a, b))
+	require.ElementsMatch(t, middle, slice.InnerJoin(a, b))
+	require.ElementsMatch(t, append(left, right...), slice.OuterJoin(a, b))
 }

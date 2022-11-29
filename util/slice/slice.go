@@ -51,68 +51,39 @@ func Reverse[T any](slice []T) {
 	}
 }
 
-func Cut[T any](slice []T, start, end int) []T {
-	return append(slice[:start], slice[end+1:]...)
+func Delete[T any](slice []T, index int) []T {
+	return append(slice[:index], slice[index+1:]...)
 }
 
-/*
-func Delete[T any](a []T, index int) []T {
-	return append(a[:i], a[i+1:]...)
+func Pop[T any](slice []T) (T, []T) {
+	return slice[len(slice)-1], slice[:len(slice)-1]
 }
 
-func FilterInPlace[T any](a []T, keep func(item T) bool) []T {
-	var n int
-	for _, x := range a {
-		if keep(x) {
-			a[n] = x
-			n++
-		}
-	}
-	return a[:n]
+func PopFront[T any](slice []T) (T, []T) {
+	return slice[0], slice[1:]
 }
 
-func Pop[T any](a []T) ([]T, T) {
-	return a[len(a)-1], a[:len(a)-1]
+func Push[T any](slice []T, item T) []T {
+	return append(slice, item)
 }
 
-func PopFront[T any](a []T) []T {
-	return a[0], a[1:]
+func PushFront[T any](slice []T, item T) []T {
+	return append([]T{item}, slice...)
 }
 
-func Push[T any](a []T, x T) []T {
-	return append(a, x)
+func InsertSlice[T any](sliceA, sliceB []T, index int) []T {
+	return append(sliceA[:index], append(sliceB, sliceA[index:]...)...)
 }
 
-func PushFront[T any](a []T, x T) []T {
-	return append([]T{x}, a...)
+func Insert[T any](slice []T, item T, index int) []T {
+	return append(slice[:index], append([]T{item}, slice[index:]...)...)
 }
 
-func AppendVector[T any](a, b []T) []T {
-	return append(a, b...)
+func Copy[T any](slice []T) []T {
+	dup := make([]T, len(slice))
+	copy(dup, slice)
+	return dup
 }
-
-func InsertVector[T any](a, b []T, i int) []T {
-	return append(a[:i], append(b, a[i:]...)...)
-}
-
-func Expand[T any](a []T, i, j int) []T {
-	return append(a[:i], append(make([]T, j), a[i:]...)...)
-}
-
-func Insert[T any](a []T, x T, i int) []T {
-	return append(a[:i], append([]T{x}, a[i:]...)...)
-}
-
-func Copy[T any](a []T) []T {
-	b = make([]T, len(a))
-	copy(b, a)
-	return b
-}
-
-func Extend[T any](a []T, j int) []T {
-	return append(a, make([]T, j)...)
-}
-*/
 
 var exists = struct{}{}
 
@@ -210,14 +181,13 @@ func Compact[T constraints.Comparable](slice []T) []T {
 	return result
 }
 
-func Fill[T constraints.Comparable](slice []T, value T) []T {
+func Fill[T constraints.Comparable](slice []T, value T) {
 	var null T
 	for idx, item := range slice {
 		if item == null {
 			slice[idx] = value
 		}
 	}
-	return slice
 }
 
 func Flatten[T constraints.Comparable](nested [][]T) []T {
