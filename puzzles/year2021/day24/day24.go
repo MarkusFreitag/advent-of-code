@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 func intAppendDigit(num, digit int) int { return num*10 + digit }
@@ -31,12 +31,12 @@ func runBlock(lines []string, digit, z int) int {
 			reg[fields[1]] = a * b
 		case "div":
 			if b == 0 {
-				return util.MaxInteger
+				return numbers.MaxInteger
 			}
 			reg[fields[1]] = a / b
 		case "mod":
 			if a < 0 || b <= 0 {
-				return util.MaxInteger
+				return numbers.MaxInteger
 			}
 			reg[fields[1]] = a % b
 		case "eql":
@@ -77,9 +77,9 @@ func tryDigits(block []string, cache map[int]int, maxZ int, minNum bool) map[int
 				newCache[z] = newNum
 			} else {
 				if minNum {
-					newCache[z] = util.MinInt(newCache[z], newNum)
+					newCache[z] = numbers.Min(newCache[z], newNum)
 				} else {
-					newCache[z] = util.MaxInt(newCache[z], newNum)
+					newCache[z] = numbers.Max(newCache[z], newNum)
 				}
 			}
 		}
@@ -93,7 +93,7 @@ func Part1(input string) (string, error) {
 	zCache := make(map[int]int)
 	zCache[0] = 0
 	for i := 1; i < 15; i++ {
-		zCache = tryDigits(blocks[i-1], zCache, util.PowInt(26, 14-i), false)
+		zCache = tryDigits(blocks[i-1], zCache, numbers.Pow(26, 14-i), false)
 	}
 
 	return strconv.Itoa(zCache[0]), nil
@@ -105,7 +105,7 @@ func Part2(input string) (string, error) {
 	zCache := make(map[int]int)
 	zCache[0] = 0
 	for i := 1; i < 15; i++ {
-		zCache = tryDigits(blocks[i-1], zCache, util.PowInt(26, 14-i), true)
+		zCache = tryDigits(blocks[i-1], zCache, numbers.Pow(26, 14-i), true)
 	}
 
 	return strconv.Itoa(zCache[0]), nil

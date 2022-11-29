@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 const (
@@ -59,7 +59,7 @@ func Part1(input string) (string, error) {
 			x -= steps
 		}
 	}
-	return strconv.Itoa(util.Abs(x + y)), nil
+	return strconv.Itoa(numbers.Abs(x + y)), nil
 }
 
 func Part2(input string) (string, error) {
@@ -86,7 +86,7 @@ func Part2(input string) (string, error) {
 
 			pos := fmt.Sprintf("%d|%d", x, y)
 			if _, ok := locs[pos]; ok {
-				return strconv.Itoa(util.Abs(x + y)), nil
+				return strconv.Itoa(numbers.Abs(x + y)), nil
 			}
 			locs[pos] = true
 		}

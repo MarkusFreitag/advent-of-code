@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 func check(nums []int, num int) bool {
@@ -33,13 +34,13 @@ var preambleSize = 25
 
 func Part1(input string) (string, error) {
 	strs := strings.Split(input, "\n")
-	nums := util.StrsToInts(strs)
+	nums := util.StringsToInts(strs)
 	return strconv.Itoa(findInvalid(nums, preambleSize)), nil
 }
 
 func Part2(input string) (string, error) {
 	strs := strings.Split(input, "\n")
-	nums := util.StrsToInts(strs)
+	nums := util.StringsToInts(strs)
 	invalid := findInvalid(nums, preambleSize)
 
 	for i := 0; i < len(nums); i++ {
@@ -49,7 +50,7 @@ func Part2(input string) (string, error) {
 				break
 			}
 			part := nums[i : i+count]
-			if util.SumInts(part...) == invalid {
+			if numbers.Sum(part...) == invalid {
 				sort.Ints(part)
 				return strconv.Itoa(part[0] + part[len(part)-1]), nil
 			}

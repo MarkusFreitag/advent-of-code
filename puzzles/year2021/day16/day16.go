@@ -6,10 +6,11 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 func asBits(i int64) string {
-	return util.LeftPad(strconv.FormatInt(i, 2), "0", 4)
+	return util.StringPadLeft(strconv.FormatInt(i, 2), "0", 4)
 }
 
 type Packet struct {
@@ -38,13 +39,13 @@ func (p *Packet) Evaluate() int {
 	}
 	switch p.TypeID {
 	case 0:
-		return util.SumInts(nums...)
+		return numbers.Sum(nums...)
 	case 1:
-		return util.MulInts(nums...)
+		return numbers.Multiply(nums...)
 	case 2:
-		return util.MinInt(nums...)
+		return numbers.Min(nums...)
 	case 3:
-		return util.MaxInt(nums...)
+		return numbers.Max(nums...)
 	case 5:
 		if len(p.SubPackets) != 2 {
 			panic(fmt.Errorf("WARNING, TYPEID=5 ONLY ALLOWS 2 SUBPACKETS"))
@@ -74,7 +75,7 @@ func (p *Packet) Evaluate() int {
 }
 
 func (p *Packet) LiteralValue() int {
-	return util.BinStrToDecInt(p.Data)
+	return util.BinStringToDecInt(p.Data)
 }
 
 func ParsePacket(data string) (*Packet, string) {
@@ -83,8 +84,8 @@ func ParsePacket(data string) (*Packet, string) {
 	id, data = data[:3], data[3:]
 
 	p := &Packet{
-		Version: util.BinStrToDecInt(version),
-		TypeID:  util.BinStrToDecInt(id),
+		Version: util.BinStringToDecInt(version),
+		TypeID:  util.BinStringToDecInt(id),
 	}
 
 	if p.TypeID == 4 {
@@ -111,11 +112,11 @@ func parseLiteralPacket(data string) (string, string) {
 
 func parseOperatorPacket(data string) ([]*Packet, string) {
 	var lengthID int
-	lengthID, data = util.BinStrToDecInt(data[:1]), data[1:]
+	lengthID, data = util.BinStringToDecInt(data[:1]), data[1:]
 
 	var length int
 	if lengthID == 0 {
-		length, data = util.BinStrToDecInt(data[:15]), data[15:]
+		length, data = util.BinStringToDecInt(data[:15]), data[15:]
 		var subPacketStr string
 		subPacketStr, data = data[:length], data[length:]
 		subPackets := make([]*Packet, 0)
@@ -128,7 +129,7 @@ func parseOperatorPacket(data string) ([]*Packet, string) {
 	}
 
 	if lengthID == 1 {
-		length, data = util.BinStrToDecInt(data[:11]), data[11:]
+		length, data = util.BinStringToDecInt(data[:11]), data[11:]
 		subPackets := make([]*Packet, 0)
 		for i := 0; i < length; i++ {
 			var packet *Packet

@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 type Rule struct {
@@ -22,14 +23,14 @@ func (r Rule) Resolve() string {
 
 	var looped bool
 	for _, sub := range r.Subs {
-		if util.IntInSlice(r.ID, sub) {
+		if slice.Contains(sub, r.ID) {
 			looped = true
 		}
 	}
 
 	subs := make([]string, 0)
 	for _, sub := range r.Subs {
-		if util.IntInSlice(r.ID, sub) {
+		if slice.Contains(sub, r.ID) {
 			continue
 		}
 		var m string
@@ -57,7 +58,7 @@ func parseRule(str string) (int, Rule) {
 	} else {
 		rule.Subs = make([][]int, 0)
 		for _, s := range strings.Split(value, "|") {
-			ids := util.StrsToInts(strings.Fields(s))
+			ids := util.StringsToInts(strings.Fields(s))
 			rule.Subs = append(rule.Subs, ids)
 		}
 	}

@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 func searchTriplet(hash string) string {
@@ -39,7 +39,7 @@ func getLastKeyIndex(salt string, hashingRounds int) int {
 		hash := md5Hash(salt+strconv.Itoa(i), hashingRounds)
 
 		for _, triplet := range triplets {
-			if util.Between(i, triplet.Index+1, triplet.Index+1000) {
+			if numbers.Between(i, triplet.Index+1, triplet.Index+1000) {
 				if strings.Contains(hash, strings.Repeat(triplet.Char, 5)) {
 					keyCounter++
 					if keyCounter == 64 {

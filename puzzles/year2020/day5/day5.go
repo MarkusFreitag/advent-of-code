@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 func seatID(row, col int) int {
@@ -66,7 +66,7 @@ func Part2(input string) (string, error) {
 	}
 	sort.Ints(ids)
 	for i := ids[0]; i <= ids[len(ids)-1]; i++ {
-		if !util.IntInSlice(i, ids) {
+		if !slice.Contains(ids, i) {
 			return strconv.Itoa(i), nil
 		}
 	}

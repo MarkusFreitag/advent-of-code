@@ -39,7 +39,7 @@ func Part1(input string) (string, error) {
 	lines := strings.Split(input, "\n")
 	angles := make(triangles, len(lines))
 	for idx, line := range lines {
-		nums := util.StrsToInts(flatten(strings.Split(line, " ")))
+		nums := util.StringsToInts(flatten(strings.Split(line, " ")))
 		angles[idx] = triangle{nums[0], nums[1], nums[2]}
 	}
 	return strconv.Itoa(angles.countValid()), nil
@@ -49,7 +49,7 @@ func Part2(input string) (string, error) {
 	lines := strings.Split(input, "\n")
 	numbers := make([][]int, len(lines))
 	for idx, line := range lines {
-		numbers[idx] = util.StrsToInts(flatten(strings.Split(line, " ")))
+		numbers[idx] = util.StringsToInts(flatten(strings.Split(line, " ")))
 	}
 	angles := make(triangles, len(lines))
 	for i := 0; i < len(numbers); i += 3 {

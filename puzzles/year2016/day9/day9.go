@@ -13,7 +13,7 @@ func decompressedLength(str string, incr bool) int {
 		if str[i] == '(' {
 			closingBracket := i + strings.Index(str[i:], ")")
 			marker := str[i+1 : closingBracket]
-			nums := util.StrsToInts(strings.Split(marker, "x"))
+			nums := util.StringsToInts(strings.Split(marker, "x"))
 			if incr {
 				length += nums[1] * decompressedLength(
 					str[closingBracket+1:closingBracket+nums[0]+1],

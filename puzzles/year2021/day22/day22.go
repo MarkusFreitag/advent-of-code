@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 type Vector3 struct {
@@ -25,13 +26,13 @@ func parseRange(x, y, z string) Range {
 	var from, to Vector3
 
 	parts := strings.Split(x, "..")
-	from.X, to.X = util.ParseSignedInt(parts[0]), util.ParseSignedInt(parts[1])
+	from.X, to.X = util.ParseInt(parts[0]), util.ParseInt(parts[1])
 
 	parts = strings.Split(y, "..")
-	from.Y, to.Y = util.ParseSignedInt(parts[0]), util.ParseSignedInt(parts[1])
+	from.Y, to.Y = util.ParseInt(parts[0]), util.ParseInt(parts[1])
 
 	parts = strings.Split(z, "..")
-	from.Z, to.Z = util.ParseSignedInt(parts[0]), util.ParseSignedInt(parts[1])
+	from.Z, to.Z = util.ParseInt(parts[0]), util.ParseInt(parts[1])
 
 	return Range{From: from, To: to}
 }
@@ -41,7 +42,7 @@ func (r Range) String() string {
 }
 
 func (r Range) Count() int {
-	return util.Abs((r.To.X - r.From.X + 1) * (r.To.Y - r.From.Y + 1) * (r.To.Z - r.From.Z + 1))
+	return numbers.Abs((r.To.X - r.From.X + 1) * (r.To.Y - r.From.Y + 1) * (r.To.Z - r.From.Z + 1))
 }
 
 func between(a, b, c int) bool {

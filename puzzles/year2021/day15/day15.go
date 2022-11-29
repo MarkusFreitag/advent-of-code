@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 type Point struct {
@@ -38,7 +39,7 @@ func minPathScore(grid [][]int) int {
 	for y, row := range grid {
 		costGrid[y] = make([]int, len(row))
 		for x := range row {
-			costGrid[y][x] = util.MaxInteger
+			costGrid[y][x] = numbers.MaxInteger
 		}
 	}
 	costGrid[0][0] = 0
@@ -65,7 +66,7 @@ func Part1(input string) (string, error) {
 	lines := strings.Fields(input)
 	grid := make([][]int, len(lines))
 	for idx, line := range lines {
-		grid[idx] = util.StrsToInts(util.StrToStrs(line))
+		grid[idx] = util.StringsToInts(util.StringToStrings(line))
 	}
 
 	return strconv.Itoa(minPathScore(grid)), nil
@@ -75,7 +76,7 @@ func Part2(input string) (string, error) {
 	lines := strings.Fields(input)
 	grid := make([][]int, len(lines))
 	for idx, line := range lines {
-		grid[idx] = util.StrsToInts(util.StrToStrs(line))
+		grid[idx] = util.StringsToInts(util.StringToStrings(line))
 	}
 
 	// expand the grid 5 times in each direction

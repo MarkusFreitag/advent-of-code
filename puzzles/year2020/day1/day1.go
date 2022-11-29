@@ -10,7 +10,7 @@ import (
 
 func Part1(input string) (string, error) {
 	err := errors.New("couldn't find valid number pair")
-	expenses := util.StrsToInts(strings.Split(input, "\n"))
+	expenses := util.StringsToInts(strings.Split(input, "\n"))
 	for i, a := range expenses {
 		if i+1 >= len(expenses) {
 			return "", err
@@ -26,7 +26,7 @@ func Part1(input string) (string, error) {
 
 func Part2(input string) (string, error) {
 	err := errors.New("couldn't find valid number triplet")
-	expenses := util.StrsToInts(strings.Split(input, "\n"))
+	expenses := util.StringsToInts(strings.Split(input, "\n"))
 	for i, a := range expenses {
 		if i+1 >= len(expenses) || i+2 >= len(expenses) {
 			return "", err

@@ -7,19 +7,21 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
+	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 func Part1(input string) (string, error) {
 	lines := strings.Fields(input)
 	points := make([][]int, len(lines))
 	for idx, line := range lines {
-		points[idx] = util.StrsToInts(util.StrToStrs(line))
+		points[idx] = util.StringsToInts(util.StringToStrings(line))
 	}
 
 	var sum int
 	for y, row := range points {
 		for x, col := range row {
-			b := make(util.Bools, 0)
+			b := make([]bool, 0)
 			if y-1 >= 0 {
 				b = append(b, col < points[y-1][x])
 			}
@@ -34,7 +36,7 @@ func Part1(input string) (string, error) {
 				b = append(b, col < row[x+1])
 			}
 
-			if b.All(true) {
+			if slice.All(b, true) {
 				sum += col + 1
 			}
 		}
@@ -72,13 +74,13 @@ func Part2(input string) (string, error) {
 	lines := strings.Fields(input)
 	points := make([][]int, len(lines))
 	for idx, line := range lines {
-		points[idx] = util.StrsToInts(util.StrToStrs(line))
+		points[idx] = util.StringsToInts(util.StringToStrings(line))
 	}
 
 	sizes := make([]int, 0)
 	for y, row := range points {
 		for x, col := range row {
-			b := make(util.Bools, 0)
+			b := make([]bool, 0)
 			if y-1 >= 0 {
 				b = append(b, col < points[y-1][x])
 			}
@@ -93,7 +95,7 @@ func Part2(input string) (string, error) {
 				b = append(b, col < row[x+1])
 			}
 
-			if b.All(true) {
+			if slice.All(b, true) {
 				visited := make(map[string]bool)
 				sizes = append(sizes, checkNeighbours(points, y, x, visited))
 			}
@@ -102,5 +104,5 @@ func Part2(input string) (string, error) {
 
 	sort.Ints(sizes)
 
-	return strconv.Itoa(util.MulInts(sizes[len(sizes)-3:]...)), nil
+	return strconv.Itoa(numbers.Multiply(sizes[len(sizes)-3:]...)), nil
 }

@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
 )
 
 const BITMASKSIZE = 36
@@ -30,7 +31,7 @@ func getAddrAndValue(line string) (int, int) {
 
 func applyMask(dec int, mask string, ignore byte) string {
 	var result string
-	for idx, char := range util.LeftPad(util.DecIntToBinStr(dec), "0", BITMASKSIZE) {
+	for idx, char := range util.StringPadLeft(util.DecIntToBinString(dec), "0", BITMASKSIZE) {
 		if mask[idx] == ignore {
 			result += string(char)
 		} else {
@@ -48,7 +49,7 @@ func Part1(input string) (string, error) {
 			mask = rgxMask.FindAllStringSubmatch(line, -1)[0][1]
 		} else {
 			addr, val := getAddrAndValue(line)
-			mem[addr] = util.BinStrToDecInt(applyMask(val, mask, 'X'))
+			mem[addr] = util.BinStringToDecInt(applyMask(val, mask, 'X'))
 		}
 	}
 	var sum int
@@ -68,12 +69,12 @@ func Part2(input string) (string, error) {
 			addr, val := getAddrAndValue(line)
 			modAddr := applyMask(addr, mask, '0')
 			xCount := strings.Count(mask, "X")
-			for i := 0; i < util.PowInt(2, xCount); i++ {
+			for i := 0; i < numbers.Pow(2, xCount); i++ {
 				a := modAddr
-				for _, b := range util.LeftPad(util.DecIntToBinStr(i), "0", xCount) {
+				for _, b := range util.StringPadLeft(util.DecIntToBinString(i), "0", xCount) {
 					a = strings.Replace(a, "X", string(b), 1)
 				}
-				mem[util.BinStrToDecInt(a)] = val
+				mem[util.BinStringToDecInt(a)] = val
 			}
 		}
 	}

@@ -6,6 +6,8 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/numbers"
+	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 var rgxCond = regexp.MustCompile(`^(.*):\s(\d+)-(\d+)\sor\s(\d+)-(\d+)$`)
@@ -19,7 +21,7 @@ type Condition struct {
 }
 
 func (c Condition) CheckValue(v int) bool {
-	return util.InRange(v, c.Min1, c.Max1) || util.InRange(v, c.Min2, c.Max2)
+	return numbers.Between(v, c.Min1, c.Max1) || numbers.Between(v, c.Min2, c.Max2)
 }
 
 func parseInput(input string) (map[string]Condition, []int, [][]int) {
@@ -43,14 +45,14 @@ func parseInput(input string) (map[string]Condition, []int, [][]int) {
 	}
 
 	lines := strings.Split(blocks[1], "\n")
-	myTicket := util.StrsToInts(strings.Split(lines[1], ","))
+	myTicket := util.StringsToInts(strings.Split(lines[1], ","))
 
 	lines = strings.Split(blocks[2], "\n")
 	otherTickets := make([][]int, 0)
 	for _, line := range lines[1:] {
 		otherTickets = append(
 			otherTickets,
-			util.StrsToInts(strings.Split(line, ",")),
+			util.StringsToInts(strings.Split(line, ",")),
 		)
 	}
 
@@ -65,7 +67,7 @@ func Part1(input string) (string, error) {
 		for _, v := range t {
 			var valid bool
 			for _, c := range conds {
-				if util.InRange(v, c.Min1, c.Max1) || util.InRange(v, c.Min2, c.Max2) {
+				if numbers.Between(v, c.Min1, c.Max1) || numbers.Between(v, c.Min2, c.Max2) {
 					valid = true
 				}
 			}
@@ -75,7 +77,7 @@ func Part1(input string) (string, error) {
 		}
 	}
 
-	return strconv.Itoa(util.SumInts(invalidValues...)), nil
+	return strconv.Itoa(numbers.Sum(invalidValues...)), nil
 }
 
 func Part2(input string) (string, error) {
@@ -84,7 +86,7 @@ func Part2(input string) (string, error) {
 	// get valid tickets
 	validTickets := make([][]int, 0)
 	for _, ticket := range otherTickets {
-		bools := make(util.Bools, len(ticket))
+		bools := make([]bool, len(ticket))
 		for idx, field := range ticket {
 			for _, cond := range conds {
 				if cond.CheckValue(field) {
@@ -92,7 +94,7 @@ func Part2(input string) (string, error) {
 				}
 			}
 		}
-		if bools.All(true) {
+		if slice.All(bools, true) {
 			validTickets = append(validTickets, ticket)
 		}
 	}
@@ -137,7 +139,7 @@ func Part2(input string) (string, error) {
 	}
 
 	// multiply those fields
-	return strconv.Itoa(util.MulInts(values...)), nil
+	return strconv.Itoa(numbers.Multiply(values...)), nil
 }
 
 func delPos(hash map[string][]int, pos int) map[string][]int {

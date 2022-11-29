@@ -67,7 +67,7 @@ func reverse_positions(str string, i, j int) string {
 	if i > j {
 		i, j = j, i
 	}
-	return str[:i] + util.Reverse(str[i:j+1]) + str[j+1:]
+	return str[:i] + util.StringReverse(str[i:j+1]) + str[j+1:]
 }
 
 func move_pos(str string, i, j int) string {
