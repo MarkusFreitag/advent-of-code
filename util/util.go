@@ -28,7 +28,15 @@ func inputFilename(year, day int) string {
 	return filepath.Join("inputs", fmt.Sprintf("%d_%d.txt", year, day))
 }
 
-func InputFromURL(year, day int) (string, error) {
+type RequestOption func(*http.Request)
+
+func WithAoCUserAgent(repo, email string) RequestOption {
+	return func(req *http.Request) {
+		req.Header.Set("User-Agent", fmt.Sprintf("%s by %s", repo, email))
+	}
+}
+
+func InputFromURL(year, day int, reqOptions ...RequestOption) (string, error) {
 	if _, err := os.Stat("aoc.session"); os.IsNotExist(err) {
 		return "", err
 	}
@@ -39,6 +47,9 @@ func InputFromURL(year, day int) (string, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf(URLSCHEMA, year, day), nil)
 	if err != nil {
 		return "", err
+	}
+	for _, option := range reqOptions {
+		option(req)
 	}
 	req.AddCookie(&http.Cookie{Name: "session", Value: strings.TrimSpace(string(cookie))})
 	client := &http.Client{}
