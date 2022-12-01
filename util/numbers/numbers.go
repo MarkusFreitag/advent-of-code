@@ -2,6 +2,7 @@ package numbers
 
 import (
 	"math"
+	"sort"
 
 	"github.com/MarkusFreitag/advent-of-code/util/constraints"
 )
@@ -85,4 +86,24 @@ func MinMax[T constraints.Numbers](nums ...T) (T, T) {
 		}
 	}
 	return min, max
+}
+
+func MinN[T constraints.Numbers](n int, nums ...T) []T {
+	sort.Slice(nums, func(i, j int) bool {
+		return nums[i] < nums[j]
+	})
+	if len(nums) <= n {
+		return nums
+	}
+	return nums[:n]
+}
+
+func MaxN[T constraints.Numbers](n int, nums ...T) []T {
+	sort.Slice(nums, func(i, j int) bool {
+		return nums[i] > nums[j]
+	})
+	if len(nums) <= n {
+		return nums
+	}
+	return nums[:n]
 }

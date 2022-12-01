@@ -111,3 +111,17 @@ func TestMinMax(t *testing.T) {
 	require.Equal(t, 1.1, minFloat)
 	require.Equal(t, 1.2, maxFloat)
 }
+
+func TestMinN(t *testing.T) {
+	nums := []int{4, 1, 3}
+	require.Equal(t, []int{1, 3, 4}, numbers.MinN(4, nums...))
+	require.Equal(t, []int{1, 3, 4}, numbers.MinN(3, nums...))
+	require.Equal(t, []int{1, 3}, numbers.MinN(2, nums...))
+}
+
+func TestMaxN(t *testing.T) {
+	nums := []int{4, 1, 3}
+	require.Equal(t, []int{4, 3, 1}, numbers.MaxN(4, nums...))
+	require.Equal(t, []int{4, 3, 1}, numbers.MaxN(3, nums...))
+	require.Equal(t, []int{4, 3}, numbers.MaxN(2, nums...))
+}
