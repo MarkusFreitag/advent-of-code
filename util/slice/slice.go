@@ -2,6 +2,7 @@ package slice
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/MarkusFreitag/advent-of-code/util/constraints"
 )
@@ -200,4 +201,12 @@ func Flatten[T constraints.Comparable](nested [][]T) []T {
 
 func Uniq[T constraints.Comparable](slice []T) []T {
 	return SetToSlice(SliceToSet(slice))
+}
+
+func SortAsc[T constraints.Numbers](slice []T) {
+	sort.Slice(slice, func(i, j int) bool { return slice[i] < slice[j] })
+}
+
+func SortDesc[T constraints.Numbers](slice []T) {
+	sort.Slice(slice, func(i, j int) bool { return slice[i] > slice[j] })
 }

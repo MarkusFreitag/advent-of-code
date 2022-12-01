@@ -142,3 +142,13 @@ func TestCopy(t *testing.T) {
 	strSliceCopy[1] = "d"
 	require.NotEqual(t, strSlice, strSliceCopy)
 }
+
+func TestSort(t *testing.T) {
+	num := []int{2, 1, 4, 5, 8, 6, 3, 9, 7, 8, 4}
+	slice.SortAsc(num)
+	require.Equal(t, []int{1, 2, 3, 4, 4, 5, 6, 7, 8, 8, 9}, num)
+
+	num = []int{2, 1, 4, 5, 8, 6, 3, 9, 7, 8, 4}
+	slice.SortDesc(num)
+	require.Equal(t, []int{9, 8, 8, 7, 6, 5, 4, 4, 3, 2, 1}, num)
+}
