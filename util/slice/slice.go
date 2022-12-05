@@ -60,8 +60,22 @@ func Pop[T any](slice []T) (T, []T) {
 	return slice[len(slice)-1], slice[:len(slice)-1]
 }
 
+func PopN[T any](slice []T, n int) ([]T, []T) {
+	if n == 0 {
+		return nil, slice
+	}
+	return slice[len(slice)-n:], slice[:len(slice)-n]
+}
+
 func PopFront[T any](slice []T) (T, []T) {
 	return slice[0], slice[1:]
+}
+
+func PopFrontN[T any](slice []T, n int) ([]T, []T) {
+	if n == 0 {
+		return nil, slice
+	}
+	return slice[:n], slice[n:]
 }
 
 func Push[T any](slice []T, item T) []T {
