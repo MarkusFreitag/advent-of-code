@@ -65,7 +65,7 @@ func InputFromURL(year, day int, reqOptions ...RequestOption) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strings.TrimSpace(string(input)), nil
+	return strings.TrimSuffix(string(input), "\n"), nil
 }
 
 func InputFromFile(year, day int) (string, error) {
@@ -73,7 +73,7 @@ func InputFromFile(year, day int) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strings.TrimSpace(string(content)), nil
+	return strings.TrimSuffix(string(content), "\n"), nil
 }
 
 func InputToFile(year, day int, input string) error {
