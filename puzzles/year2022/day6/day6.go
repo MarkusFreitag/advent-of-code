@@ -2,17 +2,22 @@ package day6
 
 import (
 	"strconv"
+
+	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 func check(buff string, window int) int {
 	chars := []rune(buff)
-	for idx := range chars {
+	for slide := range slice.SlidingWindow(chars, window) {
+		if len(slide.Values) < window {
+			break
+		}
 		m := make(map[rune]bool)
-		for i := 0; i < window; i++ {
-			m[chars[idx+i]] = true
+		for _, char := range slide.Values {
+			m[char] = true
 		}
 		if len(m) == window {
-			return idx + window
+			return slide.Index + window
 		}
 	}
 	return -1
