@@ -178,3 +178,17 @@ func TestSort(t *testing.T) {
 	slice.SortDesc(num)
 	require.Equal(t, []int{9, 8, 8, 7, 6, 5, 4, 4, 3, 2, 1}, num)
 }
+
+func TestSlidingWindow(t *testing.T) {
+	nums := []int{1, 2, 3, 4, 5}
+	windows := [][]int{
+		{1, 2},
+		{2, 3},
+		{3, 4},
+		{4, 5},
+		{5},
+	}
+	for slide := range slice.SlidingWindow(nums, 2) {
+		require.Equal(t, windows[slide.Index], slide.Values)
+	}
+}

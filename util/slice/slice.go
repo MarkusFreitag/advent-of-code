@@ -224,3 +224,27 @@ func SortAsc[T constraints.Numbers](slice []T) {
 func SortDesc[T constraints.Numbers](slice []T) {
 	sort.Slice(slice, func(i, j int) bool { return slice[i] > slice[j] })
 }
+
+type Slide[T any] struct {
+	Index  int
+	Values []T
+}
+
+func SlidingWindow[T any](slice []T, size int) chan Slide[T] {
+	slider := make(chan Slide[T], 0)
+	go func() {
+		length := len(slice)
+		for idx := range slice {
+			end := idx + size
+			if end > length {
+				end = length
+			}
+			slider <- Slide[T]{
+				Index:  idx,
+				Values: slice[idx:end],
+			}
+		}
+		close(slider)
+	}()
+	return slider
+}
