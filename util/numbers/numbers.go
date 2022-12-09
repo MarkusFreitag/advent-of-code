@@ -58,6 +58,13 @@ func Abs[T constraints.Float | constraints.Signed](i T) T {
 	return i
 }
 
+func Sign[T constraints.Float | constraints.Signed](i T) T {
+	if i == T(0) {
+		return i
+	}
+	return i / Abs(i)
+}
+
 func Between[T constraints.Numbers](i, min, max T) bool {
 	return min <= i && i <= max
 }

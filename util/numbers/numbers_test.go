@@ -59,6 +59,17 @@ func TestAbs(t *testing.T) {
 	require.Equal(t, 2.1, numbers.Abs(-2.1))
 }
 
+func TestSign(t *testing.T) {
+	require.Equal(t, 0, numbers.Sign(0))
+	require.Equal(t, -0, numbers.Sign(-0))
+
+	require.Equal(t, 1, numbers.Sign(1))
+	require.Equal(t, 1, numbers.Sign(2))
+
+	require.Equal(t, -1, numbers.Sign(-1))
+	require.Equal(t, -1, numbers.Sign(-2))
+}
+
 func TestBetween(t *testing.T) {
 	require.True(t, numbers.Between(1, 1, 3))
 	require.True(t, numbers.Between(2, 1, 3))
