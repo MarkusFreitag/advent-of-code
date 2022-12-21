@@ -78,6 +78,20 @@ func PopFrontN[T any](slice []T, n int) ([]T, []T) {
 	return slice[:n], slice[n:]
 }
 
+func PopIndex[T any](slice []T, index int) (T, []T) {
+	if index == 0 {
+		return slice[0], slice[1:]
+	}
+
+	length := len(slice)
+	if index == length-1 {
+		return slice[length-1], slice[:length-1]
+	}
+
+	val := slice[index]
+	return val, append(slice[:index], slice[index+1:]...)
+}
+
 func Push[T any](slice []T, item T) []T {
 	return append(slice, item)
 }

@@ -118,6 +118,19 @@ func TestPopFrontN(t *testing.T) {
 	require.Empty(t, popped)
 }
 
+func TestPopIndex(t *testing.T) {
+	strSlice := []string{"a", "b", "c", "d", "e"}
+	popped, strSlice := slice.PopIndex(strSlice, 0)
+	require.Equal(t, []string{"b", "c", "d", "e"}, strSlice)
+	require.Equal(t, "a", popped)
+	popped, strSlice = slice.PopIndex(strSlice, len(strSlice)-1)
+	require.Equal(t, []string{"b", "c", "d"}, strSlice)
+	require.Equal(t, "e", popped)
+	popped, strSlice = slice.PopIndex(strSlice, 1)
+	require.Equal(t, []string{"b", "d"}, strSlice)
+	require.Equal(t, "c", popped)
+}
+
 func TestPush(t *testing.T) {
 	strSlice := []string{}
 	strSlice = slice.Push(strSlice, "a")
