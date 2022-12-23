@@ -80,5 +80,43 @@ func Part1(input string) (string, error) {
 }
 
 func Part2(input string) (string, error) {
-	return "not solved yet", nil
+	cache = make(map[string]int)
+	valves := parseInput(input)
+	return strconv.Itoa(searchDual(valves, valves["AA"], valves["AA"], 26, make([]string, 0))), nil
+}
+
+func searchDual(valves map[string]*Valve, you, ele *Valve, minutes, flow int, opened []string) int {
+	if minutes <= 0 {
+		return 0
+	}
+
+	key := fmt.Sprintf("%s%s|%d|%s", you.Name, ele.Name, minutes, strings.Join(opened, ","))
+	if v, ok := cache[key]; ok {
+		return v
+	}
+
+	if minutes <= 0 {
+		cache[key] = 0
+		return 0
+	}
+
+	var max int
+	for _, valve := range current.Tunnels {
+		max = numbers.Max(max, search(valves, valve, minutes-1, opened))
+	}
+
+	if !slice.Contains(opened, current.Name) && current.Flow > 0 && minutes > 0 {
+		newOpened := make([]string, 0)
+		newOpened = append(newOpened, opened...)
+		newOpened = append(newOpened, current.Name)
+		minutes--
+		sum := minutes * current.Flow
+
+		for _, valve := range current.Tunnels {
+			max = numbers.Max(max, sum+search(valves, valve, minutes-1, newOpened))
+		}
+	}
+
+	cache[key] = max
+	return max
 }
