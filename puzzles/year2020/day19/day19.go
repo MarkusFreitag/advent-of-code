@@ -3,11 +3,11 @@ package day19
 import (
 	"fmt"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 type Rule struct {
@@ -23,14 +23,14 @@ func (r Rule) Resolve() string {
 
 	var looped bool
 	for _, sub := range r.Subs {
-		if slice.Contains(sub, r.ID) {
+		if slices.Contains(sub, r.ID) {
 			looped = true
 		}
 	}
 
 	subs := make([]string, 0)
 	for _, sub := range r.Subs {
-		if slice.Contains(sub, r.ID) {
+		if slices.Contains(sub, r.ID) {
 			continue
 		}
 		var m string

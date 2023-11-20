@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
 type Num struct {
@@ -56,7 +56,7 @@ func (b *Board) Bingo() bool {
 		for _, num := range row {
 			bingo = append(bingo, num.Checked)
 		}
-		if slice.All(bingo, true) {
+		if sliceutil.All(bingo, true) {
 			return true
 		}
 	}
@@ -66,7 +66,7 @@ func (b *Board) Bingo() bool {
 		for r := 0; r < len(b.b); r++ {
 			bingo = append(bingo, b.b[r][c].Checked)
 		}
-		if slice.All(bingo, true) {
+		if sliceutil.All(bingo, true) {
 			return true
 		}
 	}

@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/setutil"
 )
 
 var (
@@ -33,16 +33,6 @@ func parseLine(line string) Food {
 	return f
 }
 
-func intersection(a, b []string) []string {
-	inter := make([]string, 0)
-	for _, s := range a {
-		if slice.Contains(b, s) {
-			inter = append(inter, s)
-		}
-	}
-	return inter
-}
-
 func Part1(input string) (string, error) {
 	foods := make([]Food, 0)
 	for _, line := range strings.Split(input, "\n") {
@@ -55,7 +45,7 @@ func Part1(input string) (string, error) {
 	for _, food := range foods {
 		for _, allergen := range food.Allergens {
 			if v, ok := allergens[allergen]; ok {
-				allergens[allergen] = intersection(v, food.Ingredients)
+				allergens[allergen] = setutil.Intersect(v, food.Ingredients)
 			} else {
 				allergens[allergen] = food.Ingredients
 			}
@@ -91,7 +81,7 @@ func Part2(input string) (string, error) {
 	for _, food := range foods {
 		for _, allergen := range food.Allergens {
 			if v, ok := allergens[allergen]; ok {
-				allergens[allergen] = intersection(v, food.Ingredients)
+				allergens[allergen] = setutil.Intersect(v, food.Ingredients)
 			} else {
 				allergens[allergen] = food.Ingredients
 			}

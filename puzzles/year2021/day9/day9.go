@@ -8,7 +8,7 @@ import (
 
 	"github.com/MarkusFreitag/advent-of-code/util"
 	"github.com/MarkusFreitag/advent-of-code/util/numbers"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
 func Part1(input string) (string, error) {
@@ -36,7 +36,7 @@ func Part1(input string) (string, error) {
 				b = append(b, col < row[x+1])
 			}
 
-			if slice.All(b, true) {
+			if sliceutil.All(b, true) {
 				sum += col + 1
 			}
 		}
@@ -95,7 +95,7 @@ func Part2(input string) (string, error) {
 				b = append(b, col < row[x+1])
 			}
 
-			if slice.All(b, true) {
+			if sliceutil.All(b, true) {
 				visited := make(map[string]bool)
 				sizes = append(sizes, checkNeighbours(points, y, x, visited))
 			}

@@ -1,11 +1,12 @@
 package day5
 
 import (
+	"slices"
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
 	"github.com/MarkusFreitag/advent-of-code/util/numbers"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
 func parseInput(input string) ([][]string, []string) {
@@ -13,16 +14,16 @@ func parseInput(input string) ([][]string, []string) {
 	stackLines := strings.Split(blocks[0], "\n")
 	instrLines := strings.Split(strings.TrimSpace(blocks[1]), "\n")
 
-	slice.Reverse(stackLines)
+	slices.Reverse(stackLines)
 
-	labels := slice.Chunks([]rune(stackLines[0]), 4)
+	labels := sliceutil.Chunks([]rune(stackLines[0]), 4)
 	stacks := make([][]string, len(labels))
 	for idx := range stacks {
 		stacks[idx] = make([]string, 0)
 	}
 
 	for _, line := range stackLines[1:] {
-		groups := slice.Chunks([]rune(line), 4)
+		groups := sliceutil.Chunks([]rune(line), 4)
 		for idx, group := range groups {
 			if numbers.Between(group[1], 65, 90) {
 				stacks[idx] = append(stacks[idx], string(rune(group[1])))
@@ -46,15 +47,15 @@ func Part1(input string) (string, error) {
 		count, from, to := parseInstruction(instr)
 		fromPile := stacks[from]
 		toPile := stacks[to]
-		crates, fromPile := slice.PopN(fromPile, count)
-		slice.Reverse(crates)
+		crates, fromPile := sliceutil.PopN(fromPile, count)
+		slices.Reverse(crates)
 		toPile = append(toPile, crates...)
 		stacks[from] = fromPile
 		stacks[to] = toPile
 	}
 	var top string
 	for _, pile := range stacks {
-		top += slice.Tail(pile, 1)[0]
+		top += sliceutil.Tail(pile, 1)[0]
 	}
 	return top, nil
 }
@@ -65,14 +66,14 @@ func Part2(input string) (string, error) {
 		count, from, to := parseInstruction(instr)
 		fromPile := stacks[from]
 		toPile := stacks[to]
-		crates, fromPile := slice.PopN(fromPile, count)
+		crates, fromPile := sliceutil.PopN(fromPile, count)
 		toPile = append(toPile, crates...)
 		stacks[from] = fromPile
 		stacks[to] = toPile
 	}
 	var top string
 	for _, pile := range stacks {
-		top += slice.Tail(pile, 1)[0]
+		top += sliceutil.Tail(pile, 1)[0]
 	}
 	return top, nil
 }

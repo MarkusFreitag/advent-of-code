@@ -6,7 +6,7 @@ import (
 
 	"github.com/MarkusFreitag/advent-of-code/util"
 	"github.com/MarkusFreitag/advent-of-code/util/numbers"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
 type Op struct {
@@ -62,7 +62,7 @@ func (m Monkeys) Round(relief func(int) int) {
 	for _, monkey := range m {
 		for len(monkey.Items) > 0 {
 			var item int
-			item, monkey.Items = slice.PopFront(monkey.Items)
+			item, monkey.Items = sliceutil.PopFront(monkey.Items)
 			item = monkey.Inspect(item)
 			item = relief(item)
 			if monkey.DoTest(item) {
@@ -80,7 +80,7 @@ func (m Monkeys) MBL() int {
 	for idx, monkey := range m {
 		nums[idx] = monkey.Activity
 	}
-	slice.SortDesc(nums)
+	sliceutil.SortDesc(nums)
 	return nums[0] * nums[1]
 }
 
