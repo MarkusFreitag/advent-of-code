@@ -3,12 +3,12 @@ package day6
 import (
 	"strconv"
 
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
 func check(buff string, window int) int {
 	chars := []rune(buff)
-	for slide := range slice.SlidingWindow(chars, window) {
+	for slide := range sliceutil.SlidingWindow(chars, window) {
 		if len(slide.Values) < window {
 			break
 		}

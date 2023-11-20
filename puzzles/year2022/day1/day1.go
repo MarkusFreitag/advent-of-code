@@ -1,13 +1,13 @@
 package day1
 
 import (
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
 	"github.com/MarkusFreitag/advent-of-code/util/numbers"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 func parseCalories(inventories []string) []int {
@@ -23,7 +23,7 @@ func parseCalories(inventories []string) []int {
 	}
 	elves = append(elves, total)
 	sort.Ints(elves)
-	slice.Reverse(elves)
+	slices.Reverse(elves)
 	return elves
 }
 

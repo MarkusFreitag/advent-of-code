@@ -7,7 +7,7 @@ import (
 
 	"github.com/MarkusFreitag/advent-of-code/util"
 	"github.com/MarkusFreitag/advent-of-code/util/numbers"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
 var rgxCond = regexp.MustCompile(`^(.*):\s(\d+)-(\d+)\sor\s(\d+)-(\d+)$`)
@@ -94,7 +94,7 @@ func Part2(input string) (string, error) {
 				}
 			}
 		}
-		if slice.All(bools, true) {
+		if sliceutil.All(bools, true) {
 			validTickets = append(validTickets, ticket)
 		}
 	}

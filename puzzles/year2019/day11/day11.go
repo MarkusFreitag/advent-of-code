@@ -2,10 +2,9 @@ package day11
 
 import (
 	"fmt"
+	"slices"
 	"strconv"
 	"strings"
-
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 func numFromStr(str string, pos int) int {
@@ -39,7 +38,7 @@ func (icode intcode) Interpret(input, output chan int) {
 	for counter < len(icode) {
 		opcode, firstMode, secondMode, targetMode := parseOpCode(icode[counter])
 		var firstValue, secondValue int
-		if slice.Contains([]int{1, 2, 5, 6, 7, 8}, opcode) {
+		if slices.Contains([]int{1, 2, 5, 6, 7, 8}, opcode) {
 			switch firstMode {
 			case 0:
 				firstValue = icode[icode[counter+1]]

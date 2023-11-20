@@ -6,7 +6,7 @@ import (
 
 	"github.com/MarkusFreitag/advent-of-code/util"
 	"github.com/MarkusFreitag/advent-of-code/util/numbers"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
 type Entry struct {
@@ -77,7 +77,7 @@ func execHistory(history [][]string) *Entry {
 	currentDir := root
 
 	for _, block := range history[1:] {
-		cmd, output := slice.PopFront(block)
+		cmd, output := sliceutil.PopFront(block)
 
 		if strings.HasPrefix(cmd, "$ cd") {
 			fields := strings.Fields(cmd)

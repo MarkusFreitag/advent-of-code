@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
 type Octopus struct {
@@ -151,7 +151,7 @@ func Part2(input string) (string, error) {
 				}
 			}
 		}
-		if slice.All(b, true) {
+		if sliceutil.All(b, true) {
 			break
 		}
 	}

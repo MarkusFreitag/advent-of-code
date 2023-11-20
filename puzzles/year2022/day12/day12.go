@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util/numbers"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
 func parseInput(input string) ([][]int, [2]int, [2]int) {
@@ -41,7 +41,7 @@ func bfs(g [][]int, start, end [2]int) int {
 	seen := make(map[[2]int]bool)
 	for len(q) > 0 {
 		var i item
-		i, q = slice.PopFront(q)
+		i, q = sliceutil.PopFront(q)
 		if i.pos == end {
 			return i.dist
 		}

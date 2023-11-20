@@ -1,11 +1,11 @@
 package day1
 
 import (
+	"slices"
 	"strconv"
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
 )
 
 func Part1(input string) (string, error) {
@@ -24,7 +24,7 @@ func Part2(input string) (string, error) {
 		for _, change := range changes {
 			lastFreq := freqs[len(freqs)-1]
 			lastFreq += change
-			if slice.Contains(freqs, lastFreq) {
+			if slices.Contains(freqs, lastFreq) {
 				return strconv.Itoa(lastFreq), nil
 			}
 			freqs = append(freqs, lastFreq)

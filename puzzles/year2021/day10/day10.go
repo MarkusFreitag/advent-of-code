@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
 var (
@@ -107,7 +107,7 @@ func Part2(input string) (string, error) {
 					bools = append(bools, strings.ContainsRune(newLine, char))
 				}
 
-				if slice.All(bools, false) {
+				if sliceutil.All(bools, false) {
 					var score int
 					for _, char := range complete(newLine) {
 						score *= 5

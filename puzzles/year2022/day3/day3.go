@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util/numbers"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
 func convert(r rune) int {
@@ -48,14 +48,14 @@ func shortest(strs []string) string {
 func Part2(input string) (string, error) {
 	lines := strings.Split(input, "\n")
 	prios := make([]int, 0)
-	chunks := slice.Chunks(lines, 3)
+	chunks := sliceutil.Chunks(lines, 3)
 	for _, chunk := range chunks {
 		for _, item := range shortest(chunk) {
 			found := make([]bool, 3)
 			for idx, line := range chunk {
 				found[idx] = strings.ContainsRune(line, item)
 			}
-			if slice.All(found, true) {
+			if sliceutil.All(found, true) {
 				prios = append(prios, convert(item))
 				break
 			}

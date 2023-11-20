@@ -6,7 +6,7 @@ import (
 
 	"github.com/MarkusFreitag/advent-of-code/util"
 	"github.com/MarkusFreitag/advent-of-code/util/numbers"
-	"github.com/MarkusFreitag/advent-of-code/util/slice"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
 var (
@@ -82,7 +82,7 @@ func Part2(input string) (string, error) {
 	var total int
 	for len(queue) > 0 {
 		var cube point
-		cube, queue = slice.PopFront(queue)
+		cube, queue = sliceutil.PopFront(queue)
 
 		for _, neigh := range neighbors {
 			newCube := cube.Add(neigh)
