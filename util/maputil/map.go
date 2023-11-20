@@ -1,8 +1,6 @@
-package util
+package maputil
 
-import "github.com/MarkusFreitag/advent-of-code/util/constraints"
-
-func Keys[K constraints.Comparable, V any](m map[K]V) []K {
+func Keys[K comparable, V any](m map[K]V) []K {
 	keys := make([]K, len(m))
 	var idx int
 	for key := range m {
@@ -12,7 +10,7 @@ func Keys[K constraints.Comparable, V any](m map[K]V) []K {
 	return keys
 }
 
-func Values[K constraints.Comparable, V any](m map[K]V) []V {
+func Values[K comparable, V any](m map[K]V) []V {
 	values := make([]V, len(m))
 	var idx int
 	for _, value := range m {

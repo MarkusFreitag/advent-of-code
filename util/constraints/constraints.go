@@ -16,14 +16,6 @@ type Integer interface {
 	Signed | Unsigned
 }
 
-type Ordered interface {
-	Integer | Float | ~string
-}
-
 type Numbers interface {
 	Float | Integer
-}
-
-type Comparable interface {
-	Ordered | ~bool
 }
