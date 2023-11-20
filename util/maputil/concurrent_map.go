@@ -1,22 +1,20 @@
-package util
+package maputil
 
 import (
 	"sync"
-
-	"github.com/MarkusFreitag/advent-of-code/util/constraints"
 )
 
-type ConcurrentMap[K constraints.Comparable, V any] struct {
+type ConcurrentMap[K comparable, V any] struct {
 	sync.RWMutex
 	items map[K]V
 }
 
-type ConcurrentMapItem[K constraints.Comparable, V any] struct {
+type ConcurrentMapItem[K comparable, V any] struct {
 	Key   K
 	Value V
 }
 
-func NewConcurrentMap[K constraints.Comparable, V any]() *ConcurrentMap[K, V] {
+func NewConcurrentMap[K comparable, V any]() *ConcurrentMap[K, V] {
 	return &ConcurrentMap[K, V]{items: make(map[K]V)}
 }
 
@@ -39,6 +37,13 @@ func (cm *ConcurrentMap[K, V]) Values() []V {
 	defer cm.Unlock()
 
 	return Values(cm.items)
+}
+
+func (cm *ConcurrentMap[K, V]) Delete(key K) {
+	cm.Lock()
+	defer cm.Unlock()
+
+	delete(cm.items, key)
 }
 
 func (cm *ConcurrentMap[K, V]) Set(key K, value V) {
@@ -64,8 +69,8 @@ func (cm *ConcurrentMap[K, V]) Iter() <-chan ConcurrentMapItem[K, V] {
 		cm.Lock()
 		defer cm.Unlock()
 
-		for k, v := range cm.items {
-			c <- ConcurrentMapItem[K, V]{Key: k, Value: v}
+		for key, value := range cm.items {
+			c <- ConcurrentMapItem[K, V]{Key: key, Value: value}
 		}
 		close(c)
 	}
