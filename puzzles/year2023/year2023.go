@@ -7,6 +7,7 @@ import (
   "github.com/MarkusFreitag/advent-of-code/puzzles/year2023/day4"
   "github.com/MarkusFreitag/advent-of-code/puzzles/year2023/day5"
   "github.com/MarkusFreitag/advent-of-code/puzzles/year2023/day6"
+  "github.com/MarkusFreitag/advent-of-code/puzzles/year2023/day7"
   "github.com/MarkusFreitag/advent-of-code/puzzles/year2023/day8"
   "github.com/MarkusFreitag/advent-of-code/util"
 )
@@ -18,5 +19,6 @@ var Puzzles = map[string]util.Puzzle{
 	"day4":  { day4.Part1, day4.Part2 },
 	"day5":  { day5.Part1, day5.Part2 },
 	"day6":  { day6.Part1, day6.Part2 },
+	"day7":  { day7.Part1, day7.Part2 },
 	"day8":  { day8.Part1, day8.Part2 },
 }
