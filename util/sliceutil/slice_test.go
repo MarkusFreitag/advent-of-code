@@ -158,3 +158,13 @@ func TestSlidingWindow(t *testing.T) {
 		require.Equal(t, windows[slide.Index], slide.Values)
 	}
 }
+
+func TestCount(t *testing.T) {
+	require.Equal(t, 1, sliceutil.Count([]int{1, 2, 4, 2}, 1))
+	require.Equal(t, 2, sliceutil.Count([]int{1, 2, 4, 2}, 2))
+	require.Equal(t, 0, sliceutil.Count([]int{1, 2, 4, 2}, 3))
+}
+
+func TestTally(t *testing.T) {
+	require.Equal(t, map[rune]int{'a': 2, 'b': 2, 'c': 1, 'd': 2, 'E': 1, 'A': 1}, sliceutil.Tally([]rune("abcddEaAb")))
+}
