@@ -114,3 +114,20 @@ func MaxN[T constraints.Numbers](n int, nums ...T) []T {
 	}
 	return nums[:n]
 }
+
+func GCD[T constraints.Integer](a, b T) T {
+	for b != 0 {
+		t := b
+		b = a % b
+		a = t
+	}
+	return a
+}
+
+func LCM[T constraints.Integer](a, b T, nums ...T) T {
+	result := a * b / GCD(a, b)
+	for _, num := range nums {
+		result = LCM(result, num)
+	}
+	return result
+}
