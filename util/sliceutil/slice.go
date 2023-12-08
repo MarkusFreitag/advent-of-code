@@ -192,3 +192,21 @@ func SlidingWindow[S ~[]E, E any](slice S, size int) chan Slide[S, E] {
 	}()
 	return slider
 }
+
+func Count[S ~[]E, E comparable](slice S, value E) int {
+	var count int
+	for _, item := range slice {
+		if item == value {
+			count++
+		}
+	}
+	return count
+}
+
+func Tally[S ~[]E, E comparable](slice S) map[E]int {
+	tally := make(map[E]int)
+	for _, item := range slice {
+		tally[item]++
+	}
+	return tally
+}
