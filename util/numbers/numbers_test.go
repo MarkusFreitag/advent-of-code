@@ -136,3 +136,9 @@ func TestMaxN(t *testing.T) {
 	require.Equal(t, []int{4, 3, 1}, numbers.MaxN(3, nums...))
 	require.Equal(t, []int{4, 3}, numbers.MaxN(2, nums...))
 }
+
+func TestLCM(t *testing.T) {
+	require.Equal(t, 30, numbers.LCM(10, 15))
+	require.Equal(t, 60, numbers.LCM(10, 15, 20))
+	require.Equal(t, 2520, numbers.LCM(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+}
