@@ -26,6 +26,13 @@ func TestAny(t *testing.T) {
 	require.False(t, sliceutil.Any([]bool{false, false}, true))
 }
 
+func TestAnyFunc(t *testing.T) {
+	fn := func(i string) bool { return string(i[1]) == "a" }
+	require.True(t, sliceutil.AnyFunc([]string{"aa", "aa"}, fn))
+	require.True(t, sliceutil.AnyFunc([]string{"aa", "ab"}, fn))
+	require.False(t, sliceutil.AnyFunc([]string{"ab", "ab"}, fn))
+}
+
 func TestAll(t *testing.T) {
 	require.True(t, sliceutil.All([]string{"a", "a"}, "a"))
 	require.False(t, sliceutil.All([]string{"a", "b"}, "a"))
@@ -34,6 +41,13 @@ func TestAll(t *testing.T) {
 	require.True(t, sliceutil.All([]bool{true, true}, true))
 	require.False(t, sliceutil.All([]bool{true, false}, true))
 	require.False(t, sliceutil.All([]bool{false, false}, true))
+}
+
+func TestAllFunc(t *testing.T) {
+	fn := func(i string) bool { return string(i[1]) == "a" }
+	require.True(t, sliceutil.AllFunc([]string{"aa", "aa"}, fn))
+	require.False(t, sliceutil.AllFunc([]string{"aa", "ab"}, fn))
+	require.False(t, sliceutil.AllFunc([]string{"ab", "ab"}, fn))
 }
 
 func TestPop(t *testing.T) {
