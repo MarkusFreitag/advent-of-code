@@ -47,3 +47,11 @@ func StringContainsAny(s string, strs ...string) bool {
 	}
 	return false
 }
+
+func StringTally(str string) map[string]int {
+	tally := make(map[string]int)
+	for _, s := range str {
+		tally[string(s)]++
+	}
+	return tally
+}
