@@ -19,9 +19,27 @@ func Any[S ~[]E, E comparable](slice S, item E) bool {
 	return slices.Index(slice, item) >= 0
 }
 
+func AnyFunc[S ~[]E, E any](slice S, fn func(item E) bool) bool {
+	for _, i := range slice {
+		if fn(i) {
+			return true
+		}
+	}
+	return false
+}
+
 func All[S ~[]E, E comparable](slice S, item E) bool {
 	for _, i := range slice {
 		if i != item {
+			return false
+		}
+	}
+	return true
+}
+
+func AllFunc[S ~[]E, E any](slice S, fn func(item E) bool) bool {
+	for _, i := range slice {
+		if !fn(i) {
 			return false
 		}
 	}
