@@ -73,3 +73,11 @@ func TestStringContainsAny(t *testing.T) {
 func TestStringTally(t *testing.T) {
 	require.Equal(t, map[string]int{"a": 2, "b": 2, "c": 1, "d": 2, "E": 1, "A": 1}, util.StringTally("abcddEaAb"))
 }
+
+func TestStringDiff(t *testing.T) {
+	require.Equal(t, -1, util.StringDiff("abc", "a"))
+	require.Equal(t, -1, util.StringDiff("a", "abc"))
+	require.Equal(t, 0, util.StringDiff("abc", "abc"))
+	require.Equal(t, 1, util.StringDiff("abb", "abc"))
+	require.Equal(t, 2, util.StringDiff("aaa", "abc"))
+}

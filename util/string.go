@@ -55,3 +55,16 @@ func StringTally(str string) map[string]int {
 	}
 	return tally
 }
+
+func StringDiff(strA, strB string) int {
+	if len(strA) != len(strB) {
+		return -1
+	}
+	var diff int
+	for idx, char := range strA {
+		if char != rune(strB[idx]) {
+			diff++
+		}
+	}
+	return diff
+}
