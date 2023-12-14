@@ -68,3 +68,17 @@ func StringDiff(strA, strB string) int {
 	}
 	return diff
 }
+
+func StringIndeces(str, sub string) []int {
+	indeces := make([]int, 0)
+	var pos int
+	for {
+		idx := strings.Index(str[pos:], sub)
+		if idx == -1 {
+			break
+		}
+		indeces = append(indeces, pos+idx)
+		pos += idx + 1
+	}
+	return indeces
+}
