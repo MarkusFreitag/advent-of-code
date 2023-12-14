@@ -81,3 +81,22 @@ func TestStringDiff(t *testing.T) {
 	require.Equal(t, 1, util.StringDiff("abb", "abc"))
 	require.Equal(t, 2, util.StringDiff("aaa", "abc"))
 }
+
+func TestStringIndeces(t *testing.T) {
+	testcases := map[string][]int{
+		".....": []int{},
+		"#....": []int{0},
+		"..#..": []int{2},
+		"....#": []int{4},
+		"#.#..": []int{0, 2},
+		"..#.#": []int{2, 4},
+		"#...#": []int{0, 4},
+		"#.#.#": []int{0, 2, 4},
+		"###.#": []int{0, 1, 2, 4},
+		"#.###": []int{0, 2, 3, 4},
+		"#####": []int{0, 1, 2, 3, 4},
+	}
+	for input, expected := range testcases {
+		require.ElementsMatch(t, expected, util.StringIndeces(input, "#"))
+	}
+}
