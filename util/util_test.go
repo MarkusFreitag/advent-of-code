@@ -111,3 +111,9 @@ func TestFlatten(t *testing.T) {
 	flattenedSlice := []any{"a", 1, true, 5, "b", 1.1}
 	require.Equal(t, flattenedSlice, Flatten(nestedSlice))
 }
+
+func TestRepeat(t *testing.T) {
+	require.Equal(t, []string{"a"}, Repeat("a", 1))
+	require.Equal(t, []string{"a", "a"}, Repeat("a", 2))
+	require.Equal(t, [][]string{{"a", "b"}, {"a", "b"}}, Repeat([]string{"a", "b"}, 2))
+}

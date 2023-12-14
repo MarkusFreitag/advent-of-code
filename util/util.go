@@ -189,3 +189,11 @@ func Flatten(slice []any) []any {
 	}
 	return flat
 }
+
+func Repeat[E any](value E, count int) []E {
+	slice := make([]E, count)
+	for i := 0; i < count; i++ {
+		slice[i] = value
+	}
+	return slice
+}
