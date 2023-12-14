@@ -34,3 +34,8 @@ func TestValuesFiltered(t *testing.T) {
 	}
 	require.ElementsMatch(t, []any{1, 2}, maputil.ValuesFiltered(m, fn))
 }
+
+func TestGet(t *testing.T) {
+	require.Equal(t, 1, maputil.Get(map[string]int{"a": 1, "c": 3}, "a", 2))
+	require.Equal(t, 2, maputil.Get(map[string]int{"a": 1, "c": 3}, "b", 2))
+}
