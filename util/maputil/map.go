@@ -39,3 +39,10 @@ func ValuesFiltered[K comparable, V any](m map[K]V, fn func(v V) bool) []V {
 	}
 	return values
 }
+
+func Get[K comparable, V any](m map[K]V, k K, def V) V {
+	if v, ok := m[k]; ok {
+		return v
+	}
+	return def
+}
