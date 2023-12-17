@@ -141,9 +141,10 @@ func parseInput(input string) [][]int {
 }
 
 func Part1(input string) (string, error) {
+	grid := parseInput(input)
 	return strconv.Itoa(
 		search(
-			parseInput(input),
+			grid,
 			[2]int{0, 0},
 			[2]int{len(grid) - 1, len(grid[0]) - 1},
 			false,
@@ -152,9 +153,10 @@ func Part1(input string) (string, error) {
 }
 
 func Part2(input string) (string, error) {
+	grid := parseInput(input)
 	return strconv.Itoa(
 		search(
-			parseInput(input),
+			grid,
 			[2]int{0, 0},
 			[2]int{len(grid) - 1, len(grid[0]) - 1},
 			true,
