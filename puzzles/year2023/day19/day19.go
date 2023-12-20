@@ -70,7 +70,6 @@ func (w Workflows) Do(item map[string]int) bool {
 		}
 		wf = w[result]
 	}
-	return false
 }
 
 func parseWorkflow(str string) Workflow {
@@ -129,7 +128,7 @@ func solve(ranges map[string][2]int, wfs Workflows, n string) int {
 	rules := wfs[n].Rules
 	for idx, rule := range rules {
 		if idx == len(rules)-1 {
-			count += do(ranges, wfs, rule.Result)
+			count += solve(ranges, wfs, rule.Result)
 		}
 		newRanges := map[string][2]int{
 			"x": [2]int{ranges["x"][0], ranges["x"][1]},
@@ -146,7 +145,7 @@ func solve(ranges map[string][2]int, wfs Workflows, n string) int {
 				r[1] = rule.Val
 				ranges[rule.Var] = r
 			}
-			count += do(newRanges, wfs, rule.Result)
+			count += solve(newRanges, wfs, rule.Result)
 		} else if rule.Op == "<" && ranges[rule.Var][0] < rule.Val {
 			if ranges[rule.Var][1] > rule.Val {
 				r := newRanges[rule.Var]
@@ -156,7 +155,7 @@ func solve(ranges map[string][2]int, wfs Workflows, n string) int {
 				r[0] = rule.Val
 				ranges[rule.Var] = r
 			}
-			count += do(newRanges, wfs, rule.Result)
+			count += solve(newRanges, wfs, rule.Result)
 		}
 	}
 	return count
@@ -178,5 +177,5 @@ func Part2(input string) (string, error) {
 		"s": [2]int{1, 4000},
 	}
 
-	return strconv.Itoa(do(ranges, workflows, "in")), nil
+	return strconv.Itoa(solve(ranges, workflows, "in")), nil
 }
