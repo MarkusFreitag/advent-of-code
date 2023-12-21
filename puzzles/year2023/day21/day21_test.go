@@ -4,6 +4,7 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
@@ -49,7 +50,7 @@ func TestPart2(t *testing.T) {
 	for _, tc := range testcases {
 		steps = tc[0]
 		solution, err := Part2(input)
-		require.Nil(t, err)
-		require.Equal(t, strconv.Itoa(tc[1]), solution)
+		assert.Nil(t, err)
+		assert.Equal(t, strconv.Itoa(tc[1]), solution)
 	}
 }

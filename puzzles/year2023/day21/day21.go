@@ -10,7 +10,7 @@ import (
 
 var steps = 64
 
-func Part1(input string) (string, error) {
+func parseInput(input string) ([][]rune, [2]int) {
 	lines := strings.Fields(input)
 	grid := make([][]rune, len(lines))
 	var start [2]int
@@ -27,11 +27,13 @@ func Part1(input string) (string, error) {
 			}
 		}
 	}
+	return grid, start
+}
 
+func Part1(input string) (string, error) {
+	grid, start := parseInput(input)
 	poss := make(map[[2]int]bool)
 	poss[start] = true
-	lastRound := make([][2]int, 0)
-	lastRound = append(lastRound, start)
 	for step := 0; step < steps; step++ {
 		newPoss := make(map[[2]int]bool)
 		queue := maputil.Keys(poss)
@@ -55,27 +57,9 @@ func Part1(input string) (string, error) {
 }
 
 func Part2(input string) (string, error) {
-	lines := strings.Fields(input)
-	grid := make([][]rune, len(lines))
-	var start [2]int
-	var found bool
-	for idx, line := range lines {
-		grid[idx] = []rune(line)
-		if !found {
-			for c, cell := range grid[idx] {
-				if cell == 'S' {
-					start[0] = idx
-					start[1] = c
-					found = true
-				}
-			}
-		}
-	}
-
+	grid, start := parseInput(input)
 	poss := make(map[[2]int]bool)
 	poss[start] = true
-	lastRound := make([][2]int, 0)
-	lastRound = append(lastRound, start)
 	for step := 0; step < steps; step++ {
 		newPoss := make(map[[2]int]bool)
 		queue := maputil.Keys(poss)
@@ -84,6 +68,7 @@ func Part2(input string) (string, error) {
 			pos, queue = sliceutil.PopFront(queue)
 			for _, neigh := range [][2]int{{-1, 0}, {0, 1}, {1, 0}, {0, -1}} {
 				pt := [2]int{pos[0] + neigh[0], pos[1] + neigh[1]}
+
 				if stone(grid, pt) {
 					continue
 				}
@@ -96,8 +81,9 @@ func Part2(input string) (string, error) {
 }
 
 func stone(g [][]rune, pt [2]int) bool {
+	//fmt.Printf("%v => ", pt)
 	if pt[0] < 0 {
-		pt[0] = len(g) + (pt[0] % len(g))
+		pt[0] = len(g) + (pt[0] % len(g)) - 1
 	} else if pt[0] >= len(g) {
 		pt[0] = pt[0] % len(g)
 	}
@@ -106,5 +92,6 @@ func stone(g [][]rune, pt [2]int) bool {
 	} else if pt[1] >= len(g[0]) {
 		pt[1] = pt[1] % len(g[0])
 	}
+	//fmt.Printf("%v\n", pt)
 	return g[pt[0]][pt[1]] == '#'
 }
