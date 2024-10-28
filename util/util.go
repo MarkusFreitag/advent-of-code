@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"iter"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -124,27 +125,26 @@ func DecIntToBinString(dec int) string {
 	return strconv.FormatInt(int64(dec), 2)
 }
 
-func RangeInt(from, to, steps int) <-chan int {
-	upwards := func(from, to, steps int, c chan int) {
+func RangeInt(from, to, steps int) iter.Seq[int] {
+	upwards := func(yield func(int) bool) {
 		for n := from; n <= to; n += steps {
-			c <- n
+			if !yield(n) {
+				return
+			}
 		}
-		close(c)
 	}
-	downwards := func(from, to, steps int, c chan int) {
+	downwards := func(yield func(int) bool) {
 		for n := from; n >= to; n -= steps {
-			c <- n
+			if !yield(n) {
+				return
+			}
 		}
-		close(c)
 	}
 
-	c := make(chan int)
 	if from > to {
-		go downwards(from, to, steps, c)
-		return c
+		return downwards
 	}
-	go upwards(from, to, steps, c)
-	return c
+	return upwards
 }
 
 func OnLineInt(aX, aY, bX, bY, cX, cY int) bool {

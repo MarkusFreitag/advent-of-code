@@ -154,8 +154,8 @@ func TestSlidingWindow(t *testing.T) {
 		{4, 5},
 		{5},
 	}
-	for slide := range sliceutil.SlidingWindow(nums, 2) {
-		require.Equal(t, windows[slide.Index], slide.Values)
+	for index, values := range sliceutil.SlidingWindow(nums, 2) {
+		require.Equal(t, windows[index], values)
 	}
 }
 

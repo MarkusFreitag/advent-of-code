@@ -38,9 +38,9 @@ func TestConcurrentMap(t *testing.T) {
 	require.Equal(t, 3, length)
 	keys := make([]string, 0, length)
 	values := make([]int, 0, length)
-	for item := range cMap.Iter() {
-		keys = append(keys, item.Key)
-		values = append(values, item.Value)
+	for key, value := range cMap.Seq() {
+		keys = append(keys, key)
+		values = append(values, value)
 	}
 
 	require.ElementsMatch(t, []string{"1", "2", "3"}, keys)

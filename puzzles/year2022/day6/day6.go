@@ -8,16 +8,16 @@ import (
 
 func check(buff string, window int) int {
 	chars := []rune(buff)
-	for slide := range sliceutil.SlidingWindow(chars, window) {
-		if len(slide.Values) < window {
+	for index, values := range sliceutil.SlidingWindow(chars, window) {
+		if len(values) < window {
 			break
 		}
 		m := make(map[rune]bool)
-		for _, char := range slide.Values {
+		for _, char := range values {
 			m[char] = true
 		}
 		if len(m) == window {
-			return slide.Index + window
+			return index + window
 		}
 	}
 	return -1

@@ -28,11 +28,11 @@ func TestConcurrentSlice(t *testing.T) {
 	length := cSlice.Length()
 	require.Equal(t, 3, length)
 	items := make([]int, length)
-	for item := range cSlice.Iter() {
-		items[item.Index] = item.Value
+	for index, value := range cSlice.Seq() {
+		items[index] = value
 	}
 
 	require.ElementsMatch(t, []int{1, 2, 3}, items)
 	require.ElementsMatch(t, []int{1, 2, 3}, cSlice.Items())
-	require.Equal(t, 1, cSlice.Get(1))
+	require.Equal(t, 2, cSlice.Get(1))
 }

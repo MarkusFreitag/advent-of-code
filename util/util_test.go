@@ -1,6 +1,7 @@
 package util
 
 import (
+	"slices"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -65,35 +66,11 @@ func TestDecIntToBinString(t *testing.T) {
 }
 
 func TestRangeInt(t *testing.T) {
-	nums := make([]int, 0)
-	for i := range RangeInt(1, 1, 1) {
-		nums = append(nums, i)
-	}
-	require.Equal(t, []int{1}, nums)
-
-	nums = make([]int, 0)
-	for i := range RangeInt(1, 3, 1) {
-		nums = append(nums, i)
-	}
-	require.Equal(t, []int{1, 2, 3}, nums)
-
-	nums = make([]int, 0)
-	for i := range RangeInt(3, 1, 1) {
-		nums = append(nums, i)
-	}
-	require.Equal(t, []int{3, 2, 1}, nums)
-
-	nums = make([]int, 0)
-	for i := range RangeInt(1, 6, 2) {
-		nums = append(nums, i)
-	}
-	require.Equal(t, []int{1, 3, 5}, nums)
-
-	nums = make([]int, 0)
-	for i := range RangeInt(6, 1, 2) {
-		nums = append(nums, i)
-	}
-	require.Equal(t, []int{6, 4, 2}, nums)
+	require.Equal(t, []int{1}, slices.Collect(RangeInt(1, 1, 1)))
+	require.Equal(t, []int{1, 2, 3}, slices.Collect(RangeInt(1, 3, 1)))
+	require.Equal(t, []int{3, 2, 1}, slices.Collect(RangeInt(3, 1, 1)))
+	require.Equal(t, []int{1, 3, 5}, slices.Collect(RangeInt(1, 6, 2)))
+	require.Equal(t, []int{6, 4, 2}, slices.Collect(RangeInt(6, 1, 2)))
 }
 
 func TestOnLineInt(t *testing.T) {

@@ -3,6 +3,7 @@ package sliceutil
 import (
 	"cmp"
 	"fmt"
+	"iter"
 	"slices"
 )
 
@@ -169,28 +170,19 @@ func SortDesc[S ~[]E, E cmp.Ordered](slice S) {
 	slices.Reverse(slice)
 }
 
-type Slide[S ~[]E, E any] struct {
-	Index  int
-	Values S
-}
-
-func SlidingWindow[S ~[]E, E any](slice S, size int) chan Slide[S, E] {
-	slider := make(chan Slide[S, E], 0)
-	go func() {
+func SlidingWindow[S ~[]E, E any](slice S, size int) iter.Seq2[int, S] {
+	return func(yield func(int, S) bool) {
 		length := len(slice)
 		for idx := range slice {
 			end := idx + size
 			if end > length {
 				end = length
 			}
-			slider <- Slide[S, E]{
-				Index:  idx,
-				Values: slice[idx:end],
+			if !yield(idx, slice[idx:end]) {
+				return
 			}
 		}
-		close(slider)
-	}()
-	return slider
+	}
 }
 
 func Count[S ~[]E, E comparable](slice S, value E) int {

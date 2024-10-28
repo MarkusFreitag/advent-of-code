@@ -1,17 +1,13 @@
 package maputil
 
 import (
+	"iter"
 	"sync"
 )
 
 type ConcurrentMap[K comparable, V any] struct {
 	sync.RWMutex
 	items map[K]V
-}
-
-type ConcurrentMapItem[K comparable, V any] struct {
-	Key   K
-	Value V
 }
 
 func NewConcurrentMap[K comparable, V any]() *ConcurrentMap[K, V] {
@@ -62,19 +58,14 @@ func (cm *ConcurrentMap[K, V]) Get(key K) (V, bool) {
 	return value, ok
 }
 
-func (cm *ConcurrentMap[K, V]) Iter() <-chan ConcurrentMapItem[K, V] {
-	c := make(chan ConcurrentMapItem[K, V])
-
-	f := func() {
+func (cm *ConcurrentMap[K, V]) Seq() iter.Seq2[K, V] {
+	return func(yield func(K, V) bool) {
 		cm.Lock()
 		defer cm.Unlock()
-
 		for key, value := range cm.items {
-			c <- ConcurrentMapItem[K, V]{Key: key, Value: value}
+			if !yield(key, value) {
+				return
+			}
 		}
-		close(c)
 	}
-	go f()
-
-	return c
 }

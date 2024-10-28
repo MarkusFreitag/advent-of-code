@@ -1,6 +1,7 @@
 package sliceutil
 
 import (
+	"iter"
 	"slices"
 	"sync"
 )
@@ -8,11 +9,6 @@ import (
 type ConcurrentSlice[S ~[]E, E any] struct {
 	sync.RWMutex
 	items S
-}
-
-type ConcurrentSliceItem[E any] struct {
-	Index int
-	Value E
 }
 
 func NewConcurrentSlice[S ~[]E, E any]() *ConcurrentSlice[S, E] {
@@ -62,19 +58,14 @@ func (cs *ConcurrentSlice[S, E]) Get(index int) E {
 	return cs.items[index]
 }
 
-func (cs *ConcurrentSlice[S, E]) Iter() <-chan ConcurrentSliceItem[E] {
-	c := make(chan ConcurrentSliceItem[E])
-
-	f := func() {
+func (cs *ConcurrentSlice[S, E]) Seq() iter.Seq2[int, E] {
+	return func(yield func(int, E) bool) {
 		cs.Lock()
 		defer cs.Unlock()
-
 		for index, value := range cs.items {
-			c <- ConcurrentSliceItem[E]{Index: index, Value: value}
+			if !yield(index, value) {
+				return
+			}
 		}
-		close(c)
 	}
-	go f()
-
-	return c
 }
