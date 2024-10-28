@@ -1,17 +1,24 @@
 package directions
 
-import "iter"
+import (
+	"image"
+	"iter"
+)
 
 const (
 	North Cardinal = iota
+	NorthEast
 	East
+	SouthEast
 	South
+	SouthWest
 	West
+	NorthWest
 )
 
 var (
-	cardinalWordStrings  = [4]string{"NORTH", "EAST", "SOUTH", "WEST"}
-	cardinalShortStrings = [4]string{"N", "E", "S", "W"}
+	cardinalWordStrings  = [8]string{"NORTH", "NORTHEAST", "EAST", "SOUTHEAST", "SOUTH", "SOUTHWEST", "WEST", "NORTHWEST"}
+	cardinalShortStrings = [8]string{"N", "NE", "E", "SE", "S", "SW", "W", "NW"}
 )
 
 type Cardinal int
@@ -28,8 +35,14 @@ func (c Cardinal) Word() string {
 	return cardinalWordStrings[c]
 }
 
-func Cardinals() iter.Seq[Cardinal]                 { return foursomeSeq(North, 1) }
-func CardinalsCounterClockwise() iter.Seq[Cardinal] { return foursomeSeq(North, 3) }
+func (c Cardinal) Point() image.Point {
+	return directionPoints[c]
+}
 
-func CardinalsFrom(from Cardinal) iter.Seq[Cardinal]                 { return foursomeSeq(from, 1) }
-func CardinalsFromCounterClockwise(from Cardinal) iter.Seq[Cardinal] { return foursomeSeq(from, 3) }
+func Cardinals(opts ...Option) iter.Seq[Cardinal] {
+	return dirSeq(North, opts...)
+}
+
+func CardinalsFrom(from Cardinal, opts ...Option) iter.Seq[Cardinal] {
+	return dirSeq(from, opts...)
+}

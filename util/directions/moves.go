@@ -1,17 +1,24 @@
 package directions
 
-import "iter"
+import (
+	"image"
+	"iter"
+)
 
 const (
 	Up Move = iota
+	UpRight
 	Right
+	DownRight
 	Down
+	DownLeft
 	Left
+	UpLeft
 )
 
 var (
-	moveWordStrings  = [4]string{"UP", "RIGHT", "DOWN", "LEFT"}
-	moveShortStrings = [4]string{"^", ">", "v", "<"}
+	moveWordStrings  = [8]string{"UP", "UPRIGHT", "RIGHT", "DOWNRIGHT", "DOWN", "DOWNLEFT", "LEFT", "UPLEFT"}
+	moveShortStrings = [8]string{"U", "UR", "R", "DR", "D", "DL", "L", "UL"}
 )
 
 type Move int
@@ -28,8 +35,14 @@ func (m Move) Word() string {
 	return moveWordStrings[m]
 }
 
-func Moves() iter.Seq[Move]                 { return foursomeSeq(Up, 1) }
-func MovesCounterClockwise() iter.Seq[Move] { return foursomeSeq(Up, 3) }
+func (m Move) Point() image.Point {
+	return directionPoints[m]
+}
 
-func MovesFrom(from Move) iter.Seq[Move]                 { return foursomeSeq(from, 1) }
-func MovesFromCounterClockwise(from Move) iter.Seq[Move] { return foursomeSeq(from, 3) }
+func Moves(opts ...Option) iter.Seq[Move] {
+	return dirSeq(Up, opts...)
+}
+
+func MovesFrom(from Move, opts ...Option) iter.Seq[Move] {
+	return dirSeq(from, opts...)
+}
