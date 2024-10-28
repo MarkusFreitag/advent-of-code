@@ -1,7 +1,9 @@
 package util
 
 import (
+	"maps"
 	"slices"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -93,4 +95,13 @@ func TestRepeat(t *testing.T) {
 	require.Equal(t, []string{"a"}, Repeat("a", 1))
 	require.Equal(t, []string{"a", "a"}, Repeat("a", 2))
 	require.Equal(t, [][]string{{"a", "b"}, {"a", "b"}}, Repeat([]string{"a", "b"}, 2))
+}
+
+func TestCollectT(t *testing.T) {
+	m := map[string]string{"a": "A", "b": "B", "c": "C"}
+	require.ElementsMatch(
+		t,
+		slices.Collect(maps.Values(m)),
+		CollectT(maps.Keys(m), strings.ToUpper),
+	)
 }

@@ -197,3 +197,12 @@ func Repeat[E any](value E, count int) []E {
 	}
 	return slice
 }
+
+// Inspired by slices.Collect, but when you also need to transform each item
+func CollectT[E, R any](seq iter.Seq[E], transform func(item E) R) []R {
+	slice := make([]R, 0)
+	for value := range seq {
+		slice = append(slice, transform(value))
+	}
+	return slice
+}
