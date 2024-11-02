@@ -106,20 +106,36 @@ func Tail[S ~[]E, E any](slice S, length int) S {
 }
 
 func Chunks[S ~[]E, E any](slice S, size int) []S {
-	length := len(slice)
+	return slices.Collect(ChunksSeq(slice, size))
+}
 
-	chunks := make([]S, 0)
-	for i := 0; i < length; i += size {
-		end := i + size
-
-		if end > length {
-			end = length
+func ChunksSeq[S ~[]E, E any](slice S, size int) iter.Seq[S] {
+	return func(yield func(S) bool) {
+		for _, chunk := range ChunksSeq2(slice, size) {
+			if !yield(chunk) {
+				return
+			}
 		}
-
-		chunks = append(chunks, slice[i:end])
 	}
+}
 
-	return chunks
+func ChunksSeq2[S ~[]E, E any](slice S, size int) iter.Seq2[int, S] {
+	return func(yield func(int, S) bool) {
+		length := len(slice)
+		var index int
+		for i := 0; i < length; i += size {
+			end := i + size
+
+			if end > length {
+				end = length
+			}
+
+			if !yield(index, slice[i:end]) {
+				return
+			}
+			index++
+		}
+	}
 }
 
 func GetChunk[S ~[]E, E any](slice S, size, index int) S {
