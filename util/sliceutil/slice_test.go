@@ -1,8 +1,10 @@
 package sliceutil_test
 
 import (
+	"strconv"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
@@ -167,4 +169,17 @@ func TestCount(t *testing.T) {
 
 func TestTally(t *testing.T) {
 	require.Equal(t, map[rune]int{'a': 2, 'b': 2, 'c': 1, 'd': 2, 'E': 1, 'A': 1}, sliceutil.Tally([]rune("abcddEaAb")))
+}
+
+func TestMap(t *testing.T) {
+	assert.Equal(t,
+		[]int{1, 2, 3, 4, 5},
+		sliceutil.Map(
+			[]string{"a", "1", "2", "b", "3", "c", "4", "d", "e", "5"},
+			func(str string) (int, bool) {
+				n, err := strconv.Atoi(str)
+				return n, err == nil
+			},
+		),
+	)
 }

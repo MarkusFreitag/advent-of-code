@@ -218,3 +218,15 @@ func Tally[S ~[]E, E comparable](slice S) map[E]int {
 	}
 	return tally
 }
+
+// The provided function is called for each item of the given slice.
+// Returning true or false does control whether the item is added to the new slice.
+func Map[IS ~[]IV, OS []OV, IV, OV any](slice IS, mapFn func(IV) (OV, bool)) OS {
+	mapped := make(OS, 0)
+	for _, item := range slice {
+		if val, ok := mapFn(item); ok {
+			mapped = append(mapped, val)
+		}
+	}
+	return mapped
+}
