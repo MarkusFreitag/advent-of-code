@@ -32,7 +32,7 @@ func FakeCost[E comparable](fn NeighboursFunc[E]) NeighboursCostFunc[E] {
 }
 
 func Dijkstra[E comparable](root E, paintFn PaintersFunc[E], neighboursFn NeighboursCostFunc[E], goalFn GoalFunc[E]) *SearchNode[E] {
-	queue := NewMinPriorityQueue[*SearchNode[E]]()
+	queue := NewMinPriorityQueue[*SearchNode[E], E]()
 	queue.Set(&SearchNode[E]{Value: root}, 0)
 	seen := make(map[E]struct{})
 

@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"iter"
 
 	"github.com/MarkusFreitag/advent-of-code/util/iterutil"
@@ -16,8 +17,16 @@ func (sn *SearchNode[E]) NewNode(value E) *SearchNode[E] {
 	return &SearchNode[E]{Parent: sn, Value: value}
 }
 
+func (sn *SearchNode[E]) CmpKey() E {
+	return sn.Value
+}
+
 func (sn *SearchNode[E]) Dist() int {
 	return iterutil.Count(sn.Seq()) - 1
+}
+
+func (sn *SearchNode[E]) String() string {
+	return fmt.Sprintf("%v", sn.Value)
 }
 
 func (sn *SearchNode[E]) Seq() iter.Seq[E] {
