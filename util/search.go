@@ -50,16 +50,13 @@ func (sn *SearchNode[E]) Seq() iter.Seq[E] {
 type NeighboursFunc[E comparable] func(E) iter.Seq[E]
 type GoalFunc[E comparable] func(E) bool
 
-func BFS[E comparable](root E, paintFn PaintersFunc[E], neighboursFn NeighboursFunc[E], goalFn GoalFunc[E]) *SearchNode[E] {
+func BFS[E comparable](root E, neighboursFn NeighboursFunc[E], goalFn GoalFunc[E]) *SearchNode[E] {
 	queue := make([]*SearchNode[E], 1)
 	queue[0] = &SearchNode[E]{Value: root}
 	seen := make(map[E]struct{})
 	for len(queue) > 0 {
 		var sn *SearchNode[E]
 		sn, queue = sliceutil.PopFront(queue)
-		if paintFn != nil {
-			paintFn(sn.Value, SearchStateClosed)
-		}
 		if goalFn(sn.Value) {
 			return sn
 		}
@@ -67,9 +64,6 @@ func BFS[E comparable](root E, paintFn PaintersFunc[E], neighboursFn NeighboursF
 			if _, ok := seen[neighbour]; !ok {
 				seen[neighbour] = struct{}{}
 				newNode := sn.NewNode(neighbour)
-				if paintFn != nil {
-					paintFn(newNode.Value, SearchStateOpened)
-				}
 				queue = append(queue, newNode)
 			}
 		}
