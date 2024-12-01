@@ -11,6 +11,7 @@ import (
 	"github.com/MarkusFreitag/advent-of-code/puzzles/year2021"
 	"github.com/MarkusFreitag/advent-of-code/puzzles/year2022"
 	"github.com/MarkusFreitag/advent-of-code/puzzles/year2023"
+	"github.com/MarkusFreitag/advent-of-code/puzzles/year2024"
 	"github.com/MarkusFreitag/advent-of-code/util"
 )
 
@@ -23,6 +24,7 @@ var Puzzles = map[string]map[string]util.Puzzle{
 	"year2021": year2021.Puzzles,
 	"year2022": year2022.Puzzles,
 	"year2023": year2023.Puzzles,
+	"year2024": year2024.Puzzles,
 }
 
 func Get(year, day int) (util.Puzzle, error) {
