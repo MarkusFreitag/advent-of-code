@@ -1,76 +1,65 @@
 package day4
 
 import (
-	"fmt"
+	"image"
 	"strconv"
 	"strings"
+
+	"github.com/MarkusFreitag/advent-of-code/util"
+	"github.com/MarkusFreitag/advent-of-code/util/directions"
+	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
 )
 
-func Part1(input string) (string, error) {
-	grid := make([][]rune, 0)
-	for _, line := range strings.Split(input, "\n") {
-		grid = append(grid, []rune(line))
-	}
-
-	inBounds := func(y, x int) bool {
-		if y < 0 || y >= len(grid) {
+func extractWord(grid [][]rune, pos, dir image.Point, dist int) string {
+	inBounds := func(p image.Point) bool {
+		if p.Y < 0 || p.Y >= len(grid) {
 			return false
 		}
-		if x < 0 || x >= len(grid[0]) {
+		if p.X < 0 || p.X >= len(grid[0]) {
 			return false
 		}
 		return true
 	}
 
-	words := make(map[string]struct{})
-	for y := 0; y < len(grid); y++ {
-		for x := 0; x < len(grid[0]); x++ {
-			char := grid[y][x]
-			if char != 'X' && char != 'S' {
-				continue
-			}
-			// horizontal
-			if inBounds(y, x+1) && inBounds(y, x+2) && inBounds(y, x+3) {
-				if char == 'X' && grid[y][x+1] == 'M' && grid[y][x+2] == 'A' && grid[y][x+3] == 'S' {
-					words[fmt.Sprintf("%d|%d-%d|%d-%d|%d-%d|%d", y, x, y, x+1, y, x+2, y, x+3)] = struct{}{}
-				}
-				if char == 'S' && grid[y][x+1] == 'A' && grid[y][x+2] == 'M' && grid[y][x+3] == 'X' {
-					words[fmt.Sprintf("%d|%d-%d|%d-%d|%d-%d|%d", y, x, y, x+1, y, x+2, y, x+3)] = struct{}{}
-				}
-			}
-			//vertically
-			if inBounds(y+1, x) && inBounds(y+2, x) && inBounds(y+3, x) {
-				if char == 'X' && grid[y+1][x] == 'M' && grid[y+2][x] == 'A' && grid[y+3][x] == 'S' {
-					words[fmt.Sprintf("%d|%d-%d|%d-%d|%d-%d|%d", y, x, y+1, x, y+2, x, y+3, x)] = struct{}{}
-				}
-				if char == 'S' && grid[y+1][x] == 'A' && grid[y+2][x] == 'M' && grid[y+3][x] == 'X' {
-					words[fmt.Sprintf("%d|%d-%d|%d-%d|%d-%d|%d", y, x, y+1, x, y+2, x, y+3, x)] = struct{}{}
-				}
-			}
-			//diagonal
-			//bottom left
-			if inBounds(y+1, x-1) && inBounds(y+2, x-2) && inBounds(y+3, x-3) {
-				if char == 'X' && grid[y+1][x-1] == 'M' && grid[y+2][x-2] == 'A' && grid[y+3][x-3] == 'S' {
-					words[fmt.Sprintf("%d|%d-%d|%d-%d|%d-%d|%d", y, x, y+1, x-1, y+2, x-2, y+3, x-3)] = struct{}{}
-				}
-				if char == 'S' && grid[y+1][x-1] == 'A' && grid[y+2][x-2] == 'M' && grid[y+3][x-3] == 'X' {
-					words[fmt.Sprintf("%d|%d-%d|%d-%d|%d-%d|%d", y, x, y+1, x-1, y+2, x-2, y+3, x-3)] = struct{}{}
-				}
-			}
-			//bottom right
-			if inBounds(y+1, x+1) && inBounds(y+2, x+2) && inBounds(y+3, x+3) {
-				if char == 'X' && grid[y+1][x+1] == 'M' && grid[y+2][x+2] == 'A' && grid[y+3][x+3] == 'S' {
-					words[fmt.Sprintf("%d|%d-%d|%d-%d|%d-%d|%d", y, x, y+1, x+1, y+2, x+2, y+3, x+3)] = struct{}{}
-				}
-				if char == 'S' && grid[y+1][x+1] == 'A' && grid[y+2][x+2] == 'M' && grid[y+3][x+3] == 'X' {
-					words[fmt.Sprintf("%d|%d-%d|%d-%d|%d-%d|%d", y, x, y+1, x+1, y+2, x+2, y+3, x+3)] = struct{}{}
-				}
-			}
-
+	var word string
+	for range dist {
+		if inBounds(pos) {
+			word += string(grid[pos.Y][pos.X])
+		}
+		pos = pos.Add(dir)
+		if !inBounds(pos) {
+			break
 		}
 	}
+	return word
+}
 
-	return strconv.Itoa(len(words)), nil
+func Part1(input string) (string, error) {
+	const xmas string = "XMAS"
+	var xmasReverse = util.StringReverse(xmas)
+
+	grid := make([][]rune, 0)
+	for _, line := range strings.Split(input, "\n") {
+		grid = append(grid, []rune(line))
+	}
+
+	var counter int
+	for y := 0; y < len(grid); y++ {
+		for x := 0; x < len(grid[0]); x++ {
+			if char := grid[y][x]; char != 'X' && char != 'S' {
+				continue
+			}
+			words := []string{
+				extractWord(grid, image.Pt(x, y), directions.Right.Point(), 4),
+				extractWord(grid, image.Pt(x, y), directions.Down.Point(), 4),
+				extractWord(grid, image.Pt(x, y), directions.DownLeft.Point(), 4),
+				extractWord(grid, image.Pt(x, y), directions.DownRight.Point(), 4),
+			}
+			counter += sliceutil.Count(words, xmas)
+			counter += sliceutil.Count(words, xmasReverse)
+		}
+	}
+	return strconv.Itoa(counter), nil
 }
 
 func Part2(input string) (string, error) {
@@ -79,37 +68,18 @@ func Part2(input string) (string, error) {
 		grid = append(grid, []rune(line))
 	}
 
-	inBounds := func(y, x int) bool {
-		if y < 0 || y >= len(grid) {
-			return false
-		}
-		if x < 0 || x >= len(grid[0]) {
-			return false
-		}
-		return true
-	}
-
-	words := make(map[string]struct{})
+	var counter int
 	for y := 0; y < len(grid); y++ {
 		for x := 0; x < len(grid[0]); x++ {
 			if char := grid[y][x]; char != 'A' {
 				continue
 			}
-			if inBounds(y-1, x-1) && inBounds(y-1, x+1) && inBounds(y+1, x+1) && inBounds(y+1, x-1) {
-				ul := grid[y-1][x-1]
-				ur := grid[y-1][x+1]
-				br := grid[y+1][x+1]
-				bl := grid[y+1][x-1]
-				if (ul == 'M' && ur == 'M' && bl == 'S' && br == 'S') ||
-					(ul == 'S' && ur == 'S' && bl == 'M' && br == 'M') ||
-					(ul == 'M' && ur == 'S' && bl == 'M' && br == 'S') ||
-					(ul == 'S' && ur == 'M' && bl == 'S' && br == 'M') {
-
-					words[fmt.Sprintf("%d|%d-%d|%d-%d|%d-%d|%d-%d|%d", y, x, y-1, x-1, y-1, x+1, y+1, x+1, y+1, x-1)] = struct{}{}
-				}
+			uldr := extractWord(grid, image.Pt(x, y).Add(directions.UpLeft.Point()), directions.DownRight.Point(), 3)
+			urdl := extractWord(grid, image.Pt(x, y).Add(directions.UpRight.Point()), directions.DownLeft.Point(), 3)
+			if (uldr == "MAS" || uldr == "SAM") && (urdl == "MAS" || urdl == "SAM") {
+				counter++
 			}
 		}
 	}
-
-	return strconv.Itoa(len(words)), nil
+	return strconv.Itoa(counter), nil
 }
