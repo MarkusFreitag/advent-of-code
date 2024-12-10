@@ -1,7 +1,9 @@
 package util
 
 import (
+	"fmt"
 	"iter"
+	"strings"
 
 	"github.com/MarkusFreitag/advent-of-code/util/iterutil"
 	"github.com/MarkusFreitag/advent-of-code/util/sliceutil"
@@ -59,6 +61,32 @@ func BFS[E comparable](root E, neighboursFn NeighboursFunc[E], goalFn GoalFunc[E
 		}
 	}
 	return nil
+}
+
+func AllPathsBFS[E comparable](root E, neighboursFn NeighboursFunc[E], goalFn GoalFunc[E]) map[string]*SearchNode[E] {
+	paths := make(map[string]*SearchNode[E])
+	queue := make([]*SearchNode[E], 1)
+	queue[0] = &SearchNode[E]{Value: root}
+	for len(queue) > 0 {
+		var sn *SearchNode[E]
+		sn, queue = sliceutil.PopFront(queue)
+		if goalFn(sn.Value) {
+			paths[pathKey(sn)] = sn
+			continue
+		}
+		for neighbour := range neighboursFn(sn.Value) {
+			queue = append(queue, sn.NewNode(neighbour))
+		}
+	}
+	return paths
+}
+
+func pathKey[E comparable](sn *SearchNode[E]) string {
+	strs := make([]string, 0)
+	for p := range sn.Seq() {
+		strs = append(strs, fmt.Sprintf("%v", p))
+	}
+	return strings.Join(strs, "|")
 }
 
 func DFS[E comparable](root E, neighboursFn NeighboursFunc[E], goalFn GoalFunc[E]) *SearchNode[E] {
