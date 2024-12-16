@@ -2,6 +2,7 @@ package util
 
 import (
 	"iter"
+	"sort"
 )
 
 type NeighboursCostFunc[E comparable] func(E) iter.Seq2[E, int]
@@ -19,15 +20,24 @@ func FakeCost[E comparable](fn NeighboursFunc[E]) NeighboursCostFunc[E] {
 }
 
 func Dijkstra[E comparable](root E, neighboursFn NeighboursCostFunc[E], goalFn GoalFunc[E]) *SearchNode[E] {
-	queue := NewMinPriorityQueue[*SearchNode[E]]()
-	queue.Set(&SearchNode[E]{Value: root}, 0)
+	queue := make([]*SearchNode[E], 1)
+	queue[0] = &SearchNode[E]{Value: root}
 	seen := make(map[E]struct{})
 
-	for queue.Len() > 0 {
-		node, cost := queue.Next()
+	for len(queue) > 0 {
+		sort.Slice(queue, func(i, j int) bool {
+			return queue[i].Cost < queue[j].Cost
+		})
+
+		var node *SearchNode[E]
+		node, queue = queue[0], queue[1:]
 
 		if goalFn(node.Value) {
 			return node
+		}
+
+		if _, ok := seen[node.Value]; ok {
+			continue
 		}
 
 		seen[node.Value] = struct{}{}
@@ -36,15 +46,7 @@ func Dijkstra[E comparable](root E, neighboursFn NeighboursCostFunc[E], goalFn G
 			if _, ok := seen[neighbour]; ok {
 				continue
 			}
-
-			neighbourNode := node.NewNode(neighbour)
-
-			newCost := cost + neighbourCost
-			queuedCost, ok := queue.Get(neighbourNode)
-			if !ok || newCost < queuedCost {
-				queue.Set(neighbourNode, newCost)
-				continue
-			}
+			queue = append(queue, node.NewNodeWithCost(neighbour, neighbourCost))
 		}
 	}
 

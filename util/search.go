@@ -12,10 +12,15 @@ import (
 type SearchNode[E comparable] struct {
 	Parent *SearchNode[E]
 	Value  E
+	Cost   int
 }
 
 func (sn *SearchNode[E]) NewNode(value E) *SearchNode[E] {
 	return &SearchNode[E]{Parent: sn, Value: value}
+}
+
+func (sn *SearchNode[E]) NewNodeWithCost(value E, cost int) *SearchNode[E] {
+	return &SearchNode[E]{Parent: sn, Value: value, Cost: sn.Cost + cost}
 }
 
 func (sn *SearchNode[E]) Dist() int {
