@@ -52,3 +52,48 @@ func Dijkstra[E comparable](root E, neighboursFn NeighboursCostFunc[E], goalFn G
 
 	return nil
 }
+
+func AllPathsWithScore[E comparable](
+	root E,
+	neighboursFn NeighboursCostFunc[E],
+	goalFn GoalFunc[E],
+	expectedCost int,
+) []*SearchNode[E] {
+	queue := make([]*SearchNode[E], 1)
+	queue[0] = &SearchNode[E]{Value: root}
+	seen := make(map[E]int)
+	paths := make([]*SearchNode[E], 0)
+
+	for len(queue) > 0 {
+		sort.Slice(queue, func(i, j int) bool {
+			return queue[i].Cost < queue[j].Cost
+		})
+
+		var node *SearchNode[E]
+		node, queue = queue[0], queue[1:]
+
+		if node.Cost > expectedCost {
+			continue
+		}
+
+		if goalFn(node.Value) && node.Cost == expectedCost {
+			paths = append(paths, node)
+			continue
+		}
+
+		if cost, ok := seen[node.Value]; ok && cost < node.Cost {
+			continue
+		}
+
+		seen[node.Value] = node.Cost
+
+		for neighbour, neighbourCost := range neighboursFn(node.Value) {
+			if _, ok := seen[neighbour]; ok {
+				continue
+			}
+			queue = append(queue, node.NewNodeWithCost(neighbour, neighbourCost))
+		}
+	}
+
+	return paths
+}
