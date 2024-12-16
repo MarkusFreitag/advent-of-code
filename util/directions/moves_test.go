@@ -131,4 +131,21 @@ func TestMove(t *testing.T) {
 			directions.WithCounterClockwise(),
 		)),
 	)
+
+	assert.True(t, directions.Opposite(directions.Up, directions.Down))
+	assert.True(t, directions.Opposite(directions.UpRight, directions.DownLeft))
+	assert.True(t, directions.Opposite(directions.Right, directions.Left))
+	assert.True(t, directions.Opposite(directions.DownRight, directions.UpLeft))
+	assert.True(t, directions.Opposite(directions.Down, directions.Up))
+	assert.True(t, directions.Opposite(directions.DownLeft, directions.UpRight))
+	assert.True(t, directions.Opposite(directions.Left, directions.Right))
+	assert.True(t, directions.Opposite(directions.UpLeft, directions.DownRight))
+
+	assert.False(t, directions.Opposite(directions.Up, directions.Up))
+	assert.False(t, directions.Opposite(directions.Up, directions.UpRight))
+	assert.False(t, directions.Opposite(directions.Up, directions.Right))
+	assert.False(t, directions.Opposite(directions.Up, directions.DownRight))
+	assert.False(t, directions.Opposite(directions.Up, directions.DownLeft))
+	assert.False(t, directions.Opposite(directions.Up, directions.Left))
+	assert.False(t, directions.Opposite(directions.Up, directions.UpLeft))
 }

@@ -131,4 +131,21 @@ func TestCardinal(t *testing.T) {
 			directions.WithCounterClockwise(),
 		)),
 	)
+
+	assert.True(t, directions.Opposite(directions.North, directions.South))
+	assert.True(t, directions.Opposite(directions.NorthEast, directions.SouthWest))
+	assert.True(t, directions.Opposite(directions.East, directions.West))
+	assert.True(t, directions.Opposite(directions.SouthEast, directions.NorthWest))
+	assert.True(t, directions.Opposite(directions.South, directions.North))
+	assert.True(t, directions.Opposite(directions.SouthWest, directions.NorthEast))
+	assert.True(t, directions.Opposite(directions.West, directions.East))
+	assert.True(t, directions.Opposite(directions.NorthWest, directions.SouthEast))
+
+	assert.False(t, directions.Opposite(directions.North, directions.North))
+	assert.False(t, directions.Opposite(directions.North, directions.NorthEast))
+	assert.False(t, directions.Opposite(directions.North, directions.East))
+	assert.False(t, directions.Opposite(directions.North, directions.SouthEast))
+	assert.False(t, directions.Opposite(directions.North, directions.SouthWest))
+	assert.False(t, directions.Opposite(directions.North, directions.West))
+	assert.False(t, directions.Opposite(directions.North, directions.NorthWest))
 }

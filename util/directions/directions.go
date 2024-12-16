@@ -81,3 +81,7 @@ func dirSeq[T dirConstraint](start T, opts ...Option) iter.Seq[T] {
 		}
 	}
 }
+
+func Opposite[T dirConstraint](a, b T) bool {
+	return T((int(a)+4)%8) == b
+}
