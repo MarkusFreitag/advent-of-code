@@ -60,8 +60,7 @@ func Part1(input string) (string, error) {
 	var sum int
 	for _, head := range trailheads {
 		for _, dest := range destinations {
-			goalFn := func(p image.Point) bool { return p.Eq(dest) }
-			if path := util.BFS(head, neighbours(grid, border), goalFn); path != nil {
+			if path := util.BFS(head, neighbours(grid, border), util.GoalPt(dest)); path != nil {
 				sum++
 			}
 		}
@@ -75,8 +74,7 @@ func Part2(input string) (string, error) {
 	var sum int
 	for _, head := range trailheads {
 		for _, dest := range destinations {
-			goalFn := func(p image.Point) bool { return p.Eq(dest) }
-			sum += len(util.AllPathsBFS(head, neighbours(grid, border), goalFn))
+			sum += len(util.AllPathsBFS(head, neighbours(grid, border), util.GoalPt(dest)))
 		}
 	}
 	return strconv.Itoa(sum), nil

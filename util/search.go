@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"image"
 	"iter"
 	"strings"
 
@@ -47,6 +48,12 @@ func (sn *SearchNode[E]) Seq() iter.Seq[E] {
 
 type NeighboursFunc[E comparable] func(E) iter.Seq[E]
 type GoalFunc[E comparable] func(E) bool
+
+func GoalPt(pt image.Point) GoalFunc[image.Point] {
+	return func(p image.Point) bool {
+		return pt.Eq(p)
+	}
+}
 
 func BFS[E comparable](root E, neighboursFn NeighboursFunc[E], goalFn GoalFunc[E]) *SearchNode[E] {
 	queue := make([]*SearchNode[E], 1)
