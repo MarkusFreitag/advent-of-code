@@ -3,6 +3,7 @@ package day18
 import (
 	"image"
 	"iter"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -41,8 +42,9 @@ func Part1(input string) (string, error) {
 		grid[util.ParseInt(parts[1])][util.ParseInt(parts[0])] = '#'
 	}
 
-	goalFn := func(p image.Point) bool { return p.Y == size && p.X == size }
-	return strconv.Itoa(util.BFS(image.Pt(0, 0), neighbours(grid), goalFn).Dist()), nil
+	return strconv.Itoa(
+		util.BFS(image.Pt(0, 0), neighbours(grid), util.GoalPt(image.Pt(size, size))).Dist(),
+	), nil
 }
 
 func Part2(input string) (string, error) {
@@ -55,13 +57,24 @@ func Part2(input string) (string, error) {
 		grid[util.ParseInt(parts[1])][util.ParseInt(parts[0])] = '#'
 	}
 
+	path := util.BFS(image.Pt(0, 0), neighbours(grid), util.GoalPt(image.Pt(size, size)))
+	pts := slices.Collect(path.Seq())
+
 	for _, line := range strings.Fields(input)[firstBytes:] {
 		parts := strings.Split(line, ",")
-		grid[util.ParseInt(parts[1])][util.ParseInt(parts[0])] = '#'
+		pt := image.Pt(util.ParseInt(parts[0]), util.ParseInt(parts[1]))
+		grid[pt.Y][pt.X] = '#'
 
-		goalFn := func(p image.Point) bool { return p.Y == size && p.X == size }
-		if util.BFS(image.Pt(0, 0), neighbours(grid), goalFn) == nil {
-			return line, nil
+		/*
+			We need to only check whether the exit is still accessible when a byte falls onto the
+			current path. This way we cut down the number of searches significantly.
+		*/
+		if slices.Contains(pts, pt) {
+			path := util.BFS(image.Pt(0, 0), neighbours(grid), util.GoalPt(image.Pt(size, size)))
+			if path == nil {
+				return line, nil
+			}
+			pts = slices.Collect(path.Seq())
 		}
 	}
 	return "", nil
